@@ -4,177 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partnerships | GISTIC</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-green': '#4ADE80',
-                        'brand-dark': '#14532D',
-                        'brand-light': '#F0FDF4',
-                    },
-                    fontFamily: {
-                        sans: ['"Inter"', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Tailwind CSS -->
+    <link href="./css/tailwind.css" rel="stylesheet">
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <style>
-        /* Custom Styles for GISTIC */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        /* Pill Floating Nav */
-        .pill-nav-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 6px 10px;
-            border-radius: 9999px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .pill-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 9999px;
-            color: #64748b;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
-        }
-        .pill-nav-item i {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-        .pill-nav-item:hover {
-            color: #10b981;
-            background: rgba(16, 185, 129, 0.05);
-        }
-        .pill-nav-item:hover i {
-            transform: scale(1.1) translateY(-2px);
-        }
-        .pill-nav-item.active {
-            background: linear-gradient(135deg, #10b981, #064e3b);
-            color: white !important;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
-        }
-        .pill-nav-item.active i {
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        /* Nav stagger animation */
-        @keyframes navItemFade {
-            from {
-                opacity: 0;
-                transform: translateY(-20px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        .nav-item-animate {
-            animation: navItemFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            opacity: 0;
-        }
-
-        /* Brand Bounce & Shine */
-        @keyframes bounceShine {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        @keyframes innerShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-        .animate-bounce-hover:hover {
-            animation: bounceShine 0.5s ease infinite;
-        }
-        .shine-effect {
-            position: relative;
-            overflow: hidden;
-        }
-        .shine-effect::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg);
-        }
-        .group:hover .shine-effect::after {
-            animation: innerShine 0.8s ease forwards;
-        }
-
-        /* Hide preloader immediately if already seen */
-        .hide-preloader #preloader {
-            display: none !important;
-        }
-
-        /* Preloader Styles */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .preloader-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #4ADE80;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
-            font-weight: bold;
-            animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
-            70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-        }
-        .preloader-text {
-            position: absolute;
-            bottom: 40px;
-            font-weight: 600;
-            color: #14532D;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            animation: fadeInOut 2s ease-in-out infinite;
-        }
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-    </style></head>
+</head>
 <body class="bg-gray-50 font-sans text-gray-800 antialiased overflow-x-hidden">
-
+    
     <script>
         // One-time preloader logic (First Time ONLY)
         (function() {
@@ -189,22 +27,25 @@
     <div id="preloader">
         <div class="preloader-circle">G</div>
         <div class="preloader-text">GISTIC SERVICES</div>
-    </div>    <!-- Nav -->
+    </div>    
     <!-- Sticky Navigation Bar -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-4 text-left">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <!-- Brand Logo Pill -->
-            <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms; background: white;">
-                <div class="flex items-center gap-4 py-1">
-                    <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
-                        <span class="font-bold text-xl">G</span>
-                    </div>
-                    <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
-                </div>
-            </a>
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-4">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-3 items-center">
             
-            <!-- Centered Pill Nav (Expanded) -->
-            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+            <!-- Left: Brand Logo -->
+            <div class="flex justify-start">
+                <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
+                            <span class="font-bold text-xl">G</span>
+                        </div>
+                        <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Center: Pill Nav (Expanded) -->
+            <div class="hidden md:flex justify-center">
                 <div class="pill-nav-container nav-item-animate" style="animation-delay: 300ms;">
                     <a href="index.html" class="pill-nav-item">
                         <i class="uil uil-home"></i>
@@ -233,12 +74,11 @@
                 </div>
             </div>
 
-            <div class="hidden md:block w-32"></div>
-
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none nav-item-animate" style="animation-delay: 200ms;">
-                <i class="uil uil-bars text-3xl"></i>
-            </button>
+            <div class="flex justify-end col-span-1">
+                <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none nav-item-animate" style="animation-delay: 200ms;">
+                    <i class="uil uil-bars text-3xl"></i>
+                </button>
+            </div>
         </div>
         
         <!-- Mobile Menu -->
@@ -398,26 +238,12 @@
     <script src="js/main.js"></script>
     <script src="js/chatbot.js"></script>
     
+    <!-- Map Modal Logic handled in main.js -->
     <script>
         // Inline logic handled by forms.js mostly, but keep alert as backup
         if (new URLSearchParams(window.location.search).get('sent') === 'true') {
             alert('Partnership proposal sent successfully!');
         }
-    </script>
-    <!-- Preloader Completion -->
-    <script>
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            if (preloader && !localStorage.getItem('gistic_preloader_visited_v2')) {
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                        localStorage.setItem('gistic_preloader_visited_v2', 'true');
-                    }, 800);
-                }, 1000);
-            }
-        });
     </script>
 
     <!-- Chatbot Button -->
@@ -427,45 +253,5 @@
         </button>
     </div>
 
-    <!-- Map Modal (Stay on Site) -->
-    <div id="map-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 sm:p-10">
-        <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-md" onclick="toggleMapModal(false)"></div>
-        <div class="bg-white w-full max-w-5xl h-[80vh] rounded-3xl overflow-hidden relative shadow-2xl animate-scale-up">
-            
-            <!-- Map Search & Controls -->
-            <div class="absolute top-4 left-4 right-16 z-10 flex gap-2">
-                <div class="relative flex-1">
-                    <i class="uil uil-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="map-search-input" placeholder="Search location (e.g. New Haven, Enugu)..." class="w-full bg-white/95 backdrop-blur-md pl-11 pr-4 py-3 rounded-2xl shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-green text-sm border-none">
-                </div>
-                <button onclick="searchMap()" class="bg-brand-green text-white px-6 rounded-2xl shadow-xl font-bold text-sm hover:bg-brand-dark transition hidden sm:block">
-                    Search
-                </button>
-                <button onclick="locateMe()" class="bg-white text-brand-dark w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center hover:bg-gray-100 transition" title="Show My Location">
-                    <i class="uil uil-location-point text-xl text-brand-green"></i>
-                </button>
-            </div>
-
-            <button onclick="toggleMapModal(false)" class="absolute top-4 right-4 z-10 bg-white/95 hover:bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-xl transition">
-                <i class="uil uil-multiply text-2xl text-brand-dark"></i>
-            </button>
-
-            <iframe id="main-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            
-            <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-center gap-4 pointer-events-none">
-                <div id="map-status" class="bg-white/95 backdrop-blur px-5 py-2.5 rounded-2xl shadow-xl text-brand-dark font-bold text-sm pointer-events-auto border border-gray-100">
-                    GISTIC HQ - Enugu, Nigeria
-                </div>
-                <div class="flex gap-2 pointer-events-auto">
-                    <button onclick="resetMap()" class="bg-white/95 text-brand-dark px-6 py-2.5 rounded-2xl shadow-xl font-bold text-sm hover:bg-gray-100 transition border border-gray-100">
-                        Reset View
-                    </button>
-                    <a id="external-map-link" href="https://maps.app.goo.gl/YourLink" target="_blank" class="bg-brand-green text-white px-6 py-2.5 rounded-2xl shadow-xl font-bold text-sm hover:bg-brand-dark transition">
-                        Open in Google Maps
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

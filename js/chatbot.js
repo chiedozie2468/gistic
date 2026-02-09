@@ -96,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
         addBotMessage("Hello! 👋 I'm your GISTIC assistant. Our official working hours are <b>Monday to Friday, 9:00 AM - 5:00 PM</b>. How can I help you today?", false);
         
         const options = [
-            { text: "📞 Contact Us", action: "contact_us" },
-            { text: "🚨 Report a Problem", action: "report" },
-            { text: "ℹ️ Information Needed", action: "info" },
-            { text: "🛠 Help with Service", action: "help" },
-            { text: "🏢 About Company", action: "about" }
+            { text: "<i class='uil uil-phone mr-1'></i> Contact Us", action: "contact_us" },
+            { text: "<i class='uil uil-exclamation-triangle mr-1'></i> Report a Problem", action: "report" },
+            { text: "<i class='uil uil-info-circle mr-1'></i> Information Needed", action: "info" },
+            { text: "<i class='uil uil-wrench mr-1'></i> Help with Service", action: "help" },
+            { text: "<i class='uil uil-building mr-1'></i> About Company", action: "about" }
         ];
         renderOptions(options);
     }
@@ -137,10 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'contact_us':
                     response = "How would you like to reach us? Our team is available Mon-Fri, 9am - 5pm.";
                     subOptions = [
-                        { text: "📞 Voice Call", action: "contact_call" },
-                        { text: "💬 WhatsApp Chat", action: "contact_whatsapp" },
-                        { text: "📅 Book Google Meet", action: "contact_meet" },
-                        { text: "🔙 Back to Main Menu", action: "main_menu" }
+                        { text: "<i class='uil uil-phone mr-1'></i> Voice Call", action: "contact_call" },
+                        { text: "<i class='uil uil-whatsapp mr-1'></i> WhatsApp Chat", action: "contact_whatsapp" },
+                        { text: "<i class='uil uil-calendar-alt mr-1'></i> Book Google Meet", action: "contact_meet" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main Menu", action: "main_menu" }
                     ];
                     break;
                 case 'contact_call':
@@ -158,10 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'report':
                     response = "We take reports seriously. What kind of issue are you facing?";
                     subOptions = [
-                        { text: "🏷️ Bad Service", action: "report_type", type: "Bad Service" },
-                        { text: "💰 Billing Error", action: "report_type", type: "Billing Error" },
-                        { text: "🐛 App/Website Bug", action: "report_type", type: "App/Website Bug" },
-                        { text: "🔙 Back to Main Menu", action: "main_menu" }
+                        { text: "<i class='uil uil-tag mr-1'></i> Bad Service", action: "report_type", type: "Bad Service" },
+                        { text: "<i class='uil uil-bill mr-1'></i> Billing Error", action: "report_type", type: "Billing Error" },
+                        { text: "<i class='uil uil-bug mr-1'></i> App/Website Bug", action: "report_type", type: "App/Website Bug" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main Menu", action: "main_menu" }
                     ];
                     break;
                 case 'report_type':
@@ -173,19 +173,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'info':
                     response = "I can provide info on many topics. What are you looking for?";
                     subOptions = [
-                        { text: "📋 Registration", action: "info_reg" },
-                        { text: "📍 Areas Covered", action: "info_areas" },
-                        { text: "🤝 Our Partners", action: "info_partners" },
-                        { text: "🔙 Back to Main Menu", action: "main_menu" }
+                        { text: "<i class='uil uil-clipboard-notes mr-1'></i> Registration", action: "info_reg" },
+                        { text: "<i class='uil uil-map-marker mr-1'></i> Areas Covered", action: "info_areas" },
+                        { text: "<i class='uil uil-users-alt mr-1'></i> Our Partners", action: "info_partners" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main Menu", action: "main_menu" }
                     ];
                     break;
                 case 'help':
                     response = "I'm here to help. Which service do you need help with?";
                     subOptions = [
-                        { text: "⚡ Electrical", action: "help_elec" },
-                        { text: "🚰 Plumbing", action: "help_plumb" },
-                        { text: "🧹 Cleaning", action: "help_clean" },
-                        { text: "🔙 Back to Main Menu", action: "main_menu" }
+                        { text: "<i class='uil uil-bolt mr-1'></i> Electrical", action: "help_elec" },
+                        { text: "<i class='uil uil-tear mr-1'></i> Plumbing", action: "help_plumb" },
+                        { text: "<i class='uil uil-home mr-1'></i> Housekeeping", action: "help_housekeeping" },
+                        { text: "<i class='uil uil-hammer mr-1'></i> Carpentry", action: "help_carpentry" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main Menu", action: "main_menu" }
                     ];
                     break;
                 case 'help_elec':
@@ -198,14 +199,34 @@ document.addEventListener('DOMContentLoaded', () => {
                         { text: "🔙 Back", action: "help" }
                     ];
                     break;
-                case 'help_clean':
-                    response = "What type of cleaning service do you require?";
+                case 'help_plumb':
+                    response = "What type of plumbing assistance do you need?";
                     subOptions = [
-                        { text: "🏠 Deep Home Cleaning", action: "help_success", type: "Deep Clean" },
-                        { text: "🏢 Post-Construction Cleaning", action: "help_success", type: "Post-Con" },
-                        { text: "🧹 Regular Housekeeping", action: "help_success", type: "Housekeeping" },
-                        { text: "🤔 Something Else...", action: "help_other", type: "Cleaning" },
-                        { text: "🔙 Back", action: "help" }
+                        { text: "<i class='uil uil-faucet mr-1'></i> Full Plumbing", action: "help_success", type: "Full Plumbing" },
+                        { text: "<i class='uil uil-wrench mr-1'></i> Maintenance", action: "help_success", type: "Plumbing Maintenance" },
+                        { text: "<i class='uil uil-tear mr-1'></i> Leak Repair", action: "help_success", type: "Leak Repair" },
+                        { text: "<i class='uil uil-question-circle mr-1'></i> Something Else...", action: "help_other", type: "Plumbing" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back", action: "help" }
+                    ];
+                    break;
+                case 'help_housekeeping':
+                    response = "What type of housekeeping service do you require?";
+                    subOptions = [
+                        { text: "<i class='uil uil-baby-carriage mr-1'></i> Day Care", action: "help_success", type: "Day Care" },
+                        { text: "<i class='uil uil-users-alt mr-1'></i> Nanny Services", action: "help_success", type: "Nanny Services" },
+                        { text: "<i class='uil uil-broom mr-1'></i> Regular Maintenance", action: "help_success", type: "Regular Cleaning" },
+                        { text: "<i class='uil uil-question-circle mr-1'></i> Something Else...", action: "help_other", type: "Housekeeping" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back", action: "help" }
+                    ];
+                    break;
+                case 'help_carpentry':
+                    response = "What type of carpentry work is needed?";
+                    subOptions = [
+                        { text: "<i class='uil uil-house-user mr-1'></i> Roofing", action: "help_success", type: "Roofing" },
+                        { text: "<i class='uil uil-layers mr-1'></i> Cabinetry", action: "help_success", type: "Cabinetry" },
+                        { text: "<i class='uil uil-wrench mr-1'></i> General Maintenance", action: "help_success", type: "Carpentry Maintenance" },
+                        { text: "<i class='uil uil-question-circle mr-1'></i> Something Else...", action: "help_other", type: "Carpentry" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back", action: "help" }
                     ];
                     break;
                 case 'help_other':
@@ -221,9 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'about':
                     response = "GISTIC Services is Enugu's #1 platform for home maintenance. We operate <b>Mon-Fri, 9am - 5pm</b>.";
                     subOptions = [
-                        { text: "🎯 Our Vision", action: "about_vision" },
-                        { text: "📞 Contact Team", action: "about_contact" },
-                        { text: "🔙 Back to Main Menu", action: "main_menu" }
+                        { text: "<i class='uil uil-target mr-1'></i> Our Vision", action: "about_vision" },
+                        { text: "<i class='uil uil-phone mr-1'></i> Contact Team", action: "about_contact" },
+                        { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main Menu", action: "main_menu" }
                     ];
                     break;
                 case 'main_menu':
@@ -337,12 +358,36 @@ document.addEventListener('DOMContentLoaded', () => {
             response = "We are located at Enugu Metropolis, Nigeria. Our services cover the entire city and its surroundings.";
         } else if (lower.includes('hours') || lower.includes('time') || lower.includes('when')) {
             response = "We work from <b>Monday to Friday, 9:00 AM to 5:00 PM</b>. We are closed on weekends.";
+        } else if (lower.includes('electrical') || lower.includes('electrician') || lower.includes('light')) {
+            response = "Need electrical help? We handle total blackouts, sparking, and new installations. Select an option below:";
+            renderOptions([
+                { text: "<i class='uil uil-bolt mr-1'></i> Electrical Menu", action: "help_elec" },
+                { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main", action: "main_menu" }
+            ]);
+        } else if (lower.includes('plumb') || lower.includes('pipe') || lower.includes('leak') || lower.includes('water')) {
+            response = "Plumbing issues? We handle maintenance, leak repairs, and full plumbing. Select an option below:";
+            renderOptions([
+                { text: "<i class='uil uil-tear mr-1'></i> Plumbing Menu", action: "help_plumb" },
+                { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main", action: "main_menu" }
+            ]);
+        } else if (lower.includes('carpenter') || lower.includes('carpentry') || lower.includes('wood') || lower.includes('cabinet')) {
+            response = "Our carpenters are top-notch. We handle roofing, cabinets, and general wood maintenance. Select an option below:";
+            renderOptions([
+                { text: "<i class='uil uil-hammer mr-1'></i> Carpentry Menu", action: "help_carpentry" },
+                { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main", action: "main_menu" }
+            ]);
+        } else if (lower.includes('clean') || lower.includes('housekeep') || lower.includes('nanny') || lower.includes('maid')) {
+            response = "We provide expert housekeeping, nanny services, and regular cleaning. Select an option below:";
+            renderOptions([
+                { text: "<i class='uil uil-home mr-1'></i> Housekeeping Menu", action: "help_housekeeping" },
+                { text: "<i class='uil uil-arrow-left mr-1'></i> Back to Main", action: "main_menu" }
+            ]);
         } else if (lower.includes('call') || lower.includes('contact') || lower.includes('whatsapp') || lower.includes('meet')) {
             response = "You can contact us via voice call (+234 XXX XXX XXXX), WhatsApp, or book a Google Meet session. Which do you prefer?";
             renderOptions([
-                { text: "📞 Call", action: "contact_call" },
-                { text: "💬 WhatsApp", action: "contact_whatsapp" },
-                { text: "📅 Google Meet", action: "contact_meet" }
+                { text: "<i class='uil uil-phone mr-1'></i> Call", action: "contact_call" },
+                { text: "<i class='uil uil-whatsapp mr-1'></i> WhatsApp", action: "contact_whatsapp" },
+                { text: "<i class='uil uil-calendar-alt mr-1'></i> Google Meet", action: "contact_meet" }
             ]);
         } else if (lower.includes('who') || lower.includes('what strategy') || lower.includes('company')) {
             response = "GISTIC stands for reliability. We provide vetted professionals for home maintenance. We operate Mon-Fri, 9am-5pm.";
