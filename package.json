@@ -1,0 +1,26 @@
+{
+  "name": "gistic-website",
+  "version": "1.0.0",
+  "description": "Client project repository for the development of the Gistic General Home Repair & Maintenance website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx tailwindcss -i ./css/input.css -o ./css/tailwind.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiedozie2468/gistic-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chiedozie2468/gistic-website/issues"
+  },
+  "homepage": "https://github.com/chiedozie2468/gistic-website#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  }
+}

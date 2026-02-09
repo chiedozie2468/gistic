@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Team | GISTIC</title>
+    <!-- Tailwind CSS (Using CDN for reliability in this specific file if build fails) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': '#4ADE80',
+                        'brand-dark': '#14532D',
+                        'brand-light': '#F0FDF4',
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <style>
+        /* Custom Styles for GISTIC */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Pill Floating Nav */
+        .pill-nav-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 6px 10px;
+            border-radius: 9999px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pill-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        .pill-nav-item i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        .pill-nav-item:hover {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .pill-nav-item:hover i {
+            transform: scale(1.1) translateY(-2px);
+        }
+        .pill-nav-item.active {
+            background: linear-gradient(135deg, #10b981, #064e3b);
+            color: white !important;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+        .pill-nav-item.active i {
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Nav stagger animation */
+        @keyframes navItemFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .nav-item-animate {
+            animation: navItemFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+        }
+
+        /* Brand Bounce & Shine */
+        @keyframes bounceShine {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes innerShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .animate-bounce-hover:hover {
+            animation: bounceShine 0.5s ease infinite;
+        }
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+        }
+        .group:hover .shine-effect::after {
+            animation: innerShine 0.8s ease forwards;
+        }
+
+        /* Hide preloader immediately if already seen */
+        .hide-preloader #preloader {
+            display: none !important;
+        }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .preloader-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #4ADE80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+        .preloader-text {
+            position: absolute;
+            bottom: 40px;
+            font-weight: 600;
+            color: #14532D;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased overflow-x-hidden">
+
+    <script>
+        // One-time preloader logic (First Time ONLY)
+        (function() {
+            const hasSeenPreloader = localStorage.getItem('gistic_preloader_visited_v2');
+            if (hasSeenPreloader) {
+                document.documentElement.classList.add('hide-preloader');
+            }
+        })();
+    </script>
+
+    <!-- Sweet One-Time Preloader -->
+    <div id="preloader">
+        <div class="preloader-circle">G</div>
+        <div class="preloader-text">GISTIC SERVICES</div>
+    </div>
+    <!-- Sticky Navigation Bar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Brand Logo Pill -->
+            <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms; background: white;">
+                <div class="flex items-center gap-4 py-1">
+                    <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
+                        <span class="font-bold text-xl">G</span>
+                    </div>
+                    <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
+                </div>
+            </a>
+            
+            <!-- Centered Pill Nav (Expanded) -->
+            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+                <div class="pill-nav-container nav-item-animate" style="animation-delay: 300ms;">
+                    <a href="index.html" class="pill-nav-item">
+                        <i class="uil uil-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="services.html" class="pill-nav-item">
+                        <i class="uil uil-apps"></i>
+                        <span>Services</span>
+                    </a>
+                    <a href="work-with-us.html" class="pill-nav-item active">
+                        <i class="uil uil-users-alt"></i>
+                        <span>Join Us</span>
+                    </a>
+                    <a href="partnerships.html" class="pill-nav-item">
+                        <i class="uil uil-truck"></i>
+                        <span>Rent Us</span>
+                    </a>
+                    <a href="reviews.html" class="pill-nav-item">
+                        <i class="uil uil-star"></i>
+                        <span>Reviews</span>
+                    </a>
+                    <a href="contact.html" class="pill-nav-item">
+                        <i class="uil uil-envelope"></i>
+                        <span>Contact</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hidden md:block w-32"></div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none nav-item-animate" style="animation-delay: 200ms;">
+                <i class="uil uil-bars text-3xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg border-t absolute w-full left-0 top-full shadow-2xl rounded-b-3xl overflow-hidden animate-slide-up">
+            <div class="flex flex-col p-6 space-y-4">
+                <a href="index.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-home text-2xl"></i>
+                    <span>Home</span>
+                </a>
+                <a href="services.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-apps text-2xl"></i>
+                    <span>Services</span>
+                </a>
+                <a href="work-with-us.html" class="flex items-center gap-4 text-brand-green bg-brand-light font-medium p-3 rounded-xl transition">
+                    <i class="uil uil-users-alt text-2xl"></i>
+                    <span>Join Us</span>
+                </a>
+                <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-truck text-2xl"></i>
+                    <span>Rent Us</span>
+                </a>
+                <a href="reviews.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-star text-2xl"></i>
+                    <span>Reviews</span>
+                </a>
+                <a href="contact.html" class="flex items-center justify-center gap-2 bg-brand-green text-white px-6 py-4 rounded-2xl font-bold shadow-lg shadow-brand-green/30 mt-4 active:scale-95 transition">
+                    <i class="uil uil-envelope text-xl"></i>
+                    <span>Contact Us</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-24 pb-12 bg-brand-dark text-center text-white">
+        <h1 class="text-3xl font-bold mb-2">Build Your Career with GISTIC</h1>
+        <p class="text-gray-300">Join a network of skilled professionals transforming home maintenance.</p>
+    </div>
+
+    <div class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="flex border-b">
+                <button class="flex-1 py-4 text-center font-semibold text-brand-green border-b-2 border-brand-green bg-brand-light/30">Application Form</button>
+                <button class="flex-1 py-4 text-center font-semibold text-gray-500 hover:text-brand-green transition">Worker Portal (Login)</button>
+            </div>
+            
+            <div class="p-8 md:p-12">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Apply Now</h2>
+                
+                <!-- Application Form -->
+                <form id="worker-application-form" action="https://formsubmit.co/info@gisticservices.com" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    <input type="hidden" name="_subject" value="New Worker Application - GISTIC">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://gistic-website.com/work-with-us.html?applied=true">
+
+                    <!-- Personal Info -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" name="fullname" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                            <input type="number" name="age" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Marital Status</label>
+                            <select name="marital_status" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                                <option>Single</option>
+                                <option>Married</option>
+                                <option>Divorced</option>
+                            </select>
+                        </div>
+                         <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Current Location</label>
+                            <input type="text" name="location" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" name="phone" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                        </div>
+                    </div>
+
+                    <!-- Role Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Applying For</label>
+                        <select id="role-select" name="role" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50" onchange="toggleHealthField()">
+                            <option value="intern">Intern (Learning)</option>
+                            <option value="daily_worker">Daily Paid Worker</option>
+                            <option value="full_worker">Full-Time Specialist</option>
+                            <option value="housekeeping">Housekeeping / Nanny</option>
+                        </select>
+                    </div>
+
+                    <!-- Uploads -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Passport Photo</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
+                                <input type="file" name="passport_photo" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" required>
+                                <i class="uil uil-camera text-2xl text-gray-400"></i>
+                                <p class="text-xs text-gray-500 mt-1">Upload JPEG/PNG</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CV / Credentials</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
+                                <input type="file" name="credentials" accept=".pdf,.doc,.docx" class="absolute inset-0 opacity-0 cursor-pointer">
+                                <i class="uil uil-file-upload text-2xl text-gray-400"></i>
+                                <p class="text-xs text-gray-500 mt-1">Upload PDF/DOC</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional Health Field -->
+                    <div id="health-field" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Health Status / Medical Report Summary</label>
+                        <textarea name="health_status" rows="3" placeholder="Briefly describe your health status. Mandatory for Housekeeping roles." class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50"></textarea>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 text-brand-green focus:ring-brand-green border-gray-300 rounded">
+                        <label for="terms" class="text-sm text-gray-600">
+                            I agree to the <a href="#" class="text-brand-green underline">Terms and Conditions</a>. 
+                            I understand that submission does not guarantee employment. 
+                            <span class="font-bold">Approval is required before activation.</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-green text-white font-bold py-4 rounded-lg hover:bg-brand-dark transition shadow-lg text-lg flex justify-center items-center gap-2">
+                        Submit Application <i class="uil uil-message"></i>
+                    </button>
+                </form>
+
+                <!-- Success Message (Hidden by default) -->
+                <div id="success-message" class="hidden text-center py-10">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="uil uil-check text-3xl text-brand-green"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Application Received!</h3>
+                    <p class="text-gray-600 mb-6">You have been placed on our waiting list. We will review your credentials and contact you via email.</p>
+                    <a href="https://slack.com" target="_blank" class="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-2 rounded-full font-medium hover:bg-purple-700 transition">
+                        <i class="uil uil-slack"></i> Join our Community Slack
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                         <div class="w-8 h-8 bg-brand-green rounded flex items-center justify-center text-white font-bold">G</div>
+                         <span class="text-2xl font-bold">GISTIC</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        GISTIC Services provides top-tier home maintenance and repair services across Enugu Metropolis.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
+                        <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
+                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Carrers</a></li>
+                        <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
+                        <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <i class="uil uil-map-marker text-brand-green mt-1"></i>
+                            <span>GISTIC Services, Enugu Metropolis, Nigeria</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-phone text-brand-green"></i>
+                            <span>+234 XXX XXX XXXX</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-envelope text-brand-green"></i>
+                            <span>info@gisticservices.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Location</h4>
+                     <!-- Map Placeholder with Quick View -->
+                    <div class="w-full h-40 bg-gray-700 rounded-lg overflow-hidden relative group">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                         <button onclick="toggleMapModal(true)" class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold gap-2">
+                             <i class="uil uil-expand-arrows"></i>
+                             <span>Interact with Map</span>
+                         </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Serving Enugu Metropolis & Surroundings</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
+                <p class="text-gray-500 text-sm">© 2024 GISTIC Services. All rights reserved.</p>
+                <div class="flex gap-4 text-sm text-gray-500">
+                     <a href="#" class="hover:text-white">Privacy Policy</a>
+                     <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <div id="chatbot-trigger" class="fixed bottom-6 right-6 z-40">
+        <button class="bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
+            <i class="uil uil-comment-dots"></i>
+        </button>
+    </div>
+
+    <!-- Map Modal (Stay on Site) -->
+    <div id="map-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 sm:p-10">
+        <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-md" onclick="toggleMapModal(false)"></div>
+        <div class="bg-white w-full max-w-5xl h-[80vh] rounded-3xl overflow-hidden relative shadow-2xl animate-scale-up">
+            
+            <!-- Map Search & Controls -->
+            <div class="absolute top-4 left-4 right-16 z-10 flex gap-2">
+                <div class="relative flex-1">
+                    <i class="uil uil-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="map-search-input" placeholder="Search location (e.g. New Haven, Enugu)..." class="w-full bg-white/95 backdrop-blur-md pl-11 pr-4 py-3 rounded-2xl shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-green text-sm border-none">
+                </div>
+                <button onclick="searchMap()" class="bg-brand-green text-white px-6 rounded-2xl shadow-xl font-bold text-sm hover:bg-brand-dark transition hidden sm:block">
+                    Search
+                </button>
+                <button onclick="locateMe()" class="bg-white text-brand-dark w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center hover:bg-gray-100 transition" title="Show My Location">
+                    <i class="uil uil-location-point text-xl text-brand-green"></i>
+                </button>
+            </div>
+
+            <button onclick="toggleMapModal(false)" class="absolute top-4 right-4 z-10 bg-white/95 hover:bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-xl transition">
+                <i class="uil uil-multiply text-2xl text-brand-dark"></i>
+            </button>
+
+            <iframe id="main-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            
+            <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-center gap-4 pointer-events-none">
+                <div id="map-status" class="bg-white/95 backdrop-blur px-5 py-2.5 rounded-2xl shadow-xl text-brand-dark font-bold text-sm pointer-events-auto border border-gray-100">
+                    GISTIC HQ - Enugu, Nigeria
+                </div>
+                <div class="flex gap-2 pointer-events-auto">
+                    <button onclick="resetMap()" class="bg-white/95 text-brand-dark px-6 py-2.5 rounded-2xl shadow-xl font-bold text-sm hover:bg-gray-100 transition border border-gray-100">
+                        Reset View
+                    </button>
+                    <a id="external-map-link" href="https://maps.app.goo.gl/YourLink" target="_blank" class="bg-brand-green text-white px-6 py-2.5 rounded-2xl shadow-xl font-bold text-sm hover:bg-brand-dark transition">
+                        Open in Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/security.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+
+    <script>
+        function toggleHealthField() {
+            const role = document.getElementById('role-select').value;
+            const healthField = document.getElementById('health-field');
+            const healthInput = healthField.querySelector('textarea');
+            if (role === 'housekeeping') {
+                healthField.classList.remove('hidden');
+                healthInput.setAttribute('required', 'true');
+            } else {
+                healthField.classList.add('hidden');
+                healthInput.removeAttribute('required');
+            }
+        }
+
+        // Check for URL param
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('applied') === 'true') {
+            document.getElementById('worker-application-form').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            const borderB = document.querySelector('.border-b');
+            if (borderB) borderB.classList.add('hidden'); // hide tabs
+        }
+    </script>
+</body>
+</html>

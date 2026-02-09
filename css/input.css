@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn-primary {
+        @apply bg-brand-green text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 font-semibold shadow-md inline-block text-center;
+    }
+    .btn-secondary {
+        @apply bg-white text-brand-green border-2 border-brand-green px-6 py-2 rounded-full hover:bg-brand-green hover:text-white transition duration-300 font-semibold shadow-md inline-block text-center;
+    }
+    .input-field {
+        @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green bg-gray-50;
+    }
+    .section-title {
+        @apply text-3xl font-bold text-gray-800 mb-6 text-center;
+    }
+    .card {
+        @apply bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300;
+    }
+}
+
+/* Custom Splash Screen Animation */
+#splash-screen {
+    z-index: 9999;
+}

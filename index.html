@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GISTICS - Professional Home Repair & Maintenance Services in Nigeria. Electrical, Housekeeping, Carpentry, and more.">
+    <title>GISTIC | Your Home, Our Expertise</title>
+    <!-- Tailwind CSS -->
+    <link href="./css/tailwind.css" rel="stylesheet">
+    <!-- Fallback to CDN if local build fails (for preview) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': '#4ADE80',
+                        'brand-dark': '#14532D',
+                        'brand-light': '#F0FDF4',
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <style>
+        /* Custom Styles that might not be covered by Tailwind utilities */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Pill Floating Nav */
+        .pill-nav-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 6px 10px;
+            border-radius: 9999px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pill-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        .pill-nav-item i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        .pill-nav-item:hover {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .pill-nav-item:hover i {
+            transform: scale(1.1) translateY(-2px);
+        }
+        .pill-nav-item.active {
+            background: linear-gradient(135deg, #10b981, #064e3b);
+            color: white !important;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+        .pill-nav-item.active i {
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Floating Animation for Hero Images */
+        @keyframes floating {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+
+        /* Lighting/Shine Effect for Cards */
+        .lighting-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .lighting-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .lighting-effect:hover::before {
+            opacity: 1;
+        }
+
+        /* Text Focus/Reveal */
+        @keyframes textFocus {
+            0% { filter: blur(12px); opacity: 0; }
+            100% { filter: blur(0); opacity: 1; }
+        }
+        .reveal-text {
+            animation: textFocus 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+        }
+
+        /* Nav stagger animation */
+        @keyframes navItemFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .nav-item-animate {
+            animation: navItemFade 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+        }
+
+        .hero-pattern {
+            background-image: url("https://images.unsplash.com/photo-1581578731117-104f2a8d4618?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80");
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(11, 59, 36, 0.9), rgba(11, 59, 36, 0.4));
+        }
+
+        /* Hover Lighting Glow */
+        .hover-lighting:hover {
+            box-shadow: 0 0 30px rgba(74, 222, 128, 0.3);
+            border-color: #4ADE80 !important;
+        }
+
+        /* Brand Bounce & Shine */
+        @keyframes bounceShine {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes innerShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .animate-bounce-hover:hover {
+            animation: bounceShine 0.5s ease infinite;
+        }
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+        }
+        .group:hover .shine-effect::after {
+            animation: innerShine 0.8s ease forwards;
+        }
+
+        /* Hide preloader immediately if already seen */
+        .hide-preloader #preloader {
+            display: none !important;
+        }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .preloader-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #4ADE80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+        .preloader-text {
+            position: absolute;
+            bottom: 40px;
+            font-weight: 600;
+            color: #14532D;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #00A859;
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden">
+
+    <!-- Sweet One-Time Preloader -->
+    <div id="preloader">
+        <div class="preloader-circle">G</div>
+        <div class="preloader-text">GISTIC SERVICES</div>
+    </div>
+
+    <script>
+        // One-time preloader logic (First Time ONLY)
+        (function() {
+            const hasSeenPreloader = localStorage.getItem('gistic_preloader_visited_v2');
+            if (hasSeenPreloader) {
+                document.documentElement.classList.add('hide-preloader');
+            }
+        })();
+    </script>
+
+
+    <!-- Sticky Navigation Bar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Brand Logo Pill -->
+            <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms; background: white;">
+                <div class="flex items-center gap-4 py-1">
+                    <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
+                        <span class="font-bold text-xl">G</span>
+                    </div>
+                    <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
+                </div>
+            </a>
+            
+            <!-- Centered Pill Nav (Expanded) -->
+            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+                <div class="pill-nav-container nav-item-animate" style="animation-delay: 300ms;">
+                    <a href="index.html" class="pill-nav-item active">
+                        <i class="uil uil-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="services.html" class="pill-nav-item">
+                        <i class="uil uil-apps"></i>
+                        <span>Services</span>
+                    </a>
+                    <a href="work-with-us.html" class="pill-nav-item">
+                        <i class="uil uil-users-alt"></i>
+                        <span>Join Us</span>
+                    </a>
+                    <a href="partnerships.html" class="pill-nav-item">
+                        <i class="uil uil-truck"></i>
+                        <span>Rent Us</span>
+                    </a>
+                    <a href="reviews.html" class="pill-nav-item">
+                        <i class="uil uil-star"></i>
+                        <span>Reviews</span>
+                    </a>
+                    <a href="contact.html" class="pill-nav-item">
+                        <i class="uil uil-envelope"></i>
+                        <span>Contact</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Empty space for flex balance / or secondary button if needed -->
+            <div class="hidden md:block w-32"></div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none nav-item-animate" style="animation-delay: 200ms;">
+                <i class="uil uil-bars text-3xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg border-t absolute w-full left-0 top-full shadow-2xl rounded-b-3xl overflow-hidden animate-slide-up">
+            <div class="flex flex-col p-6 space-y-4">
+                <a href="index.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-home text-2xl"></i>
+                    <span>Home</span>
+                </a>
+                <a href="services.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-apps text-2xl"></i>
+                    <span>Services</span>
+                </a>
+                <a href="work-with-us.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-users-alt text-2xl"></i>
+                    <span>Join Us</span>
+                </a>
+                <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-truck text-2xl"></i>
+                    <span>Rent Us</span>
+                </a>
+                <a href="reviews.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
+                    <i class="uil uil-star text-2xl"></i>
+                    <span>Reviews</span>
+                </a>
+                <a href="contact.html" class="flex items-center justify-center gap-2 bg-brand-green text-white px-6 py-4 rounded-2xl font-bold shadow-lg shadow-brand-green/30 mt-4 active:scale-95 transition">
+                    <i class="uil uil-envelope text-xl"></i>
+                    <span>Contact Us</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative bg-white pt-32 pb-20 lg:pt-48 lg:pb-40 overflow-hidden min-h-[90vh] flex items-center">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-0">
+                
+                <!-- Left Content (Text) -->
+                <div class="lg:w-1/2 z-20 mb-12 lg:mb-0 lg:pl-20 text-center lg:text-left animate-slide-up">
+                    <h1 class="text-5xl lg:text-8xl font-bold mb-8 text-gray-900 leading-[1.1] reveal-text">
+                        Your Home, <br/>
+                        <span class="text-brand-green italic">Our Expertise.</span>
+                    </h1>
+                    <p class="text-lg lg:text-xl text-gray-500 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                        Lorem ipsum dolor sit amet tentons noveramenos teesite isoneesto mens rite no ita linenses.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+                        <a href="contact.html" class="bg-brand-green text-white px-10 py-4 rounded-xl font-bold hover:bg-brand-dark transition shadow-xl shadow-brand-green/20 flex items-center justify-center transform hover:-translate-y-1">
+                            Book a Service
+                        </a>
+                        <a href="services.html" class="bg-white border-2 text-gray-600 border-gray-100 px-10 py-4 rounded-xl font-bold hover:border-brand-green hover:text-brand-green transition flex items-center justify-center transform hover:-translate-y-1">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Geometric Visual -->
+                <div class="lg:w-1/2 relative h-[400px] lg:h-[500px] w-full flex items-center animate-floating">
+                    <!-- Main Background Container -->
+                    <div class="absolute inset-y-0 right-0 w-[120%] lg:-right-20 bg-gray-100 overflow-hidden transform skew-x-12 translate-x-20 rounded-l-3xl">
+                         <!-- Background Image -->
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1000&q=80" class="absolute inset-0 w-full h-full object-cover transform -skew-x-12 scale-110 opacity-30 filter grayscale">
+                        
+                        <!-- Green Chevron/Diagonal Overlay -->
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-brand-green/90 to-brand-green/40 mix-blend-multiply"></div>
+
+                        <!-- Dark Triangular Overlay for Depth -->
+                        <div class="absolute top-0 left-0 w-2/3 h-full bg-brand-green transform -skew-x-12 -translate-x-20 opacity-90"></div>
+                        <div class="absolute top-0 left-0 w-1/3 h-full bg-brand-light transform -skew-x-12 -translate-x-32 opacity-50 mix-blend-overlay"></div>
+                    </div>
+
+                    <!-- Icons Layer (No Skew, Floating) -->
+                    <div class="relative w-full h-full z-10 pointer-events-none">
+                        <!-- Camera Icon (Top Left) -->
+                        <div class="absolute top-10 left-10 lg:left-20 border border-white/50 p-3 rounded-lg backdrop-blur-sm animate-pulse">
+                            <i class="uil uil-camera text-2xl text-white"></i>
+                        </div>
+                        
+                        <!-- Document Icon (Middle Left) -->
+                        <div class="absolute top-1/2 left-0 transform -translate-y-1/2 lg:-left-4 bg-brand-dark p-3 rounded-lg shadow-xl">
+                            <i class="uil uil-clipboard-alt text-2xl text-white"></i>
+                        </div>
+
+                        <!-- Wrench Icon (Bottom Left) -->
+                        <div class="absolute bottom-16 left-20 lg:left-32 border border-white/50 p-3 rounded-lg backdrop-blur-sm">
+                            <i class="uil uil-wrench text-2xl text-white"></i>
+                        </div>
+
+                        <!-- Home Icon (Large Right) -->
+                         <div class="absolute top-1/2 right-10 lg:right-20 transform -translate-y-1/2">
+                            <i class="uil uil-home text-8xl text-white/20"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="relative z-20 -mt-8 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                <div class="grid grid-cols-4 md:grid-cols-4 gap-2 md:gap-8">
+                    <div class="text-center px-1 border-r border-gray-100">
+                        <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Projects</p>
+                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="13750">0</h3>
+                    </div>
+                    <div class="text-center px-1 border-r border-gray-100">
+                        <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Workers</p>
+                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="26750">0</h3>
+                    </div>
+                    <div class="text-center px-1 border-r border-gray-100">
+                        <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Clients</p>
+                        <h3 class="text-lg md:text-4xl font-bold text-brand-green counter" data-target="36950">0</h3>
+                    </div>
+                    <div class="text-center px-1">
+                         <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Categories</p>
+                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="29810">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (Transition Fixed) -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative">
+                    <div class="w-full h-96 bg-gray-200 rounded-2xl overflow-hidden shadow-2xl relative z-10">
+                         <!-- Placeholder for About Image -->
+                         <!-- About Image (Logo) -->
+                         <img src="./assets/logo/logo.jpeg" alt="About GISTIC" class="w-full h-full object-contain bg-white p-8">
+                    </div>
+                    <!-- Decorative Elements -->
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-brand-green/10 rounded-full z-0"></div>
+                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-brand-dark/10 rounded-full z-0"></div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-brand-green font-bold text-lg mb-2 uppercase tracking-wide">About Us</h2>
+                    <h3 class="text-4xl font-bold text-gray-900 mb-6">We Fix It Right, The First Time.</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        GISTIC Services is a premier home maintenance company based in Enugu Metropolis, Nigeria. We simplify home ownership by providing reliable, professional, and vetted experts for all your repair and maintenance needs.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        From electrical faults to deep cleaning, our team is dedicated to excellence. We don't just fix problems; we restore peace of mind.
+                    </p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-check-circle text-brand-green text-xl"></i>
+                            <span class="text-gray-700 font-medium">Certified & Vetted Professionals</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-check-circle text-brand-green text-xl"></i>
+                            <span class="text-gray-700 font-medium">Transparent Pricing, No Hidden Fees</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-check-circle text-brand-green text-xl"></i>
+                            <span class="text-gray-700 font-medium">100% Satisfaction Guarantee</span>
+                        </li>
+                    </ul>
+                    <a href="services.html" class="text-brand-green font-bold hover:text-brand-dark transition flex items-center gap-2">
+                        Learn More <i class="uil uil-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="py-20 bg-brand-light/30">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-brand-green font-bold text-lg mb-2 uppercase tracking-wide">Our Services</h2>
+                <h3 class="text-4xl font-bold text-gray-900">What We Do Best</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-brand-light rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-green transition duration-300">
+                        <i class="uil uil-bolt text-3xl text-brand-green group-hover:text-white transition duration-300"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-800 mb-3">Electrical Works</h4>
+                    <p class="text-gray-600 mb-6">Complete electrical repairs, installations, and maintenance for residential and commercial properties.</p>
+                    <a href="services.html#electrical" class="text-brand-green font-semibold hover:text-brand-dark transition">Explore <i class="uil uil-arrow-right"></i></a>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-brand-light rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-green transition duration-300">
+                        <i class="uil uil-home text-3xl text-brand-green group-hover:text-white transition duration-300"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-800 mb-3">Housekeeping</h4>
+                    <p class="text-gray-600 mb-6">Professional deep cleaning, laundry services, and regular housekeeping by trusted staff.</p>
+                    <a href="services.html#housekeeping" class="text-brand-green font-semibold hover:text-brand-dark transition">Explore <i class="uil uil-arrow-right"></i></a>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-brand-light rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-green transition duration-300">
+                        <i class="uil uil-hammer text-3xl text-brand-green group-hover:text-white transition duration-300"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-800 mb-3">Woodworking & Carpentry</h4>
+                    <p class="text-gray-600 mb-6">Custom cabinetry, furniture repairs, and general carpentry services for your home.</p>
+                    <a href="services.html#woodworking" class="text-brand-green font-semibold hover:text-brand-dark transition">Explore <i class="uil uil-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="services.html" class="bg-brand-dark text-white px-8 py-3 rounded-full font-semibold hover:bg-brand-green transition shadow-lg">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-20 bg-brand-dark text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,...');"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2">
+                    <h2 class="text-brand-green font-bold text-lg mb-2 uppercase tracking-wide">Why Choose Us</h2>
+                    <h3 class="text-4xl font-bold mb-6">Experience the GISTIC Difference</h3>
+                    <p class="text-gray-300 mb-8 text-lg">
+                        We aren't just another handyman service. We are a professional organization dedicated to raising the standard of home maintenance in Nigeria.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                <i class="uil uil-shield-check text-2xl text-brand-green"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Safety First</h4>
+                                <p class="text-gray-400 text-sm">Strict safety protocols and vetted background-checked workers.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                <i class="uil uil-clock text-2xl text-brand-green"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">On-Time Service</h4>
+                                <p class="text-gray-400 text-sm">We value your time. Our professionals arrive as scheduled.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                                <i class="uil uil-smile text-2xl text-brand-green"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Customer Centric</h4>
+                                <p class="text-gray-400 text-sm">Your satisfaction is our priority. We listen and We deliver.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
+                    <h4 class="text-2xl font-bold mb-6 text-center">Book a Quick Call</h4>
+                    <!-- Simple Booking Form Placeholder -->
+                    <form id="quick-book-form" class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-brand-green transition">
+                        <input type="tel" placeholder="Phone Number" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-brand-green transition">
+                        <select class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white/70 focus:outline-none focus:border-brand-green transition">
+                            <option value="" class="bg-gray-800">Select Service</option>
+                            <option value="electrical" class="bg-gray-800">Electrical</option>
+                            <option value="housekeeping" class="bg-gray-800">Housekeeping</option>
+                            <option value="plumbing" class="bg-gray-800">Plumbing</option>
+                        </select>
+                        <button type="submit" class="w-full bg-brand-green hover:bg-green-600 text-white font-bold py-3 rounded-lg transition shadow-lg mt-4">
+                            Request Callback
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Works Section -->
+    <section id="portfolio" class="py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-brand-green font-bold text-lg mb-2 uppercase tracking-wide">Our Portfolio</h2>
+                <h3 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">See Our Craftsmanship in Action</h3>
+                <p class="text-gray-500 max-w-2xl mx-auto">Explore some of our recently completed projects across various service categories.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Project 1: Electrical -->
+                <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 100ms;">
+                    <div class="h-80 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1621905252507-b354bcadc0d6?auto=format&fit=crop&w=800&q=80" alt="Electrical Installation" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Electrical Works</span>
+                        <h4 class="text-white text-2xl font-bold">Industrial Panel Upgrade</h4>
+                        <p class="text-gray-300 text-sm mt-2">Comprehensive rewiring and safety certification for a major facility.</p>
+                        <a href="services.html" class="mt-4 text-white font-bold flex items-center gap-2 hover:text-brand-green transition">
+                            View Details <i class="uil uil-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Housekeeping -->
+                <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 200ms;">
+                    <div class="h-80 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581578731522-745505146201?auto=format&fit=crop&w=800&q=80" alt="Housekeeping Service" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Housekeeping</span>
+                        <h4 class="text-white text-2xl font-bold">Post-Construction Cleaning</h4>
+                        <p class="text-gray-300 text-sm mt-2">Deep cleaning and sanitization for a recently completed luxury residential project.</p>
+                        <a href="services.html" class="mt-4 text-white font-bold flex items-center gap-2 hover:text-brand-green transition">
+                            View Details <i class="uil uil-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: Woodworking -->
+                <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 300ms;">
+                    <div class="h-80 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=800&q=80" alt="Woodworking Project" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Woodworking</span>
+                        <h4 class="text-white text-2xl font-bold">Custom Kitchen Cabinetry</h4>
+                        <p class="text-gray-300 text-sm mt-2">Bespoke mahogany cabinets designed and installed for a modern smart home.</p>
+                        <a href="services.html" class="mt-4 text-white font-bold flex items-center gap-2 hover:text-brand-green transition">
+                            View Details <i class="uil uil-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Preview -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-brand-green font-bold text-lg mb-2 uppercase tracking-wide">Testimonials</h2>
+                <h3 class="text-4xl font-bold text-gray-900">What Our Clients Say</h3>
+            </div>
+
+            <!-- Reviews Container (Populated via JS) -->
+            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Fallback Static Content -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
+                            <img src="https://ui-avatars.com/api/?name=Chinedu+O&background=00A859&color=fff" alt="User">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-gray-800">Chinedu O.</h5>
+                            <div class="text-yellow-400 text-sm">
+                                <i class="uil uil-star"></i><i class="uil uil-star"></i><i class="uil uil-star"></i><i class="uil uil-star"></i><i class="uil uil-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"The electrical team was fantastic. Fixed my wiring issues in no time. Highly recommended!"</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="reviews.html" class="text-brand-green font-bold hover:underline">Read All Reviews</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-brand-green text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-brand-dark/20"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Fix Your Home?</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto opacity-90">Join hundreds of satisfied homeowners in Enugu who trust GISTIC for their maintenance needs.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="contact.html" class="bg-white text-brand-green px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition shadow-lg">
+                    Book a Service
+                </a>
+                <a href="work-with-us.html" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-brand-green transition">
+                    Join Our Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                         <div class="w-8 h-8 bg-brand-green rounded flex items-center justify-center text-white font-bold">G</div>
+                         <span class="text-2xl font-bold">GISTIC</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        GISTIC Services provides top-tier home maintenance and repair services across Enugu Metropolis.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
+                        <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
+                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Carrers</a></li>
+                        <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
+                        <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <i class="uil uil-map-marker text-brand-green mt-1"></i>
+                            <span>GISTIC Services, Enugu Metropolis, Nigeria</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-phone text-brand-green"></i>
+                            <span>+234 XXX XXX XXXX</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-envelope text-brand-green"></i>
+                            <span>info@gisticservices.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Location</h4>
+                     <!-- Map Placeholder with Quick View -->
+                    <div class="w-full h-40 bg-gray-700 rounded-lg overflow-hidden relative group">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                         <button onclick="toggleMapModal(true)" class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold gap-2">
+                             <i class="uil uil-expand-arrows"></i>
+                             <span>Interact with Map</span>
+                         </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Serving Enugu Metropolis & Surroundings</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
+                <p class="text-gray-500 text-sm">© 2024 GISTIC Services. All rights reserved.</p>
+                <div class="flex gap-4 text-sm text-gray-500">
+                     <a href="#" class="hover:text-white">Privacy Policy</a>
+                     <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <div id="chatbot-trigger" class="fixed bottom-6 right-6 z-40">
+        <button class="bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
+            <i class="uil uil-comment-dots"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/security.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/reviews.js"></script>
+    <!-- Preloader Completion -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            if (preloader && !localStorage.getItem('gistic_preloader_visited_v2')) {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        localStorage.setItem('gistic_preloader_visited_v2', 'true');
+                    }, 800);
+                }, 1000);
+            }
+        });
+    </script>
+    <!-- Map Modal (Stay on Site) -->
+    <div id="map-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 sm:p-10">
+        <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-md" onclick="toggleMapModal(false)"></div>
+        <div class="bg-white w-full max-w-5xl h-[80vh] rounded-3xl overflow-hidden relative shadow-2xl animate-scale-up">
+            
+            <!-- Map Search & Controls -->
+            <div class="absolute top-4 left-4 right-16 z-10 flex gap-2">
+                <div class="relative flex-1">
+                    <i class="uil uil-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="map-search-input" placeholder="Search location (e.g. New Haven, Enugu)..." class="w-full bg-white/95 backdrop-blur-md pl-11 pr-4 py-3 rounded-2xl shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-green text-sm border-none">
+                </div>
+                <button onclick="searchMap()" class="bg-brand-green text-white px-6 rounded-2xl shadow-xl font-bold text-sm hover:bg-brand-dark transition hidden sm:block">
+                    Search
+                </button>
+                <button onclick="locateMe()" class="bg-white text-brand-dark w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center hover:bg-gray-100 transition" title="Show My Location">
+                    <i class="uil uil-location-point text-xl text-brand-green"></i>
+                </button>
+            </div>
+
+            <button onclick="toggleMapModal(false)" class="absolute top-4 right-4 z-10 bg-white/95 hover:bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-xl transition">
+                <i class="uil uil-multiply text-2xl text-brand-dark"></i>
+            </button>
+
+            <iframe id="main-map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            
+            <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row justify-between items-center gap-4 pointer-events-none">
+                <div id="map-status" class="bg-white/95 backdrop-blur px-5 py-2.5 rounded-2xl shadow-xl text-brand-dark font-bold text-sm pointer-events-auto border border-gray-100">
+                    GISTIC HQ - Enugu, Nigeria
+                </div>
+                <div class="flex gap-2 pointer-events-auto">
+                    <button onclick="resetMap()" class="bg-white/95 text-brand-dark px-6 py-2.5 rounded-2xl shadow-xl font-bold text-sm hover:bg-gray-100 transition border border-gray-100">
+                        Reset View
+                    </button>
+                    <a id="external-map-link" href="https://maps.app.goo.gl/YourLink" target="_blank" class="bg-brand-green text-white px-6 py-2.5 rounded-2xl shadow-xl font-bold text-sm hover:bg-brand-dark transition">
+                        Open in Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaultMapUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng";
+        
+        function toggleMapModal(show) {
+            const modal = document.getElementById('map-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function searchMap() {
+            const input = document.getElementById('map-search-input');
+            const query = input.value.trim();
+            if (!query) return;
+            
+            const iframe = document.getElementById('main-map-iframe');
+            const status = document.getElementById('map-status');
+            
+            iframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+            status.innerHTML = `<i class="uil uil-search text-brand-green mr-2"></i> Result for: ${query}`;
+        }
+
+        // Search on Enter
+        document.getElementById('map-search-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchMap();
+        });
+
+        function locateMe() {
+            const status = document.getElementById('map-status');
+            status.innerHTML = `<i class="uil uil-spinner-alt animate-spin text-brand-green mr-2"></i> Finding your location...`;
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const iframe = document.getElementById('main-map-iframe');
+                    
+                    iframe.src = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+                    status.innerHTML = `<i class="uil uil-location-point text-brand-green mr-2"></i> Showing your current location`;
+                }, (error) => {
+                    status.innerHTML = `<i class="uil uil-exclamation-triangle text-red-500 mr-2"></i> Permission denied or error`;
+                });
+            } else {
+                status.innerHTML = "Geolocation not supported";
+            }
+        }
+
+        function resetMap() {
+            const iframe = document.getElementById('main-map-iframe');
+            const status = document.getElementById('map-status');
+            const input = document.getElementById('map-search-input');
+            
+            iframe.src = defaultMapUrl;
+            status.innerHTML = "GISTIC HQ - Enugu, Nigeria";
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
