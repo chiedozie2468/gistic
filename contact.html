@@ -20,10 +20,10 @@
     </div>    
     <!-- Sticky Navigation Bar -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-4">
-        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-3 items-center">
+        <div class="container mx-auto px-6 relative flex items-center justify-between">
             
             <!-- Left: Brand Logo -->
-            <div class="flex justify-start">
+            <div class="flex-1 flex justify-start z-10">
                 <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
@@ -35,7 +35,7 @@
             </div>
             
             <!-- Center: Pill Nav (Expanded) -->
-            <div class="hidden md:flex justify-center">
+            <div class="absolute left-1/2 -translate-x-1/2 hidden md:flex z-0">
                 <div class="pill-nav-container nav-item-animate" style="animation-delay: 300ms;">
                     <a href="index.html" class="pill-nav-item">
                         <i class="uil uil-home"></i>
@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <div class="flex justify-end col-span-1">
+            <div class="flex-1 flex justify-end z-10">
                 <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none nav-item-animate" style="animation-delay: 200ms;">
                     <i class="uil uil-bars text-3xl"></i>
                 </button>
