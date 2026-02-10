@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'radio',
                     prompt: 'Which service was this issue related to?',
                     options: [
-                        { label: 'Plumbing', value: 'plumbing' },
+                        { label: 'Painting', value: 'painting' },
                         { label: 'Electrical', value: 'electrical' },
                         { label: 'Carpentry', value: 'carpentry' },
                         { label: 'Housekeeping', value: 'housekeeping' },
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
         weekend: /weekend|saturday|sunday/i,
         pricing: /how much|cost|price|pricing|fee|charge/i,
         services: /what (do you|services)|services (do you|you offer)/i,
-        plumbing: /plumb(er|ing)|leak|pipe|drain|water|toilet|sink/i,
+        painting: /paint(ing|er)?|wall|color|interior|exterior/i,
         electrical: /electric(al|ian)|power|light|wiring|socket|outlet/i,
         carpentry: /carpen(ter|try)|wood|furniture|door|window|cabinet/i,
         housekeeping: /clean(ing|er)|housekeeper|maid|nanny/i,
@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (patterns.services.test(lowerText)) {
             addAgentMessage('We offer professional home maintenance services including:');
             setTimeout(() => {
-                addAgentMessage('Plumbing, Electrical, Carpentry, and Housekeeping services.');
+                addAgentMessage('Painting, Electrical, Carpentry, and Housekeeping services.');
             }, 500);
             setTimeout(() => {
                 addAgentMessage('Which service would you like to know more about?');
@@ -481,9 +481,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Check for service requests
-        if (patterns.plumbing.test(lowerText)) {
-            addAgentMessage('I can help with that plumbing request.');
-            setTimeout(() => startServiceRequest('plumbing'), 800);
+        if (patterns.painting.test(lowerText)) {
+            addAgentMessage('I can help with that painting request.');
+            setTimeout(() => startServiceRequest('painting'), 800);
             return;
         }
 
@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 type: 'radio',
                 stepId: 'service_selection',
                 options: [
-                    { label: 'Plumbing', value: 'plumbing', icon: 'uil-tear' },
+                    { label: 'Painting', value: 'painting', icon: 'uil-paint-tool' },
                     { label: 'Electrical', value: 'electrical', icon: 'uil-bolt' },
                     { label: 'Carpentry', value: 'carpentry', icon: 'uil-hammer' },
                     { label: 'Housekeeping', value: 'housekeeping', icon: 'uil-home' }
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addAgentMessage('We provide professional, reliable, and vetted experts for all your repair and maintenance needs.');
         }, 800);
         setTimeout(() => {
-            addAgentMessage('Our services include Plumbing, Electrical work, Carpentry, and Housekeeping.');
+            addAgentMessage('Our services include Painting, Electrical work, Carpentry, and Housekeeping.');
         }, 1600);
         setTimeout(() => {
             addAgentMessage('Would you like to request a service?', {
