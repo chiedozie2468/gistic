@@ -4,6 +4,16 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Hide Preloader after page load
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            document.documentElement.classList.add('hide-preloader');
+            // Mark as visited for future sessions
+            localStorage.setItem('gistic_preloader_visited_v2', 'true');
+        }, 1500); // Show for 1.5 seconds
+    }
+
     // Sticky Navbar Logic
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {

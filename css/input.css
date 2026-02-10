@@ -162,6 +162,13 @@
     transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/* Hide preloader when class is added */
+.hide-preloader #preloader {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
 .preloader-circle {
     width: 80px;
     height: 80px;
