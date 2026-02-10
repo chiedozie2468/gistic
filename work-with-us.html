@@ -20,11 +20,8 @@
             <!-- Left: Brand Logo -->
             <div class="flex-1 flex justify-start z-10">
                 <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
-                            <span class="font-bold text-xl">G</span>
-                        </div>
-                        <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
+                    <div class="w-16 h-16 flex items-center justify-center group-hover:opacity-80 transition-opacity">
+                        <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-full h-full object-contain">
                     </div>
                 </a>
             </div>
@@ -45,7 +42,7 @@
                         <span>Join Us</span>
                     </a>
                     <a href="partnerships.html" class="pill-nav-item">
-                        <i class="uil uil-truck"></i>
+                        <i class="uil uil-handshake"></i>
                         <span>Rent Us</span>
                     </a>
                     <a href="reviews.html" class="pill-nav-item">
@@ -82,7 +79,7 @@
                     <span>Join Us</span>
                 </a>
                 <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
-                    <i class="uil uil-truck text-2xl"></i>
+                    <i class="uil uil-handshake text-2xl"></i>
                     <span>Rent Us</span>
                 </a>
                 <a href="reviews.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
@@ -112,11 +109,19 @@
             <div class="p-8 md:p-12">
                 <h2 class="text-2xl font-bold mb-6 text-gray-800">Apply Now</h2>
                 
-                <!-- Application Form -->
-                <form id="worker-application-form" action="https://formsubmit.co/info@gisticservices.com" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <!-- FIXED: Using FormSubmit.co for FREE File Uploads & Reliability -->
+                <form id="worker-application-form" action="https://formsubmit.co/gisticservice@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    <!-- Subject line -->
                     <input type="hidden" name="_subject" value="New Worker Application - GISTIC">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://gistic-website.com/work-with-us.html?applied=true">
+                    
+                    <!-- Redirect back to homepage after submission -->
+                    <input type="hidden" name="_next" value="https://gisticservice.com/index.html">
+                    
+                    <!-- Professional Email Template -->
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <!-- Spam Protection -->
+                    <input type="text" name="_honey" style="display:none">
 
                     <!-- Personal Info -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -246,7 +251,7 @@
                     <ul class="space-y-3 text-gray-400">
                         <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
                         <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
-                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Carrers</a></li>
+                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
                         <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
                         <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
                     </ul>
@@ -261,11 +266,11 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="uil uil-phone text-brand-green"></i>
-                            <span>+234 XXX XXX XXXX</span>
+                            <span>09020966002</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="uil uil-envelope text-brand-green"></i>
-                            <span>info@gisticservices.com</span>
+                            <span>gisticservice@gmail.com</span>
                         </li>
                     </ul>
                 </div>
@@ -303,7 +308,7 @@
 
 
     <script src="js/security.js"></script>
-    <script src="js/forms.js"></script>
+    <script src="js/forms.js?v=2"></script>
     <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
     <script src="js/chatbot.js"></script>

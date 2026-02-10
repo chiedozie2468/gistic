@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let state = {
         currentFlow: null, // 'service_request', 'report_issue', 'company_info', null
         currentStep: 0,
-        serviceType: null, // 'plumbing', 'electrical', 'carpentry', 'housekeeping'
+        serviceType: null, // 'painting', 'electrical', 'carpentry', 'housekeeping', 'cctv'
         answers: {},
         messages: [], // Array of message objects: { type: 'agent'|'user', content: string, timestamp: Date }
         history: [] // For back button support
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         { label: 'Electrical', value: 'electrical' },
                         { label: 'Carpentry', value: 'carpentry' },
                         { label: 'Housekeeping', value: 'housekeeping' },
+                        { label: 'CCTV', value: 'cctv' },
                         { label: 'Other', value: 'other' }
                     ],
                     required: true
@@ -327,6 +328,71 @@ document.addEventListener('DOMContentLoaded', () => {
                     required: true
                 }
             ]
+        },
+        cctv: {
+            steps: [
+                {
+                    id: 'type',
+                    type: 'radio',
+                    prompt: 'What type of CCTV service do you need?',
+                    options: [
+                        { label: 'New Installation', value: 'installation' },
+                        { label: 'System Maintenance', value: 'maintenance' },
+                        { label: 'Repair/Troubleshooting', value: 'repair' },
+                        { label: 'System Upgrade', value: 'upgrade' },
+                        { label: 'Consultation', value: 'consultation' }
+                    ],
+                    required: true
+                },
+                {
+                    id: 'coverage',
+                    type: 'checkbox',
+                    prompt: 'Which areas need coverage?',
+                    options: [
+                        { label: 'Building Entrance/Exit', value: 'entrance' },
+                        { label: 'Perimeter/Fence', value: 'perimeter' },
+                        { label: 'Parking Area', value: 'parking' },
+                        { label: 'Interior Rooms', value: 'interior' },
+                        { label: 'Entire Property', value: 'entire' }
+                    ],
+                    required: true
+                },
+                {
+                    id: 'property',
+                    type: 'radio',
+                    prompt: 'What type of property is this?',
+                    options: [
+                        { label: 'Residential', value: 'residential' },
+                        { label: 'Commercial', value: 'commercial' }
+                    ],
+                    required: true
+                },
+                {
+                    id: 'urgency',
+                    type: 'radio',
+                    prompt: 'How urgent is this request?',
+                    options: [
+                        { label: 'Same day', value: 'same_day' },
+                        { label: 'Within 48 hours', value: '48h' },
+                        { label: 'Flexible', value: 'flexible' }
+                    ],
+                    required: true
+                },
+                {
+                    id: 'location',
+                    type: 'location',
+                    prompt: 'Where is the service needed?',
+                    required: true
+                },
+                {
+                    id: 'description',
+                    type: 'textarea',
+                    prompt: 'Please describe your CCTV requirements in detail.',
+                    placeholder: 'How many cameras needed? Indoor/outdoor? Night vision? Remote monitoring?',
+                    minLength: 20,
+                    required: true
+                }
+            ]
         }
     };
 
@@ -340,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         electrical: /electric(al|ian)|power|light|wiring|socket|outlet/i,
         carpentry: /carpen(ter|try)|wood|furniture|door|window|cabinet/i,
         housekeeping: /clean(ing|er)|housekeeper|maid|nanny/i,
+        cctv: /cctv|camera|security|surveillance|monitor(ing)?/i,
         complaint: /complain|complaint|issue|problem|report|bad|poor|terrible/i,
         emergency: /emergency|urgent|asap|immediately|now/i
     };
@@ -465,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (patterns.services.test(lowerText)) {
             addAgentMessage('We offer professional home maintenance services including:');
             setTimeout(() => {
-                addAgentMessage('Painting, Electrical, Carpentry, and Housekeeping services.');
+                addAgentMessage('Painting, Electrical, Carpentry, Housekeeping, and CCTV Installation services.');
             }, 500);
             setTimeout(() => {
                 addAgentMessage('Which service would you like to know more about?');
@@ -505,6 +572,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (patterns.cctv.test(lowerText)) {
+            addAgentMessage('I can help with that CCTV request.');
+            setTimeout(() => startServiceRequest('cctv'), 800);
+            return;
+        }
+
         // Default response
         addAgentMessage('Thank you for your message. How can I assist you today?', {
             type: 'quick_actions',
@@ -525,7 +598,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     { label: 'Painting', value: 'painting', icon: 'uil-paint-tool' },
                     { label: 'Electrical', value: 'electrical', icon: 'uil-bolt' },
                     { label: 'Carpentry', value: 'carpentry', icon: 'uil-hammer' },
-                    { label: 'Housekeeping', value: 'housekeeping', icon: 'uil-home' }
+                    { label: 'Housekeeping', value: 'housekeeping', icon: 'uil-home' },
+                    { label: 'CCTV', value: 'cctv', icon: 'uil-video' }
                 ]
             });
         } else if (action === 'report_issue') {
@@ -535,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (action === 'contact_support') {
             addAgentMessage('You can reach us at:');
             setTimeout(() => {
-                addAgentMessage('Phone: +234 XXX XXX XXXX\nEmail: info@gisticservices.com\nLocation: Enugu Metropolis, Nigeria');
+                addAgentMessage('Phone: 09020966002\nEmail: gisticservice@gmail.com\nLocation: Enugu Metropolis, Nigeria');
             }, 500);
         }
     }
@@ -546,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addAgentMessage('We provide professional, reliable, and vetted experts for all your repair and maintenance needs.');
         }, 800);
         setTimeout(() => {
-            addAgentMessage('Our services include Painting, Electrical work, Carpentry, and Housekeeping.');
+            addAgentMessage('Our services include Painting, Electrical work, Carpentry, Housekeeping, and CCTV Installation.');
         }, 1600);
         setTimeout(() => {
             addAgentMessage('Would you like to request a service?', {
@@ -684,23 +758,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Submitting:', submissionData);
 
-        // Simulate submission
-        setTimeout(() => {
-            addAgentMessage('Your request has been submitted successfully.');
-            setTimeout(() => {
-                addAgentMessage('A specialized team member will contact you within working hours to provide a quote.');
-            }, 800);
-            setTimeout(() => {
-                addAgentMessage('Is there anything else I can help you with?', {
-                    type: 'quick_actions',
-                    actions: [
-                        { label: 'New Request', value: 'request_service', icon: 'uil-wrench' },
-                        { label: 'No, Thank You', value: 'no_thanks', icon: 'uil-check' }
-                    ]
-                });
-                resetState();
-            }, 1600);
-        }, 1500);
+        // Send to FormSubmit
+        const formData = new FormData();
+        formData.append('_subject', `New Chatbot ${state.currentFlow === 'report_issue' ? 'Issue Report' : 'Service Request'} - GISTIC`);
+        formData.append('_captcha', 'false');
+        formData.append('flow_type', state.currentFlow);
+        formData.append('service_type', state.serviceType || 'N/A');
+        formData.append('timestamp', new Date().toLocaleString());
+        
+        // Add all answers
+        Object.keys(state.answers).forEach(key => {
+            const value = state.answers[key];
+            if (Array.isArray(value)) {
+                formData.append(key, value.join(', '));
+            } else {
+                formData.append(key, value);
+            }
+        });
+
+        // Submit to FormSubmit.co (FREE for text-based Chatbot)
+        formData.append('_subject', `New Chatbot ${state.currentFlow === 'report_issue' ? 'Issue Report' : 'Service Request'} - GISTIC`);
+        formData.append('from_name', 'GISTIC Chatbot');
+
+        // Fix location [object Object] issue
+        const locationData = state.answers['location_step'];
+        if (locationData && typeof locationData === 'object') {
+            formData.set('location', `Address: ${locationData.address}, Landmark: ${locationData.landmark || 'None'}`);
+        }
+
+        fetch('https://formsubmit.co/ajax/gisticservice@gmail.com', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Show global notification
+                if (typeof showSuccessNotification === 'function') {
+                    showSuccessNotification("Chatbot Request Submitted Successfully!");
+                }
+                
+                addAgentMessage('Your request has been submitted successfully.');
+                setTimeout(() => {
+                    addAgentMessage('A specialized team member will contact you within working hours to provide a quote.');
+                }, 800);
+                setTimeout(() => {
+                    addAgentMessage('Is there anything else I can help you with?', {
+                        type: 'quick_actions',
+                        actions: [
+                            { label: 'New Request', value: 'request_service', icon: 'uil-wrench' },
+                            { label: 'No, Thank You', value: 'no_thanks', icon: 'uil-check' }
+                        ]
+                    });
+                    resetState();
+                }, 1600);
+            } else {
+                addAgentMessage('There was an issue submitting your request. Please try calling us at 09020966002 or email gisticservice@gmail.com');
+            }
+        })
+        .catch(error => {
+            console.error('Submission error:', error);
+            addAgentMessage('There was an issue submitting your request. Please try calling us at 09020966002 or email gisticservice@gmail.com');
+        });
     }
 
     function resetState() {

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GISTIC Final Verification</title>
+    <style>
+        body { font-family: sans-serif; padding: 50px; background: #f0fdf4; }
+        .box { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 2px solid #10b981; }
+        h1 { font-size: 20px; color: #14532d; margin-top: 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { background: #10b981; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
+        .steps { font-size: 14px; color: #374151; background: #f9fafb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #10b981; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>🚀 Complete Your Setup</h1>
+    
+    <div class="steps">
+        <strong>FOLLOW THESE STEPS:</strong><br>
+        1. Fill this form and attach any file.<br>
+        2. Click Send.<br>
+        3. <strong>CHECK YOUR EMAIL:</strong> Look for "Activation Required".<br>
+        4. Click the <strong>"Activate Form"</strong> button in that email.
+    </div>
+
+    <!-- USING FORMSUBMIT.CO (Direct Email for activation) -->
+    <form action="https://formsubmit.co/gisticservice@gmail.com" method="POST" enctype="multipart/form-data">
+        
+        <!-- Setting Subject -->
+        <input type="hidden" name="_subject" value="GISTIC Final Verification Test">
+        
+        <!-- Honeypot -->
+        <input type="text" name="_honey" style="display:none">
+
+        <label>Full Name</label>
+        <input type="text" name="name" required placeholder="John Doe">
+
+        <label>Test Message</label>
+        <textarea name="message" rows="2">Final test for file and photo delivery...</textarea>
+
+        <label>Attach Photo/File (Required for test)</label>
+        <input type="file" name="attachment" required>
+
+        <button type="submit">Send & Trigger Activation</button>
+    </form>
+</div>
+
+</body>
+</html>

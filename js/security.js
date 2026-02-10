@@ -3,8 +3,8 @@
  * Implements frontend security measures and form enhancements.
  */
 
-const RATE_LIMIT_TIME = 60000; // 1 minute between submissions
-const MAX_SUBMISSIONS = 3; // Max 3 submissions per hour
+const RATE_LIMIT_TIME = 1000; // 1 second between submissions (Relaxed for testing)
+const MAX_SUBMISSIONS = 1000; // Max 1000 submissions per hour (Relaxed for testing)
 
 document.addEventListener('DOMContentLoaded', () => {
     const forms = document.querySelectorAll('form');

@@ -38,11 +38,8 @@
             <!-- Left: Brand Logo -->
             <div class="flex-1 flex justify-start z-10">
                 <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
-                            <span class="font-bold text-xl">G</span>
-                        </div>
-                        <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
+                    <div class="w-16 h-16 flex items-center justify-center group-hover:opacity-80 transition-opacity">
+                        <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-full h-full object-contain">
                     </div>
                 </a>
             </div>
@@ -63,7 +60,7 @@
                         <span>Join Us</span>
                     </a>
                     <a href="partnerships.html" class="pill-nav-item">
-                        <i class="uil uil-truck"></i>
+                        <i class="uil uil-handshake"></i>
                         <span>Rent Us</span>
                     </a>
                     <a href="reviews.html" class="pill-nav-item">
@@ -102,7 +99,7 @@
                     <span>Join Us</span>
                 </a>
                 <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
-                    <i class="uil uil-truck text-2xl"></i>
+                    <i class="uil uil-handshake text-2xl"></i>
                     <span>Rent Us</span>
                 </a>
                 <a href="reviews.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
@@ -302,6 +299,15 @@
                     <p class="text-gray-600 mb-6">Interior and exterior painting, wall treatments, and color consultation for a fresh look.</p>
                     <a href="services.html#painting" class="text-brand-green font-semibold hover:text-brand-dark transition">Explore <i class="uil uil-arrow-right"></i></a>
                 </div>
+                <!-- Service Card 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group">
+                    <div class="w-16 h-16 bg-brand-light rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-green transition duration-300">
+                        <i class="uil uil-video text-3xl text-brand-green group-hover:text-white transition duration-300"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-800 mb-3">CCTV Installation</h4>
+                    <p class="text-gray-600 mb-6">Professional security camera installation, maintenance, and remote monitoring setup.</p>
+                    <a href="services.html#cctv" class="text-brand-green font-semibold hover:text-brand-dark transition">Explore <i class="uil uil-arrow-right"></i></a>
+                </div>
             </div>
             
             <div class="text-center mt-12">
@@ -357,14 +363,27 @@
                 <div class="md:w-1/2 bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
                     <h4 class="text-2xl font-bold mb-6 text-center">Book a Quick Call</h4>
                     <!-- Simple Booking Form Placeholder -->
-                    <form id="quick-book-form" class="space-y-4">
-                        <input type="text" placeholder="Your Name" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-brand-green transition">
-                        <input type="tel" placeholder="Phone Number" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-brand-green transition">
-                        <select class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white/70 focus:outline-none focus:border-brand-green transition">
+                    <!-- FIXED: Using FormSubmit.co for FREE submissions -->
+                    <form id="quick-book-form" action="https://formsubmit.co/gisticservice@gmail.com" method="POST" class="space-y-4">
+                        <!-- Subject line -->
+                        <input type="hidden" name="_subject" value="New Quick Callback Request - GISTIC">
+                        
+                        <!-- Redirect back after submission -->
+                        <input type="hidden" name="_next" value="https://gisticservice.com/index.html?sent=true">
+                        
+                        <!-- Professional Template -->
+                        <input type="hidden" name="_template" value="table">
+                        
+                        <!-- Spam Protection -->
+                        <input type="text" name="_honey" style="display:none">
+                        <input type="text" name="name" placeholder="Your Name" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-brand-green transition">
+                        <input type="tel" name="phone" placeholder="Phone Number" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-brand-green transition">
+                        <select name="service" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white/70 focus:outline-none focus:border-brand-green transition">
                             <option value="" class="bg-gray-800">Select Service</option>
                             <option value="electrical" class="bg-gray-800">Electrical</option>
                             <option value="housekeeping" class="bg-gray-800">Housekeeping</option>
                             <option value="painting" class="bg-gray-800">Painting</option>
+                            <option value="cctv" class="bg-gray-800">CCTV Installation</option>
                         </select>
                         <button type="submit" class="w-full bg-brand-green hover:bg-green-600 text-white font-bold py-3 rounded-lg transition shadow-lg mt-4">
                             Request Callback
@@ -384,11 +403,11 @@
                 <p class="text-gray-500 max-w-2xl mx-auto">Explore some of our recently completed projects across various service categories.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Project 1: Electrical -->
                 <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 100ms;">
                     <div class="h-80 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1621905252507-b354bcadc0d6?auto=format&fit=crop&w=800&q=80" alt="Electrical Installation" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <img src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Electrical Installation" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
                         <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Electrical Works</span>
@@ -403,7 +422,7 @@
                 <!-- Project 2: Housekeeping -->
                 <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 200ms;">
                     <div class="h-80 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1581578731522-745505146201?auto=format&fit=crop&w=800&q=80" alt="Housekeeping Service" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <img src="https://images.pexels.com/photos/4099471/pexels-photo-4099471.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Housekeeping Service" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
                         <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Housekeeping</span>
@@ -418,12 +437,27 @@
                 <!-- Project 3: Woodworking -->
                 <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 300ms;">
                     <div class="h-80 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=800&q=80" alt="Woodworking Project" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <img src="https://images.pexels.com/photos/1094767/pexels-photo-1094767.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Woodworking Project" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     </div>
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
                         <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Woodworking</span>
                         <h4 class="text-white text-2xl font-bold">Custom Kitchen Cabinetry</h4>
                         <p class="text-gray-300 text-sm mt-2">Bespoke mahogany cabinets designed and installed for a modern smart home.</p>
+                        <a href="services.html" class="mt-4 text-white font-bold flex items-center gap-2 hover:text-brand-green transition">
+                            View Details <i class="uil uil-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4: Painting -->
+                <div class="group relative overflow-hidden rounded-3xl shadow-xl animate-slide-up lighting-effect hover-lighting" style="transition-delay: 400ms;">
+                    <div class="h-80 overflow-hidden">
+                        <img src="https://images.pexels.com/photos/1669754/pexels-photo-1669754.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Painting Project" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-green font-bold text-xs uppercase tracking-widest mb-1">Painting</span>
+                        <h4 class="text-white text-2xl font-bold">Luxury Villa Exterior</h4>
+                        <p class="text-gray-300 text-sm mt-2">Complete exterior weather-proof painting and texturing for a private estate.</p>
                         <a href="services.html" class="mt-4 text-white font-bold flex items-center gap-2 hover:text-brand-green transition">
                             View Details <i class="uil uil-arrow-right"></i>
                         </a>
@@ -499,6 +533,7 @@
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram"></i></a>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-whatsapp"></i></a>
                     </div>
                 </div>
                 
@@ -507,7 +542,7 @@
                     <ul class="space-y-3 text-gray-400">
                         <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
                         <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
-                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Carrers</a></li>
+                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
                         <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
                         <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
                     </ul>
@@ -522,11 +557,11 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="uil uil-phone text-brand-green"></i>
-                            <span>+234 XXX XXX XXXX</span>
+                            <span>09020966002</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="uil uil-envelope text-brand-green"></i>
-                            <span>info@gisticservices.com</span>
+                            <span>gisticservice@gmail.com</span>
                         </li>
                     </ul>
                 </div>
@@ -564,11 +599,12 @@
 
     <!-- Scripts -->
     <script src="js/security.js"></script>
-    <script src="js/forms.js"></script>
+    <script src="js/forms.js?v=2"></script>
     <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/chatbot.js"></script>
     <script src="js/reviews.js"></script>
+    
 </body>
 </html>

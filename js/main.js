@@ -98,6 +98,7 @@ window.toggleMapModal = function(show) {
     }
 }
 
+// Search Map Functionality
 window.searchMap = function() {
     const input = document.getElementById('map-search-input');
     if (!input) return;
@@ -147,3 +148,30 @@ document.addEventListener('keypress', (e) => {
         window.searchMap();
     }
 });
+
+/**
+ * Service Modal Logic
+ */
+window.openServiceModal = function(serviceName) {
+    const modal = document.getElementById('service-modal');
+    const nameSpan = document.getElementById('modal-service-name');
+    const serviceInput = document.getElementById('service-input');
+    
+    if (nameSpan) nameSpan.innerText = serviceName;
+    if (serviceInput) serviceInput.value = serviceName;
+    
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+window.closeServiceModal = function() {
+    const modal = document.getElementById('service-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+}

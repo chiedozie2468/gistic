@@ -20,11 +20,8 @@
             <!-- Left: Brand Logo -->
             <div class="flex-1 flex justify-start z-10">
                 <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white group-hover:bg-brand-dark transition-colors shadow-lg shadow-brand-green/20 animate-bounce-hover shine-effect">
-                            <span class="font-bold text-xl">G</span>
-                        </div>
-                        <span class="text-2xl font-bold text-brand-dark group-hover:text-brand-green transition-colors hidden sm:inline">GISTIC</span>
+                    <div class="w-16 h-16 flex items-center justify-center group-hover:opacity-80 transition-opacity">
+                        <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-full h-full object-contain">
                     </div>
                 </a>
             </div>
@@ -45,7 +42,7 @@
                         <span>Join Us</span>
                     </a>
                     <a href="partnerships.html" class="pill-nav-item">
-                        <i class="uil uil-truck"></i>
+                        <i class="uil uil-handshake"></i>
                         <span>Rent Us</span>
                     </a>
                     <a href="reviews.html" class="pill-nav-item">
@@ -83,7 +80,7 @@
                     <span>Join Us</span>
                 </a>
                 <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
-                    <i class="uil uil-truck text-2xl"></i>
+                    <i class="uil uil-handshake text-2xl"></i>
                     <span>Rent Us</span>
                 </a>
                 <a href="reviews.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
@@ -116,7 +113,7 @@
                     <div class="w-12 h-12 bg-brand-light rounded-full flex items-center justify-center text-brand-green"><i class="uil uil-phone text-2xl"></i></div>
                     <div>
                         <p class="text-xs text-gray-500 uppercase font-bold">Phone</p>
-                        <p class="font-semibold text-lg">+234 XXX XXX XXXX</p>
+                        <p class="text-gray-600">09020966002</p>
                     </div>
                 </div>
 
@@ -124,7 +121,7 @@
                     <div class="w-12 h-12 bg-brand-light rounded-full flex items-center justify-center text-brand-green"><i class="uil uil-envelope text-2xl"></i></div>
                     <div>
                         <p class="text-xs text-gray-500 uppercase font-bold">Email</p>
-                        <p class="font-semibold text-lg">info@gisticservices.com</p>
+                        <p class="text-gray-600">gisticservice@gmail.com</p>
                     </div>
                 </div>
 
@@ -146,11 +143,22 @@
                 </div>
             </div>
 
-            <!-- Contact Form -->
-            <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200">
-                <h3 class="text-2xl font-bold mb-6">Send a Message</h3>
-                <form action="https://formsubmit.co/info@gisticservices.com" method="POST" class="space-y-4">
-                     <input type="hidden" name="_next" value="https://gistic-website.com/contact.html?sent=true">
+                <!-- FIXED: Using FormSubmit.co for FREE File Uploads & Reliability -->
+                <form id="contact-form" action="https://formsubmit.co/gisticservice@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <!-- Subject line -->
+                    <input type="hidden" name="_subject" value="New Contact Message - GISTIC">
+                    
+                    <!-- Redirect back after submission -->
+                    <input type="hidden" name="_next" value="https://gisticservice.com/contact.html?sent=true">
+                    
+                    <!-- Professional Template -->
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <!-- Spam Protection -->
+                    <input type="text" name="_honey" style="display:none">
+                    
+                    <!-- Confirmation Email -->
+                    <input type="hidden" name="_confirmation" value="We have received your message!">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
                         <input type="text" name="name" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-green bg-white">
@@ -170,22 +178,99 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                        <textarea name="message" rows="5" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-green bg-white"></textarea>
+                        <textarea name="message" rows="4" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-green bg-white"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Attach File / Photo (Optional)</label>
+                        <input type="file" name="attachment" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-brand-green bg-white">
                     </div>
                     <button type="submit" class="w-full bg-brand-green text-white font-bold py-4 rounded-lg hover:bg-brand-dark transition shadow-lg">Send Message</button>
                 </form>
             </div>
         </div>
     </div>
-    
+    <footer class="bg-brand-dark text-white pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                         <div class="w-8 h-8 bg-brand-green rounded flex items-center justify-center text-white font-bold">G</div>
+                         <span class="text-2xl font-bold">GISTIC</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        GISTIC Services provides top-tier home maintenance and repair services across Enugu Metropolis.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram"></i></a>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
+                        <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
+                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
+                        <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
+                        <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <i class="uil uil-map-marker text-brand-green mt-1"></i>
+                            <span>GISTIC Services, Enugu Metropolis, Nigeria</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-phone text-brand-green"></i>
+                            <span>09020966002</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="uil uil-envelope text-brand-green"></i>
+                            <span>gisticservice@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Location</h4>
+                     <!-- Map Placeholder with Quick View -->
+                    <div class="w-full h-40 bg-gray-700 rounded-lg overflow-hidden relative group">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                         <button onclick="toggleMapModal(true)" class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold gap-2">
+                             <i class="uil uil-expand-arrows"></i>
+                             <span>Interact with Map</span>
+                         </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Serving Enugu Metropolis & Surroundings</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
+                <p class="text-gray-500 text-sm">© 2024 GISTIC Services. All rights reserved.</p>
+                <div class="flex gap-4 text-sm text-gray-500">
+                     <a href="#" class="hover:text-white">Privacy Policy</a>
+                     <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Button -->
+    <div id="chatbot-trigger" class="fixed bottom-6 right-6 z-40">
+        <button class="bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
+            <i class="uil uil-comment-dots"></i>
+        </button>
+    </div>
+
     <script src="js/security.js"></script>
-    <script src="js/forms.js"></script>
+    <script src="js/forms.js?v=2"></script>
     <script src="js/main.js"></script>
-    
-    <script>
-        if (new URLSearchParams(window.location.search).get('sent') === 'true') {
-            alert('Message sent successfully!');
-        }
-    </script>
+    <script src="js/chatbot.js"></script>
 </body>
 </html>
