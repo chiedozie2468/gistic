@@ -20,7 +20,7 @@
             <!-- Left: Brand Logo -->
             <div class="flex-1 flex justify-start z-10">
                 <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
-                    <div class="w-16 h-16 flex items-center justify-center group-hover:opacity-80 transition-opacity">
+                    <div class="w-24 h-24 flex items-center justify-center group-hover:opacity-80 transition-opacity">
                         <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-full h-full object-contain">
                     </div>
                 </a>
@@ -43,7 +43,7 @@
                     </a>
                     <a href="partnerships.html" class="pill-nav-item">
                         <i class="uil uil-handshake"></i>
-                        <span>Rent Us</span>
+                        <span>Partnerships</span>
                     </a>
                     <a href="reviews.html" class="pill-nav-item">
                         <i class="uil uil-star"></i>
@@ -80,7 +80,7 @@
                 </a>
                 <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
                     <i class="uil uil-handshake text-2xl"></i>
-                    <span>Rent Us</span>
+                    <span>Partnerships</span>
                 </a>
                 <a href="reviews.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
                     <i class="uil uil-star text-2xl"></i>
@@ -103,209 +103,390 @@
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
             <div class="flex border-b">
                 <button class="flex-1 py-4 text-center font-semibold text-brand-green border-b-2 border-brand-green bg-brand-light/30">Application Form</button>
-                <button class="flex-1 py-4 text-center font-semibold text-gray-500 hover:text-brand-green transition">Worker Portal (Login)</button>
+                <button class="flex-1 py-4 text-center font-semibold text-gray-500 hover:text-brand-green transition cursor-pointer" onclick="showComingSoon()">Worker Portal (Login)</button>
             </div>
             
             <div class="p-8 md:p-12">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Apply Now</h2>
-                
-                <!-- FIXED: Using FormSubmit.co for FREE File Uploads & Reliability -->
-                <form id="worker-application-form" action="https://formsubmit.co/gisticservice@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-6">
-                    <!-- Subject line -->
-                    <input type="hidden" name="_subject" value="New Worker Application - GISTIC">
+                <!-- Application Form Section -->
+                <div id="application-section">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Apply Now</h2>
                     
-                    <!-- Redirect back to homepage after submission -->
-                    <input type="hidden" name="_next" value="https://gisticservice.com/index.html">
-                    
-                    <!-- Professional Email Template -->
-                    <input type="hidden" name="_template" value="table">
-                    
-                    <!-- Spam Protection -->
-                    <input type="text" name="_honey" style="display:none">
+                    <!-- FIXED: Using FormSubmit.co for FREE File Uploads & Reliability -->
+                    <form id="worker-application-form" action="https://formsubmit.co/gisticservice@gmail.com" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        <!-- Subject line -->
+                        <input type="hidden" name="_subject" value="New Worker Application - GISTIC">
+                        <input type="hidden" name="_captcha" value="false">
+                        
+                        <!-- Redirect back to homepage after submission -->
+                        <input type="hidden" name="_next" value="https://gisticservice.com/index.html">
+                        
+                        <!-- Professional Email Template -->
+                        <input type="hidden" name="_template" value="table">
+                        
+                        <!-- Spam Protection -->
+                        <input type="text" name="_honey" style="display:none">
 
-                    <!-- Personal Info -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                            <input type="text" name="fullname" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                        <!-- Personal Info -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <input type="text" name="fullname" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                                <input type="number" name="age" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Marital Status</label>
+                                <select name="marital_status" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                                    <option>Single</option>
+                                    <option>Married</option>
+                                    <option>Divorced</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Current Location</label>
+                                <input type="text" name="location" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Age</label>
-                            <input type="number" name="age" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+
+                        <!-- Contact -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" name="phone" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
+                            </div>
                         </div>
+
+                        <!-- Role Selection -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Marital Status</label>
-                            <select name="marital_status" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
-                                <option>Single</option>
-                                <option>Married</option>
-                                <option>Divorced</option>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Applying For</label>
+                            <select id="role-select" name="role" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50" onchange="toggleHealthField()">
+                                <option value="intern">Intern (Learning)</option>
+                                <option value="daily_worker">Daily Paid Worker</option>
+                                <option value="full_worker">Full-Time Specialist</option>
+                                <option value="housekeeping">Housekeeping / Nanny</option>
                             </select>
                         </div>
-                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Current Location</label>
-                            <input type="text" name="location" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
-                        </div>
-                    </div>
 
-                    <!-- Contact -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                            <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                            <input type="tel" name="phone" required class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50">
-                        </div>
-                    </div>
-
-                    <!-- Role Selection -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Applying For</label>
-                        <select id="role-select" name="role" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50" onchange="toggleHealthField()">
-                            <option value="intern">Intern (Learning)</option>
-                            <option value="daily_worker">Daily Paid Worker</option>
-                            <option value="full_worker">Full-Time Specialist</option>
-                            <option value="housekeeping">Housekeeping / Nanny</option>
-                        </select>
-                    </div>
-
-                    <!-- Uploads -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Passport Photo</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
-                                <input type="file" name="passport_photo" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" required>
-                                <i class="uil uil-camera text-2xl text-gray-400"></i>
-                                <p class="text-xs text-gray-500 mt-1">Upload JPEG/PNG</p>
+                        <!-- Uploads -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Passport Photo</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
+                                    <input type="file" name="passport_photo" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" required>
+                                    <i class="uil uil-camera text-2xl text-gray-400" data-original-icon="uil-camera"></i>
+                                    <p class="text-xs text-gray-500 mt-1" data-original-text="Upload JPEG/PNG">Upload JPEG/PNG</p>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CV / Credentials</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
+                                    <input type="file" name="credentials" accept=".pdf,.doc,.docx" class="absolute inset-0 opacity-0 cursor-pointer">
+                                    <i class="uil uil-file-upload text-2xl text-gray-400" data-original-icon="uil-file-upload"></i>
+                                    <p class="text-xs text-gray-500 mt-1" data-original-text="Upload PDF/DOC">Upload PDF/DOC</p>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">CV / Credentials</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:bg-gray-50 transition cursor-pointer relative">
-                                <input type="file" name="credentials" accept=".pdf,.doc,.docx" class="absolute inset-0 opacity-0 cursor-pointer">
-                                <i class="uil uil-file-upload text-2xl text-gray-400"></i>
-                                <p class="text-xs text-gray-500 mt-1">Upload PDF/DOC</p>
-                            </div>
+
+                        <!-- Conditional Health Field -->
+                        <div id="health-field" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Health Status / Medical Report Summary</label>
+                            <textarea name="health_status" rows="3" placeholder="Briefly describe your health status. Mandatory for Housekeeping roles." class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50"></textarea>
                         </div>
-                    </div>
 
-                    <!-- Conditional Health Field -->
-                    <div id="health-field" class="hidden">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Health Status / Medical Report Summary</label>
-                        <textarea name="health_status" rows="3" placeholder="Briefly describe your health status. Mandatory for Housekeeping roles." class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-brand-green focus:border-brand-green bg-gray-50"></textarea>
-                    </div>
+                        <!-- Agreement -->
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 text-brand-green focus:ring-brand-green border-gray-300 rounded">
+                            <label for="terms" class="text-sm text-gray-600">
+                                I agree to the <a href="#" class="text-brand-green underline">Terms and Conditions</a>. 
+                                I understand that submission does not guarantee employment. 
+                                <span class="font-bold">Approval is required before activation.</span>
+                            </label>
+                        </div>
 
-                    <!-- Agreement -->
-                    <div class="flex items-start gap-3">
-                        <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 text-brand-green focus:ring-brand-green border-gray-300 rounded">
-                        <label for="terms" class="text-sm text-gray-600">
-                            I agree to the <a href="#" class="text-brand-green underline">Terms and Conditions</a>. 
-                            I understand that submission does not guarantee employment. 
-                            <span class="font-bold">Approval is required before activation.</span>
-                        </label>
-                    </div>
+                        <button type="submit" class="w-full bg-brand-green text-white font-bold py-4 rounded-lg hover:bg-brand-dark transition shadow-lg text-lg flex justify-center items-center gap-2">
+                            Submit Application <i class="uil uil-message"></i>
+                        </button>
+                    </form>
 
-                    <button type="submit" class="w-full bg-brand-green text-white font-bold py-4 rounded-lg hover:bg-brand-dark transition shadow-lg text-lg flex justify-center items-center gap-2">
-                        Submit Application <i class="uil uil-message"></i>
-                    </button>
-                </form>
-
-                <!-- Success Message (Hidden by default) -->
-                <div id="success-message" class="hidden text-center py-10">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="uil uil-check text-3xl text-brand-green"></i>
+                    <!-- Success Message (Hidden by default) -->
+                    <div id="success-message" class="hidden text-center py-10">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="uil uil-check text-3xl text-brand-green"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Application Received!</h3>
+                        <p class="text-gray-600 mb-6">You have been placed on our waiting list. We will review your credentials and contact you via email.</p>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-2 rounded-full font-medium hover:bg-green-700 transition">
+                            <i class="uil uil-whatsapp"></i> Join our WhatsApp Community
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Application Received!</h3>
-                    <p class="text-gray-600 mb-6">You have been placed on our waiting list. We will review your credentials and contact you via email.</p>
-                    <a href="https://slack.com" target="_blank" class="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-2 rounded-full font-medium hover:bg-purple-700 transition">
-                        <i class="uil uil-slack"></i> Join our Community Slack
-                    </a>
                 </div>
 
+                <!-- Worker Portal Login Section (Hidden by default) -->
+                <div id="portal-section" class="hidden">
+                    <div class="max-w-md mx-auto">
+                        <div class="text-center mb-8">
+                            <div class="w-20 h-20 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="uil uil-lock-alt text-3xl text-brand-green"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Worker Portal Login</h2>
+                            <p class="text-gray-600">Access your dashboard, manage jobs, and track earnings</p>
+                        </div>
+
+                        <form id="portal-login-form" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <div class="relative">
+                                    <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 focus:ring-brand-green focus:border-brand-green bg-gray-50" placeholder="worker@example.com">
+                                    <i class="uil uil-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <div class="relative">
+                                    <input type="password" name="password" required class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 pr-10 focus:ring-brand-green focus:border-brand-green bg-gray-50" placeholder="Enter your password">
+                                    <i class="uil uil-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                        <i class="uil uil-eye" id="password-toggle"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="remember" class="w-4 h-4 text-brand-green focus:ring-brand-green border-gray-300 rounded">
+                                    <span class="text-sm text-gray-600">Remember me</span>
+                                </label>
+                                <a href="#" onclick="showForgotPassword()" class="text-sm text-brand-green hover:underline">Forgot password?</a>
+                            </div>
+
+                            <button type="submit" class="w-full bg-brand-green text-white font-bold py-3 rounded-lg hover:bg-brand-dark transition shadow-lg flex justify-center items-center gap-2">
+                                <i class="uil uil-sign-in-alt"></i>
+                                Sign In to Portal
+                            </button>
+
+                            <div class="text-center">
+                                <p class="text-sm text-gray-600">
+                                    Don't have an account? 
+                                    <a href="#" onclick="showApplicationForm()" class="text-brand-green hover:underline font-medium">Apply Now</a>
+                                </p>
+                            </div>
+
+                            <!-- Quick Stats -->
+                            <div class="mt-8 pt-6 border-t border-gray-200">
+                                <h3 class="text-sm font-semibold text-gray-700 mb-4">Portal Benefits</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="uil uil-briefcase text-xl text-brand-green mb-1"></i>
+                                        <p class="text-xs text-gray-600">Job Management</p>
+                                    </div>
+                                    <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="uil uil-dollar-sign text-xl text-brand-green mb-1"></i>
+                                        <p class="text-xs text-gray-600">Track Earnings</p>
+                                    </div>
+                                    <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="uil uil-calendar text-xl text-brand-green mb-1"></i>
+                                        <p class="text-xs text-gray-600">Schedule View</p>
+                                    </div>
+                                    <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="uil uil-star text-xl text-brand-green mb-1"></i>
+                                        <p class="text-xs text-gray-600">Ratings</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
     <!-- Footer -->
-    <footer class="bg-brand-dark text-white pt-20 pb-10">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                <div>
-                    <div class="flex items-center gap-2 mb-6">
-                         <div class="w-8 h-8 bg-brand-green rounded flex items-center justify-center text-white font-bold">G</div>
-                         <span class="text-2xl font-bold">GISTIC</span>
+    <footer class="bg-brand-dark text-white pt-12 pb-8">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="text-center sm:text-left">
+                    <div class="flex justify-center sm:justify-start mb-4">
+                        <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-12 h-12 sm:w-16 sm:h-16 object-contain rounded-lg bg-brand-light">
                     </div>
-                    <p class="text-gray-400 mb-6">
+                    <p class="text-gray-300 text-sm mb-4 leading-relaxed">
                         GISTIC Services provides top-tier home maintenance and repair services across Enugu Metropolis.
                     </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f"></i></a>
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter"></i></a>
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram"></i></a>
+                    <div class="flex justify-center sm:justify-start gap-3">
+                        <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f text-sm sm:text-base"></i></a>
+                        <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter text-sm sm:text-base"></i></a>
+                        <a href="#" class="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram text-sm sm:text-base"></i></a>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-whatsapp text-sm sm:text-base"></i></a>
                     </div>
                 </div>
                 
-                <div>
-                    <h4 class="text-lg font-bold mb-6">Quick Links</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
-                        <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
-                        <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
-                        <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
-                        <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
+                <div class="text-center sm:text-left">
+                    <h4 class="text-base sm:text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="index.html" class="hover:text-brand-green transition block py-1">Home</a></li>
+                        <li><a href="services.html" class="hover:text-brand-green transition block py-1">Services</a></li>
+                        <li><a href="work-with-us.html" class="hover:text-brand-green transition block py-1">Careers</a></li>
+                        <li><a href="partnerships.html" class="hover:text-brand-green transition block py-1">Partnerships</a></li>
+                        <li><a href="investors.html" class="hover:text-brand-green transition block py-1">Investors</a></li>
                     </ul>
                 </div>
 
-                <div>
-                    <h4 class="text-lg font-bold mb-6">Contact Us</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li class="flex items-start gap-3">
-                            <i class="uil uil-map-marker text-brand-green mt-1"></i>
-                            <span>GISTIC Services, Enugu Metropolis, Nigeria</span>
+                <div class="text-center sm:text-left">
+                    <h4 class="text-base sm:text-lg font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-300 text-sm">
+                        <li class="flex items-start justify-center sm:justify-start gap-2">
+                            <i class="uil uil-map-marker text-brand-green mt-1 text-sm"></i>
+                            <span class="leading-relaxed">GISTIC Services, Enugu Metropolis, Nigeria</span>
                         </li>
-                        <li class="flex items-center gap-3">
-                            <i class="uil uil-phone text-brand-green"></i>
-                            <span>09020966002</span>
+                        <li class="flex items-center justify-center sm:justify-start gap-2">
+                            <i class="uil uil-phone text-brand-green text-sm"></i>
+                            <a href="tel:09020966002" class="hover:text-brand-green transition">09020966002</a>
                         </li>
-                        <li class="flex items-center gap-3">
-                            <i class="uil uil-envelope text-brand-green"></i>
-                            <span>gisticservice@gmail.com</span>
+                        <li class="flex items-center justify-center sm:justify-start gap-2">
+                            <i class="uil uil-envelope text-brand-green text-sm"></i>
+                            <a href="mailto:gisticservice@gmail.com" class="hover:text-brand-green transition break-all">gisticservice@gmail.com</a>
                         </li>
                     </ul>
                 </div>
 
-                <div>
-                    <h4 class="text-lg font-bold mb-6">Location</h4>
-                     <!-- Map Placeholder with Quick View -->
-                    <div class="w-full h-40 bg-gray-700 rounded-lg overflow-hidden relative group">
-                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                         <button onclick="toggleMapModal(true)" class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold gap-2">
-                             <i class="uil uil-expand-arrows"></i>
-                             <span>Interact with Map</span>
-                         </button>
+                <div class="text-center sm:text-left">
+                    <h4 class="text-base sm:text-lg font-bold mb-4">Location</h4>
+                    <!-- Interactive Map -->
+                    <div class="w-full h-32 sm:h-40 bg-gray-700 rounded-lg overflow-hidden relative group">
+                        <div id="gistic-map" class="w-full h-full relative">
+                            <!-- Static Map Image -->
+                            <img src="https://maps.googleapis.com/maps/api/staticmap?center=Enugu,Nigeria&zoom=12&size=600x400&markers=color:green%7CEnugu,Nigeria&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg" alt="GISTIC Services Location" class="w-full h-full object-cover">
+                            
+                            <!-- Interactive Overlay -->
+                            <div class="absolute inset-0 bg-brand-dark/20 group-hover:bg-brand-dark/30 transition-colors flex items-center justify-center">
+                                <button onclick="openMapModal()" class="bg-brand-green text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-dark transition shadow-lg flex items-center gap-2">
+                                    <i class="uil uil-map-marker"></i>
+                                    <span class="text-xs sm:text-sm">View Map</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2">Serving Enugu Metropolis & Surroundings</p>
+                    <p class="text-xs text-gray-400 mt-2">Serving Enugu Metropolis & Surroundings</p>
                 </div>
             </div>
             
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
-                <p class="text-gray-500 text-sm">© 2024 GISTIC Services. All rights reserved.</p>
-                <div class="flex gap-4 text-sm text-gray-500">
-                     <a href="#" class="hover:text-white">Privacy Policy</a>
-                     <a href="#" class="hover:text-white">Terms of Service</a>
+            <div class="border-t border-white/10 pt-6">
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 text-center">
+                    <p class="text-gray-300 text-xs sm:text-sm">© 2026 GISTIC Services. All rights reserved.</p>
+                    <div class="flex gap-4 text-xs sm:text-sm text-gray-300">
+                         <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                         <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Chatbot Button -->
-    <div id="chatbot-trigger" class="fixed bottom-6 right-6 z-40">
-        <button class="bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
-            <i class="uil uil-comment-dots"></i>
-        </button>
+    <!-- Map Modal -->
+    <div id="map-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            <div class="bg-brand-green text-white p-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold">GISTIC Services Location</h3>
+                <button onclick="closeMapModal()" class="text-white hover:bg-white/20 rounded-lg p-2 transition">
+                    <i class="uil uil-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-4">
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="map-search" 
+                            placeholder="Search for locations..." 
+                            class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green"
+                        >
+                        <button 
+                            onclick="searchLocation()" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-green text-white p-2 rounded-lg hover:bg-brand-dark transition"
+                        >
+                            <i class="uil uil-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Interactive Map -->
+                <div id="interactive-map" class="w-full h-96 bg-gray-100 rounded-lg overflow-hidden"></div>
+                
+                <!-- Map Controls -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <button onclick="resetMapView()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center gap-2">
+                        <i class="uil uil-home"></i>
+                        Reset View
+                    </button>
+                    <button onclick="getCurrentLocation()" class="px-4 py-2 bg-brand-green text-white rounded-lg hover:bg-brand-dark transition flex items-center gap-2">
+                        <i class="uil uil-location-point"></i>
+                        My Location
+                    </button>
+                    <button onclick="toggleMapStyle()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center gap-2">
+                        <i class="uil uil-layer-group"></i>
+                        Change Style
+                    </button>
+                </div>
+                
+                <!-- Location Details -->
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="uil uil-map-marker text-brand-green"></i>
+                            Address
+                        </h4>
+                        <p class="text-gray-600 text-sm">GISTIC Services, Enugu Metropolis, Nigeria</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="uil uil-phone text-brand-green"></i>
+                            Contact
+                        </h4>
+                        <p class="text-gray-600 text-sm">09020966002</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="uil uil-clock text-brand-green"></i>
+                            Service Hours
+                        </h4>
+                        <p class="text-gray-600 text-sm">Mon-Sat: 8AM - 6PM</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="uil uil-directions text-brand-green"></i>
+                            Get Directions
+                        </h4>
+                        <button onclick="getDirections()" class="text-brand-green hover:underline text-sm font-medium">
+                            Open in Google Maps →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Chatbot Button -->
+    <button id="chatbot-trigger" class="fixed bottom-6 right-6 z-40 bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
+        <i class="uil uil-comment-dots"></i>
+    </button>
+
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script src="js/security.js"></script>
     <script src="js/forms.js?v=2"></script>
@@ -314,6 +495,876 @@
     <script src="js/chatbot.js"></script>
 
     <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.flex.border-b button');
+        const applicationSection = document.getElementById('application-section');
+        const portalSection = document.getElementById('portal-section');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Remove active styles from all tabs
+                tabs.forEach(t => {
+                    t.classList.remove('text-brand-green', 'border-b-2', 'border-brand-green', 'bg-brand-light/30');
+                    t.classList.add('text-gray-500');
+                });
+                
+                // Add active styles to clicked tab
+                tab.classList.remove('text-gray-500');
+                tab.classList.add('text-brand-green', 'border-b-2', 'border-brand-green', 'bg-brand-light/30');
+                
+                // Show/hide sections
+                if (index === 0) {
+                    applicationSection.classList.remove('hidden');
+                    portalSection.classList.add('hidden');
+                } else {
+                    applicationSection.classList.add('hidden');
+                    portalSection.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const toggleIcon = document.getElementById('password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('uil-eye');
+                toggleIcon.classList.add('uil-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('uil-eye-slash');
+                toggleIcon.classList.add('uil-eye');
+            }
+        }
+
+        // Show coming soon message
+        function showComingSoon() {
+            const portalSection = document.getElementById('portal-section');
+            const applicationSection = document.getElementById('application-section');
+            
+            // Update tab styling
+            const tabs = document.querySelectorAll('.flex.border-b button');
+            tabs.forEach(t => {
+                t.classList.remove('text-brand-green', 'border-b-2', 'border-brand-green', 'bg-brand-light/30');
+                t.classList.add('text-gray-500');
+            });
+            tabs[1].classList.remove('text-gray-500');
+            tabs[1].classList.add('text-brand-green', 'border-b-2', 'border-brand-green', 'bg-brand-light/30');
+            
+            // Hide application section, show coming soon
+            applicationSection.classList.add('hidden');
+            portalSection.classList.remove('hidden');
+            
+            portalSection.innerHTML = `
+                <div class="max-w-2xl mx-auto text-center">
+                    <div class="mb-8">
+                        <div class="w-24 h-24 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="uil uil-construction text-4xl text-brand-green"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Worker Portal Coming Soon!</h2>
+                        <p class="text-gray-600 text-lg mb-8">We're building an amazing platform for our workers. Stay tuned for job management, earnings tracking, and much more!</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-brand-green to-brand-dark text-white p-8 rounded-2xl mb-8">
+                        <h3 class="text-xl font-bold mb-4">🚀 What's Coming</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                            <div class="flex items-start gap-3">
+                                <i class="uil uil-check-circle text-2xl text-green-300 mt-1"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Job Management</h4>
+                                    <p class="text-sm text-green-100">View and manage your assigned jobs</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="uil uil-check-circle text-2xl text-green-300 mt-1"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Earnings Tracking</h4>
+                                    <p class="text-sm text-green-100">Real-time payment and earnings dashboard</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="uil uil-check-circle text-2xl text-green-300 mt-1"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Schedule View</h4>
+                                    <p class="text-sm text-green-100">Calendar view of all your jobs</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="uil uil-check-circle text-2xl text-green-300 mt-1"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Ratings & Reviews</h4>
+                                    <p class="text-sm text-green-100">Customer feedback and performance tracking</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 mb-8">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">📱 Stay Connected</h3>
+                        <p class="text-gray-600 mb-6">Join our WhatsApp community to get updates about the portal launch and connect with other workers!</p>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-full font-medium hover:bg-green-700 transition shadow-lg">
+                            <i class="uil uil-whatsapp text-xl"></i>
+                            Join Worker WhatsApp Group
+                        </a>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm text-gray-500 mb-4">Expected Launch: Q2 2026</p>
+                        <button onclick="showApplicationForm()" class="text-brand-green hover:underline font-medium">
+                            ← Back to Application Form
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show application form
+        function showApplicationForm() {
+            const tabs = document.querySelectorAll('.flex.border-b button');
+            const applicationSection = document.getElementById('application-section');
+            const portalSection = document.getElementById('portal-section');
+            
+            // Update tab styling
+            tabs.forEach(t => {
+                t.classList.remove('text-brand-green', 'border-b-2', 'border-brand-green', 'bg-brand-light/30');
+                t.classList.add('text-gray-500');
+            });
+            tabs[0].classList.remove('text-gray-500');
+            tabs[0].classList.add('text-brand-green', 'border-b-2', 'border-brand-green', 'bg-brand-light/30');
+            
+            // Show application section, hide portal
+            applicationSection.classList.remove('hidden');
+            portalSection.classList.add('hidden');
+        }
+
+        // Portal login form submission
+        document.getElementById('portal-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = this.querySelector('input[name="email"]').value;
+            const password = this.querySelector('input[name="password"]').value;
+            const remember = this.querySelector('input[name="remember"]').checked;
+            
+            // Simulate login validation
+            if (email && password) {
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="uil uil-spinner animate-spin"></i> Signing in...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Store session if remember is checked
+                    if (remember) {
+                        localStorage.setItem('workerEmail', email);
+                    }
+                    
+                    // Show success message
+                    showPortalDashboard(email);
+                }, 2000);
+            }
+        });
+
+        // Show portal dashboard (mock)
+        function showPortalDashboard(email) {
+            const portalSection = document.getElementById('portal-section');
+            
+            portalSection.innerHTML = `
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-gradient-to-r from-brand-green to-brand-dark text-white p-6 rounded-2xl mb-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-2xl font-bold mb-1">Welcome back, ${email.split('@')[0]}!</h2>
+                                <p class="text-green-100">Worker Dashboard</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold">₦45,750</div>
+                                <div class="text-sm text-green-100">Total Earnings</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="uil uil-briefcase text-blue-600 text-xl"></i>
+                                </div>
+                                <span class="text-2xl font-bold text-gray-800">12</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">Active Jobs</h3>
+                            <p class="text-sm text-gray-600 mt-1">3 this week</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="uil uil-check-circle text-green-600 text-xl"></i>
+                                </div>
+                                <span class="text-2xl font-bold text-gray-800">48</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">Completed</h3>
+                            <p class="text-sm text-gray-600 mt-1">4.8★ avg rating</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="uil uil-calendar text-purple-600 text-xl"></i>
+                                </div>
+                                <span class="text-2xl font-bold text-gray-800">8</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">Scheduled</h3>
+                            <p class="text-sm text-gray-600 mt-1">Next: Tomorrow</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Activity</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="uil uil-check text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Electrical Repair - Residential</p>
+                                    <p class="text-sm text-gray-600">Completed 2 hours ago • ₦3,500</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 p-3 bg-blue-50 rounded-lg">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="uil uil-clock text-blue-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">House Cleaning - Apartment</p>
+                                    <p class="text-sm text-gray-600">In progress • Started 30 min ago</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 p-3 bg-purple-50 rounded-lg">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="uil uil-calendar-alt text-purple-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Plumbing Installation - Office</p>
+                                    <p class="text-sm text-gray-600">Scheduled for tomorrow 10:00 AM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4 mt-6">
+                        <button onclick="showNotifications()" class="bg-white border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition">
+                            <i class="uil uil-bell mr-2"></i> Notifications <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                        </button>
+                        <button onclick="showProfile()" class="bg-white border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition">
+                            <i class="uil uil-user mr-2"></i> Profile
+                        </button>
+                        <button onclick="logout()" class="bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="uil uil-sign-out-alt mr-2"></i> Logout
+                        </button>
+                        <button onclick="location.reload()" class="bg-brand-green text-white py-3 rounded-lg font-medium hover:bg-brand-dark transition">
+                            <i class="uil uil-refresh mr-2"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('workerEmail');
+            location.reload();
+        }
+
+        // Show notifications modal
+        function showNotifications() {
+            const portalSection = document.getElementById('portal-section');
+            const currentContent = portalSection.innerHTML;
+            
+            portalSection.innerHTML = `
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Notifications</h2>
+                            <button onclick="showPortalDashboard('${localStorage.getItem('workerEmail') || 'worker'}')" class="text-gray-500 hover:text-gray-700">
+                                <i class="uil uil-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex gap-4 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="uil uil-check-circle text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Payment Received</p>
+                                    <p class="text-sm text-gray-600">You received ₦3,500 for completed job - Electrical Repair</p>
+                                    <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="uil uil-calendar-plus text-blue-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">New Job Assigned</p>
+                                    <p class="text-sm text-gray-600">House cleaning service - Tomorrow 9:00 AM</p>
+                                    <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4 p-4 bg-purple-50 border-l-4 border-purple-500 rounded-lg">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="uil uil-star text-purple-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">New Review</p>
+                                    <p class="text-sm text-gray-600">Customer left you a 5-star review!</p>
+                                    <p class="text-xs text-gray-500 mt-1">1 day ago</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="uil uil-exclamation-triangle text-yellow-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Document Verification Required</p>
+                                    <p class="text-sm text-gray-600">Please update your credentials for continued service</p>
+                                    <p class="text-xs text-gray-500 mt-1">2 days ago</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <button onclick="clearNotifications()" class="text-sm text-brand-green hover:underline">Clear all notifications</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show profile modal
+        function showProfile() {
+            const portalSection = document.getElementById('portal-section');
+            const email = localStorage.getItem('workerEmail') || 'worker@example.com';
+            
+            portalSection.innerHTML = `
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Worker Profile</h2>
+                            <button onclick="showPortalDashboard('${email}')" class="text-gray-500 hover:text-gray-700">
+                                <i class="uil uil-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-center gap-6 mb-6">
+                            <div class="w-24 h-24 bg-brand-green/20 rounded-full flex items-center justify-center">
+                                <i class="uil uil-user text-3xl text-brand-green"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${email.split('@')[0]}</h3>
+                                <p class="text-gray-600">Professional Service Provider</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <div class="flex text-yellow-400">
+                                        <i class="uil uil-star"></i>
+                                        <i class="uil uil-star"></i>
+                                        <i class="uil uil-star"></i>
+                                        <i class="uil uil-star"></i>
+                                        <i class="uil uil-star"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-600">4.8 (48 reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Contact Information</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <i class="uil uil-envelope text-gray-400"></i>
+                                        <span class="text-gray-600">${email}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="uil uil-phone text-gray-400"></i>
+                                        <span class="text-gray-600">+234 902 096 6002</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="uil uil-map-marker text-gray-400"></i>
+                                        <span class="text-gray-600">Enugu Metropolis, Nigeria</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Services</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-brand-green/20 text-brand-green rounded-full text-sm">Electrical</span>
+                                    <span class="px-3 py-1 bg-brand-green/20 text-brand-green rounded-full text-sm">Plumbing</span>
+                                    <span class="px-3 py-1 bg-brand-green/20 text-brand-green rounded-full text-sm">Carpentry</span>
+                                    <span class="px-3 py-1 bg-brand-green/20 text-brand-green rounded-full text-sm">Painting</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <h4 class="font-semibold text-gray-800 mb-3">Statistics</h4>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-bold text-gray-800">48</div>
+                                    <div class="text-sm text-gray-600">Jobs Completed</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-gray-800">98%</div>
+                                    <div class="text-sm text-gray-600">Success Rate</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-gray-800">2.5y</div>
+                                    <div class="text-sm text-gray-600">Experience</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex gap-4">
+                            <button onclick="editProfile()" class="flex-1 bg-brand-green text-white py-2 rounded-lg font-medium hover:bg-brand-dark transition">
+                                <i class="uil uil-edit mr-2"></i> Edit Profile
+                            </button>
+                            <button onclick="showPortalDashboard('${email}')" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-300 transition">
+                                Back to Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Clear notifications
+        function clearNotifications() {
+            alert('All notifications cleared!');
+            showPortalDashboard(localStorage.getItem('workerEmail') || 'worker');
+        }
+
+        // Edit profile (placeholder)
+        function editProfile() {
+            alert('Profile editing feature coming soon!');
+        }
+
+        // Map Modal Functions
+        let map;
+        let companyMarker;
+        let currentMapStyle = 'street';
+        
+        // GISTIC Services Company Coordinates (Enugu, Nigeria)
+        const companyLocation = [6.448574, 7.4970425];
+        
+        function openMapModal() {
+            const modal = document.getElementById('map-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            
+            // Initialize map when modal opens
+            setTimeout(() => {
+                initializeMap();
+            }, 100);
+        }
+
+        function closeMapModal() {
+            const modal = document.getElementById('map-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+            
+            // Clean up map
+            if (map) {
+                map.remove();
+                map = null;
+            }
+        }
+
+        function initializeMap() {
+            if (map) return; // Already initialized
+            
+            // Create map centered on company location
+            map = L.map('interactive-map').setView(companyLocation, 15);
+            
+            // Add tile layer (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+            
+            // Add custom company marker
+            const companyIcon = L.divIcon({
+                html: '<div style="background-color: #10b981; color: white; padding: 8px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-building" style="font-size: 16px;"></i></div>',
+                iconSize: [40, 40],
+                iconAnchor: [20, 20],
+                popupAnchor: [0, -20],
+                className: 'company-marker'
+            });
+            
+            companyMarker = L.marker(companyLocation, { icon: companyIcon }).addTo(map);
+            companyMarker.bindPopup(`
+                <div style="text-align: center; padding: 10px;">
+                    <h4 style="margin: 0 0 10px 0; color: #10b981; font-weight: bold;">GISTIC Services</h4>
+                    <p style="margin: 5px 0; color: #666;">Professional Home Services</p>
+                    <p style="margin: 5px 0; color: #666; font-size: 12px;">Enugu Metropolis, Nigeria</p>
+                    <p style="margin: 5px 0; color: #666; font-size: 12px;">📞 09020966002</p>
+                </div>
+            `).openPopup();
+            
+            // Add circle to show service area
+            L.circle(companyLocation, {
+                color: '#10b981',
+                fillColor: '#10b981',
+                fillOpacity: 0.1,
+                radius: 5000 // 5km radius
+            }).addTo(map);
+        }
+
+        function searchLocation() {
+            const searchTerm = document.getElementById('map-search').value;
+            if (!searchTerm) return;
+            
+            // Use Nominatim API for geocoding (free)
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchTerm)}&limit=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const result = data[0];
+                        const lat = parseFloat(result.lat);
+                        const lon = parseFloat(result.lon);
+                        
+                        // Move map to searched location
+                        map.setView([lat, lon], 16);
+                        
+                        // Add marker for searched location
+                        const searchIcon = L.divIcon({
+                            html: '<div style="background-color: #ef4444; color: white; padding: 6px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-map-marker" style="font-size: 12px;"></i></div>',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 15],
+                            className: 'search-marker'
+                        });
+                        
+                        L.marker([lat, lon], { icon: searchIcon })
+                            .addTo(map)
+                            .bindPopup(`<strong>${result.display_name}</strong>`)
+                            .openPopup();
+                    } else {
+                        alert('Location not found. Please try a different search term.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    alert('Search failed. Please try again.');
+                });
+        }
+
+        function resetMapView() {
+            if (map) {
+                map.setView(companyLocation, 15);
+                companyMarker.openPopup();
+            }
+        }
+
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        // Add user location marker
+                        const userIcon = L.divIcon({
+                            html: '<div style="background-color: #3b82f6; color: white; padding: 6px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-user" style="font-size: 12px;"></i></div>',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 15],
+                            className: 'user-marker'
+                        });
+                        
+                        L.marker([lat, lon], { icon: userIcon })
+                            .addTo(map)
+                            .bindPopup('Your Location')
+                            .openPopup();
+                        
+                        map.setView([lat, lon], 15);
+                    },
+                    error => {
+                        alert('Unable to get your location. Please check your browser settings.');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        }
+
+        function toggleMapStyle() {
+            if (!map) return;
+            
+            // Remove current tile layer
+            map.eachLayer(layer => {
+                if (layer instanceof L.TileLayer) {
+                    map.removeLayer(layer);
+                }
+            });
+            
+            // Add new tile layer based on current style
+            if (currentMapStyle === 'street') {
+                // Switch to satellite style (using a different tile provider)
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: '© Esri',
+                    maxZoom: 19
+                }).addTo(map);
+                currentMapStyle = 'satellite';
+            } else {
+                // Switch back to street view
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors',
+                    maxZoom: 19
+                }).addTo(map);
+                currentMapStyle = 'street';
+            }
+        }
+
+        function getDirections() {
+            // Open Google Maps in new tab for directions
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${companyLocation[0]},${companyLocation[1]}`, '_blank');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('map-modal');
+            if (event.target === modal) {
+                closeMapModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeMapModal();
+            }
+        });
+
+        // Allow search with Enter key
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('map-search');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        searchLocation();
+                    }
+                });
+            }
+        });
+
+        // Show forgot password form
+        function showForgotPassword() {
+            const portalSection = document.getElementById('portal-section');
+            
+            portalSection.innerHTML = `
+                <div class="max-w-md mx-auto">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="uil uil-key text-3xl text-blue-600"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Reset Password</h2>
+                        <p class="text-gray-600">Enter your email to receive password reset instructions</p>
+                    </div>
+
+                    <form id="forgot-password-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <div class="relative">
+                                <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 focus:ring-brand-green focus:border-brand-green bg-gray-50" placeholder="worker@example.com">
+                                <i class="uil uil-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-green text-white font-bold py-3 rounded-lg hover:bg-brand-dark transition shadow-lg flex justify-center items-center gap-2">
+                            <i class="uil uil-envelope-send"></i>
+                            Send Reset Link
+                        </button>
+
+                        <div class="text-center">
+                            <p class="text-sm text-gray-600">
+                                Remember your password? 
+                                <a href="#" onclick="showPortalLogin()" class="text-brand-green hover:underline font-medium">Back to Login</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            // Handle forgot password form submission
+            document.getElementById('forgot-password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[name="email"]').value;
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="uil uil-spinner animate-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert(`Password reset link sent to ${email}! Check your inbox.`);
+                    showPortalLogin();
+                }, 2000);
+            });
+        }
+
+        // Show portal login form
+        function showPortalLogin() {
+            const portalSection = document.getElementById('portal-section');
+            
+            portalSection.innerHTML = `
+                <div class="max-w-md mx-auto">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="uil uil-lock-alt text-3xl text-brand-green"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Worker Portal Login</h2>
+                        <p class="text-gray-600">Access your dashboard, manage jobs, and track earnings</p>
+                    </div>
+
+                    <form id="portal-login-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <div class="relative">
+                                <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 focus:ring-brand-green focus:border-brand-green bg-gray-50" placeholder="worker@example.com">
+                                <i class="uil uil-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <div class="relative">
+                                <input type="password" name="password" required class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 pr-10 focus:ring-brand-green focus:border-brand-green bg-gray-50" placeholder="Enter your password">
+                                <i class="uil uil-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i class="uil uil-eye" id="password-toggle"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" name="remember" class="w-4 h-4 text-brand-green focus:ring-brand-green border-gray-300 rounded">
+                                <span class="text-sm text-gray-600">Remember me</span>
+                            </label>
+                            <a href="#" onclick="showForgotPassword()" class="text-sm text-brand-green hover:underline">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-green text-white font-bold py-3 rounded-lg hover:bg-brand-dark transition shadow-lg flex justify-center items-center gap-2">
+                            <i class="uil uil-sign-in-alt"></i>
+                            Sign In to Portal
+                        </button>
+
+                        <div class="text-center">
+                            <p class="text-sm text-gray-600">
+                                Don't have an account? 
+                                <a href="#" onclick="showApplicationForm()" class="text-brand-green hover:underline font-medium">Apply Now</a>
+                            </p>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="mt-8 pt-6 border-t border-gray-200">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-4">Portal Benefits</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                    <i class="uil uil-briefcase text-xl text-brand-green mb-1"></i>
+                                    <p class="text-xs text-gray-600">Job Management</p>
+                                </div>
+                                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                    <i class="uil uil-dollar-sign text-xl text-brand-green mb-1"></i>
+                                    <p class="text-xs text-gray-600">Track Earnings</p>
+                                </div>
+                                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                    <i class="uil uil-calendar text-xl text-brand-green mb-1"></i>
+                                    <p class="text-xs text-gray-600">Schedule View</p>
+                                </div>
+                                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                    <i class="uil uil-star text-xl text-brand-green mb-1"></i>
+                                    <p class="text-xs text-gray-600">Ratings</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            // Re-attach event listeners
+            setTimeout(() => {
+                // Portal login form submission
+                document.getElementById('portal-login-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = this.querySelector('input[name="email"]').value;
+                    const password = this.querySelector('input[name="password"]').value;
+                    const remember = this.querySelector('input[name="remember"]').checked;
+                    
+                    // Simulate login validation
+                    if (email && password) {
+                        // Show loading state
+                        const submitBtn = this.querySelector('button[type="submit"]');
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.innerHTML = '<i class="uil uil-spinner animate-spin"></i> Signing in...';
+                        submitBtn.disabled = true;
+                        
+                        // Simulate API call
+                        setTimeout(() => {
+                            // Store session if remember is checked
+                            if (remember) {
+                                localStorage.setItem('workerEmail', email);
+                            }
+                            
+                            // Show success message
+                            showPortalDashboard(email);
+                        }, 2000);
+                    }
+                });
+            }, 100);
+        }
+
+        // Check for remembered session
+        window.addEventListener('load', () => {
+            const rememberedEmail = localStorage.getItem('workerEmail');
+            if (rememberedEmail) {
+                document.querySelector('input[name="email"]').value = rememberedEmail;
+                document.querySelector('input[name="remember"]').checked = true;
+            }
+        });
+
+        // Enhanced file upload handling
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const container = this.parentElement;
+                    const icon = container.querySelector('i');
+                    const text = container.querySelector('p');
+                    
+                    // Update UI to show file selected
+                    icon.classList.remove('uil-camera', 'uil-file-upload');
+                    icon.classList.add('uil-check-circle');
+                    icon.classList.add('text-green-500');
+                    text.textContent = file.name;
+                    text.classList.add('text-green-600', 'font-medium');
+                }
+            });
+        });
+
+        // Original functions
         function toggleHealthField() {
             const role = document.getElementById('role-select').value;
             const healthField = document.getElementById('health-field');

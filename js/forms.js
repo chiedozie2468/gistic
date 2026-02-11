@@ -62,14 +62,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Listen for iframe load (meaning submission finished)
                 hiddenIframe.onload = function() {
                     showSuccessNotification("Submitted Successfully! Check your email for confirmation.");
+                    
+                    // Specific logic for Work With Us success message
+                    const localSuccessMsg = document.getElementById('success-message');
+                    if (localSuccessMsg) {
+                        form.classList.add('hidden');
+                        localSuccessMsg.classList.remove('hidden');
+                        const tabs = document.querySelector('.border-b');
+                        if (tabs) tabs.classList.add('hidden');
+                    }
+
                     form.reset();
                     if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;
                     }
+                    
                     // Reset UI for file inputs
-                    const fileSuccessMsgs = form.querySelectorAll('p.text-brand-green');
-                    fileSuccessMsgs.forEach(p => p.textContent = "Upload File");
+                    const wrappers = form.querySelectorAll('.border-brand-green');
+                    wrappers.forEach(wrapper => {
+                        wrapper.classList.remove('border-brand-green', 'bg-green-50');
+                        wrapper.classList.add('border-gray-300', 'border-dashed');
+                        const p = wrapper.querySelector('p');
+                        if (p) {
+                            p.textContent = p.getAttribute('data-original-text') || "Upload File";
+                            p.classList.remove('text-brand-green', 'font-bold');
+                        }
+                        const icon = wrapper.querySelector('i');
+                        if (icon) {
+                            const originalIcon = icon.getAttribute('data-original-icon') || 'uil-upload';
+                            icon.className = `uil ${originalIcon} text-2xl text-gray-400`;
+                        }
+                    });
                     
                     // Specific logic for modals
                     if (typeof closeServiceModal === 'function') setTimeout(closeServiceModal, 2000);

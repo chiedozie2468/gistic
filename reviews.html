@@ -20,7 +20,7 @@
             <!-- Left: Brand Logo -->
             <div class="flex-1 flex justify-start z-10">
                 <a href="index.html" class="pill-nav-container px-5 nav-item-animate group" style="animation-delay: 100ms;">
-                    <div class="w-16 h-16 flex items-center justify-center group-hover:opacity-80 transition-opacity">
+                    <div class="w-24 h-24 flex items-center justify-center group-hover:opacity-80 transition-opacity">
                         <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-full h-full object-contain">
                     </div>
                 </a>
@@ -43,7 +43,7 @@
                     </a>
                     <a href="partnerships.html" class="pill-nav-item">
                         <i class="uil uil-handshake"></i>
-                        <span>Rent Us</span>
+                        <span>Partnerships</span>
                     </a>
                     <a href="reviews.html" class="pill-nav-item active">
                         <i class="uil uil-star"></i>
@@ -80,7 +80,7 @@
                 </a>
                 <a href="partnerships.html" class="flex items-center gap-4 text-gray-600 hover:text-brand-green font-medium p-3 rounded-xl hover:bg-brand-light transition">
                     <i class="uil uil-handshake text-2xl"></i>
-                    <span>Rent Us</span>
+                    <span>Partnerships</span>
                 </a>
                 <a href="reviews.html" class="flex items-center gap-4 text-brand-green bg-brand-light font-medium p-3 rounded-xl transition">
                     <i class="uil uil-star text-2xl"></i>
@@ -116,6 +116,7 @@
                 <form id="review-form" action="https://formsubmit.co/gisticservice@gmail.com" method="POST" class="space-y-4">
                      <!-- Subject line -->
                      <input type="hidden" name="_subject" value="New Customer Review - GISTIC">
+                     <input type="hidden" name="_captcha" value="false">
                      
                      <!-- Redirect back after submission -->
                      <input type="hidden" name="_next" value="https://gisticservice.com/reviews.html?pending=true">
@@ -135,7 +136,7 @@
                             <option>Electrical Works</option>
                             <option>Housekeeping</option>
                             <option>Carpentry</option>
-                            <option>Plumbing</option>
+                            <option>Painting</option>
                             <option>Other</option>
                         </select>
                     </div>
@@ -168,23 +169,21 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div>
-                    <div class="flex items-center gap-2 mb-6">
-                         <div class="w-8 h-8 bg-brand-green rounded flex items-center justify-center text-white font-bold">G</div>
-                         <span class="text-2xl font-bold">GISTIC</span>
-                    </div>
-                    <p class="text-gray-400 mb-6">
+                    <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-16 h-16 object-contain mb-6 rounded-lg bg-brand-light">
+                    <p class="text-gray-300 mb-6">
                         GISTIC Services provides top-tier home maintenance and repair services across Enugu Metropolis.
                     </p>
                     <div class="flex gap-4">
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-facebook-f"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-twitter"></i></a>
                         <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-instagram"></i></a>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand-green transition"><i class="uil uil-whatsapp"></i></a>
                     </div>
                 </div>
                 
                 <div>
                     <h4 class="text-lg font-bold mb-6">Quick Links</h4>
-                    <ul class="space-y-3 text-gray-400">
+                    <ul class="space-y-3 text-gray-300">
                         <li><a href="index.html" class="hover:text-brand-green transition">Home</a></li>
                         <li><a href="services.html" class="hover:text-brand-green transition">Services</a></li>
                         <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
@@ -195,18 +194,18 @@
 
                 <div>
                     <h4 class="text-lg font-bold mb-6">Contact Us</h4>
-                    <ul class="space-y-3 text-gray-400">
+                    <ul class="space-y-3 text-gray-300">
                         <li class="flex items-start gap-3">
                             <i class="uil uil-map-marker text-brand-green mt-1"></i>
                             <span>GISTIC Services, Enugu Metropolis, Nigeria</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="uil uil-phone text-brand-green"></i>
-                            <span>09020966002</span>
+                            <a href="tel:09020966002" class="hover:text-brand-green transition">09020966002</a>
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="uil uil-envelope text-brand-green"></i>
-                            <span>gisticservice@gmail.com</span>
+                            <a href="mailto:gisticservice@gmail.com" class="hover:text-brand-green transition">gisticservice@gmail.com</a>
                         </li>
                     </ul>
                 </div>
@@ -221,13 +220,13 @@
                              <span>Interact with Map</span>
                          </button>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2">Serving Enugu Metropolis & Surroundings</p>
+                    <p class="text-xs text-gray-400 mt-2">Serving Enugu Metropolis & Surroundings</p>
                 </div>
             </div>
             
             <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-center items-center gap-4 text-center">
-                <p class="text-gray-500 text-sm">© 2024 GISTIC Services. All rights reserved.</p>
-                <div class="flex gap-4 text-sm text-gray-500">
+                <p class="text-gray-300 text-sm"> 2026 GISTIC Services. All rights reserved.</p>
+                <div class="flex gap-4 text-sm text-gray-300">
                      <a href="#" class="hover:text-white">Privacy Policy</a>
                      <a href="#" class="hover:text-white">Terms of Service</a>
                 </div>
@@ -259,9 +258,9 @@
             },
             {
                 name: "Tunde Bakare",
-                service: "Plumbing",
+                service: "Painting",
                 rating: 5,
-                message: "Emergency response was quick. Saved my kitchen from flooding.",
+                message: "Excellent painting work. The finish was smooth and professional.",
                 date: "2024-02-10"
             }
         ];
@@ -297,11 +296,9 @@
     </script>
 
     <!-- Chatbot Button -->
-    <div id="chatbot-trigger" class="fixed bottom-6 right-6 z-40">
-        <button class="bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
-            <i class="uil uil-comment-dots"></i>
-        </button>
-    </div>
+    <button id="chatbot-trigger" class="fixed bottom-6 right-6 z-40 bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
+        <i class="uil uil-comment-dots"></i>
+    </button>
 
 </body>
 </html>

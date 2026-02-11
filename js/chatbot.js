@@ -58,6 +58,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     required: true
                 },
                 {
+                    id: 'attachments',
+                    type: 'file',
+                    prompt: 'Would you like to attach any photos or documents to support your report?',
+                    accept: 'image/*,.pdf,.doc,.docx',
+                    multiple: true,
+                    required: false
+                },
+                {
+                    id: 'name',
+                    type: 'text',
+                    prompt: 'What is your full name?',
+                    placeholder: 'Enter your full name',
+                    required: true
+                },
+                {
+                    id: 'email',
+                    type: 'email',
+                    prompt: 'What is your email address?',
+                    placeholder: 'your.email@example.com',
+                    required: true
+                },
+                {
+                    id: 'phone',
+                    type: 'tel',
+                    prompt: 'What is your phone number?',
+                    placeholder: 'Enter your phone number',
+                    required: true
+                },
+                {
                     id: 'contact_permission',
                     type: 'radio',
                     prompt: 'May we contact you regarding this report?',
@@ -133,6 +162,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     placeholder: 'What needs to be painted? Any color preferences? Current condition of surfaces?',
                     minLength: 20,
                     required: true
+                },
+                {
+                    id: 'name',
+                    type: 'text',
+                    prompt: 'What is your full name?',
+                    placeholder: 'Enter your full name',
+                    required: true
+                },
+                {
+                    id: 'email',
+                    type: 'email',
+                    prompt: 'What is your email address?',
+                    placeholder: 'your.email@example.com',
+                    required: true
+                },
+                {
+                    id: 'phone',
+                    type: 'tel',
+                    prompt: 'What is your phone number?',
+                    placeholder: 'Enter your phone number',
+                    required: true
                 }
             ]
         },
@@ -197,6 +247,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     placeholder: 'What happened? Are there exposed wires? Any burnt smell?',
                     minLength: 20,
                     required: true
+                },
+                {
+                    id: 'name',
+                    type: 'text',
+                    prompt: 'What is your full name?',
+                    placeholder: 'Enter your full name',
+                    required: true
+                },
+                {
+                    id: 'email',
+                    type: 'email',
+                    prompt: 'What is your email address?',
+                    placeholder: 'your.email@example.com',
+                    required: true
+                },
+                {
+                    id: 'phone',
+                    type: 'tel',
+                    prompt: 'What is your phone number?',
+                    placeholder: 'Enter your phone number',
+                    required: true
                 }
             ]
         },
@@ -260,6 +331,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     prompt: 'Please describe the carpentry requirements.',
                     placeholder: 'Dimensions? Type of wood? Any existing damage?',
                     minLength: 20,
+                    required: true
+                },
+                {
+                    id: 'name',
+                    type: 'text',
+                    prompt: 'What is your full name?',
+                    placeholder: 'Enter your full name',
+                    required: true
+                },
+                {
+                    id: 'email',
+                    type: 'email',
+                    prompt: 'What is your email address?',
+                    placeholder: 'your.email@example.com',
+                    required: true
+                },
+                {
+                    id: 'phone',
+                    type: 'tel',
+                    prompt: 'What is your phone number?',
+                    placeholder: 'Enter your phone number',
                     required: true
                 }
             ]
@@ -326,6 +418,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     placeholder: 'Are there pets? Any delicate items? Specific allergies?',
                     minLength: 20,
                     required: true
+                },
+                {
+                    id: 'name',
+                    type: 'text',
+                    prompt: 'What is your full name?',
+                    placeholder: 'Enter your full name',
+                    required: true
+                },
+                {
+                    id: 'email',
+                    type: 'email',
+                    prompt: 'What is your email address?',
+                    placeholder: 'your.email@example.com',
+                    required: true
+                },
+                {
+                    id: 'phone',
+                    type: 'tel',
+                    prompt: 'What is your phone number?',
+                    placeholder: 'Enter your phone number',
+                    required: true
                 }
             ]
         },
@@ -391,6 +504,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     placeholder: 'How many cameras needed? Indoor/outdoor? Night vision? Remote monitoring?',
                     minLength: 20,
                     required: true
+                },
+                {
+                    id: 'name',
+                    type: 'text',
+                    prompt: 'What is your full name?',
+                    placeholder: 'Enter your full name',
+                    required: true
+                },
+                {
+                    id: 'email',
+                    type: 'email',
+                    prompt: 'What is your email address?',
+                    placeholder: 'your.email@example.com',
+                    required: true
+                },
+                {
+                    id: 'phone',
+                    type: 'tel',
+                    prompt: 'What is your phone number?',
+                    placeholder: 'Enter your phone number',
+                    required: true
                 }
             ]
         }
@@ -441,6 +575,13 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     document.body.appendChild(chatbotContainer);
+
+    // Add hidden iframe for form submission
+    const hiddenIframe = document.createElement('iframe');
+    hiddenIframe.id = 'form_submit_iframe';
+    hiddenIframe.name = 'form_submit_iframe';
+    hiddenIframe.style.display = 'none';
+    document.body.appendChild(hiddenIframe);
 
     const closeBtn = document.getElementById('close-chatbot');
     const messagesContainer = document.getElementById('chat-messages');
@@ -688,6 +829,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }).join(', ');
         } else if (step.type === 'location') {
             displayValue = `${value.address}${value.landmark ? ' (Near ' + value.landmark + ')' : ''}`;
+        } else if (step.type === 'file') {
+            if (Array.isArray(value) && value.length > 0) {
+                displayValue = `${value.length} file(s) attached: ${value.map(f => f.name).join(', ')}`;
+            } else {
+                displayValue = 'No files attached';
+            }
         }
 
         addUserMessage(displayValue);
@@ -719,6 +866,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (step.type === 'location') {
                     displayVal = `${val.address}${val.landmark ? ' (Near ' + val.landmark + ')' : ''}`;
+                } else if (step.type === 'file') {
+                    if (Array.isArray(val) && val.length > 0) {
+                        displayVal = `${val.length} file(s) attached: ${val.map(f => f.name).join(', ')}`;
+                    } else {
+                        displayVal = 'No files attached';
+                    }
                 } else if (Array.isArray(val)) {
                     displayVal = val.map(v => {
                         const opt = step.options.find(o => o.value === v);
@@ -749,57 +902,80 @@ document.addEventListener('DOMContentLoaded', () => {
     function submitRequest() {
         addAgentMessage('Submitting your request...');
 
-        const submissionData = {
-            flowType: state.currentFlow,
-            serviceType: state.serviceType,
-            timestamp: new Date().toISOString(),
-            details: state.answers
+        // Create a temporary form for submission (to support files via FormSubmit)
+        const tempForm = document.createElement('form');
+        tempForm.action = 'https://formsubmit.co/gisticservice@gmail.com';
+        tempForm.method = 'POST';
+        tempForm.enctype = 'multipart/form-data';
+        tempForm.target = 'form_submit_iframe';
+        tempForm.style.display = 'none';
+
+        // Add hidden fields
+        const addHidden = (name, value) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value;
+            tempForm.appendChild(input);
         };
 
-        console.log('Submitting:', submissionData);
-
-        // Send to FormSubmit
-        const formData = new FormData();
-        formData.append('_subject', `New Chatbot ${state.currentFlow === 'report_issue' ? 'Issue Report' : 'Service Request'} - GISTIC`);
-        formData.append('_captcha', 'false');
-        formData.append('flow_type', state.currentFlow);
-        formData.append('service_type', state.serviceType || 'N/A');
-        formData.append('timestamp', new Date().toLocaleString());
+        addHidden('_subject', `New Chatbot ${state.currentFlow === 'report_issue' ? 'Issue Report' : 'Service Request'} - GISTIC`);
+        addHidden('_captcha', 'false');
+        addHidden('flow_type', state.currentFlow);
+        addHidden('service_type', state.serviceType || 'N/A');
+        addHidden('timestamp', new Date().toLocaleString());
+        addHidden('_template', 'table');
         
+        // Set reply-to email from user input
+        if (state.answers.email) {
+            addHidden('_replyto', state.answers.email);
+            addHidden('customer_email', state.answers.email);
+        }
+        
+        // Add customer name if available
+        if (state.answers.name) {
+            addHidden('customer_name', state.answers.name);
+            addHidden('_subject', `New Chatbot ${state.currentFlow === 'report_issue' ? 'Issue Report' : 'Service Request'} - ${state.answers.name} - GISTIC`);
+        }
+
         // Add all answers
         Object.keys(state.answers).forEach(key => {
             const value = state.answers[key];
-            if (Array.isArray(value)) {
-                formData.append(key, value.join(', '));
-            } else {
-                formData.append(key, value);
+            if (key === 'attachments' && Array.isArray(value)) {
+                // Handle file attachments using DataTransfer
+                const dataTransfer = new DataTransfer();
+                value.forEach(file => dataTransfer.items.add(file));
+                
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.name = 'attachments';
+                fileInput.files = dataTransfer.files;
+                fileInput.multiple = true;
+                tempForm.appendChild(fileInput);
+                
+                addHidden('attachment_count', value.length.toString());
+                addHidden('attachment_names', value.map(f => f.name).join(', '));
+            } else if (Array.isArray(value)) {
+                addHidden(key, value.join(', '));
+            } else if (key === 'location_step' && typeof value === 'object') {
+                addHidden('location', `Address: ${value.address}, Landmark: ${value.landmark || 'None'}`);
+            } else if (value !== null && value !== undefined) {
+                addHidden(key, value);
             }
         });
 
-        // Submit to FormSubmit.co (FREE for text-based Chatbot)
-        formData.append('_subject', `New Chatbot ${state.currentFlow === 'report_issue' ? 'Issue Report' : 'Service Request'} - GISTIC`);
-        formData.append('from_name', 'GISTIC Chatbot');
+        document.body.appendChild(tempForm);
 
-        // Fix location [object Object] issue
-        const locationData = state.answers['location_step'];
-        if (locationData && typeof locationData === 'object') {
-            formData.set('location', `Address: ${locationData.address}, Landmark: ${locationData.landmark || 'None'}`);
-        }
-
-        fetch('https://formsubmit.co/ajax/gisticservice@gmail.com', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                // Show global notification
+        // Listen for iframe load
+        const hiddenIframe = document.getElementById('form_submit_iframe');
+        if (hiddenIframe) {
+            const handleSuccess = () => {
                 if (typeof showSuccessNotification === 'function') {
                     showSuccessNotification("Chatbot Request Submitted Successfully!");
                 }
-                
                 addAgentMessage('Your request has been submitted successfully.');
                 setTimeout(() => {
-                    addAgentMessage('A specialized team member will contact you within working hours to provide a quote.');
+                    addAgentMessage('A specialized team member will contact you within working hours.');
                 }, 800);
                 setTimeout(() => {
                     addAgentMessage('Is there anything else I can help you with?', {
@@ -811,14 +987,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     resetState();
                 }, 1600);
-            } else {
-                addAgentMessage('There was an issue submitting your request. Please try calling us at 09020966002 or email gisticservice@gmail.com');
-            }
-        })
-        .catch(error => {
-            console.error('Submission error:', error);
-            addAgentMessage('There was an issue submitting your request. Please try calling us at 09020966002 or email gisticservice@gmail.com');
-        });
+                tempForm.remove();
+                hiddenIframe.removeEventListener('load', handleSuccess);
+            };
+            hiddenIframe.addEventListener('load', handleSuccess);
+        }
+
+        tempForm.submit();
     }
 
     function resetState() {
@@ -957,6 +1132,115 @@ document.addEventListener('DOMContentLoaded', () => {
                         handleStepResponse(interactive.stepId, { address, landmark });
                     };
                 }, 0);
+            } else if (interactive.type === 'file') {
+                interactiveDiv.className = 'mt-3';
+                const uniqueId = `file-input-${Date.now()}`;
+                interactiveDiv.innerHTML = `
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-brand-green transition">
+                        <input type="file" id="${uniqueId}" accept="${interactive.accept || '*/*'}" ${interactive.multiple ? 'multiple' : ''} class="hidden">
+                        <label for="${uniqueId}" class="cursor-pointer">
+                            <i class="uil uil-cloud-upload text-3xl text-gray-400 mb-2"></i>
+                            <p class="text-sm text-gray-600">Click to upload or drag and drop</p>
+                            <p class="text-xs text-gray-400 mt-1">Images, PDFs, or documents (Max 10MB per file)</p>
+                        </label>
+                    </div>
+                    <div id="file-preview-${Date.now()}" class="mt-3 space-y-2"></div>
+                    <button id="file-submit-${Date.now()}" class="mt-3 w-full bg-brand-green text-white py-2 rounded-lg text-sm font-semibold hover:bg-brand-dark transition">Continue</button>
+                `;
+                
+                const uploadedFiles = [];
+                
+                setTimeout(() => {
+                    const fileInput = document.getElementById(uniqueId);
+                    const filePreview = document.getElementById(`file-preview-${Date.now()}`);
+                    const submitBtn = document.getElementById(`file-submit-${Date.now()}`);
+                    
+                    fileInput.onchange = (e) => {
+                        const files = Array.from(e.target.files);
+                        filePreview.innerHTML = '';
+                        uploadedFiles.length = 0;
+                        
+                        files.forEach(file => {
+                            if (file.size > 10 * 1024 * 1024) {
+                                alert(`${file.name} is too large. Maximum size is 10MB.`);
+                                return;
+                            }
+                            
+                            uploadedFiles.push(file);
+                            
+                            const fileDiv = document.createElement('div');
+                            fileDiv.className = 'flex items-center gap-2 p-2 bg-gray-50 rounded-lg';
+                            
+                            if (file.type.startsWith('image/')) {
+                                const img = document.createElement('img');
+                                img.src = URL.createObjectURL(file);
+                                img.className = 'w-12 h-12 object-cover rounded';
+                                fileDiv.appendChild(img);
+                            } else {
+                                fileDiv.innerHTML += '<i class="uil uil-file-alt text-2xl text-gray-400"></i>';
+                            }
+                            
+                            const fileInfo = document.createElement('div');
+                            fileInfo.className = 'flex-1';
+                            fileInfo.innerHTML = `
+                                <p class="text-sm font-medium text-gray-700">${file.name}</p>
+                                <p class="text-xs text-gray-400">${(file.size / 1024).toFixed(1)} KB</p>
+                            `;
+                            
+                            fileDiv.appendChild(fileInfo);
+                            filePreview.appendChild(fileDiv);
+                        });
+                    };
+                    
+                    submitBtn.onclick = () => {
+                        if (uploadedFiles.length === 0 && interactive.required) {
+                            alert('Please select at least one file.');
+                            return;
+                        }
+                        handleStepResponse(interactive.stepId, uploadedFiles);
+                    };
+                }, 0);
+            } else if (interactive.type === 'text' || interactive.type === 'email' || interactive.type === 'tel') {
+                interactiveDiv.className = 'mt-3';
+                const inputType = interactive.type === 'tel' ? 'tel' : (interactive.type === 'email' ? 'email' : 'text');
+                const inputPlaceholder = interactive.placeholder || `Enter ${interactive.type === 'email' ? 'email address' : (interactive.type === 'tel' ? 'phone number' : 'text')}`;
+                
+                interactiveDiv.innerHTML = `
+                    <input type="${inputType}" id="text-input" placeholder="${inputPlaceholder}" 
+                           class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-brand-green"
+                           ${interactive.type === 'email' ? 'required' : ''}>
+                    <button id="text-submit" class="mt-2 w-full bg-brand-green text-white py-2 rounded-lg text-sm font-semibold hover:bg-brand-dark transition">Continue</button>
+                `;
+                
+                setTimeout(() => {
+                    const textInput = document.getElementById('text-input');
+                    document.getElementById('text-submit').onclick = () => {
+                        const value = textInput.value.trim();
+                        
+                        if (interactive.required && !value) {
+                            alert(`Please enter your ${interactive.type === 'email' ? 'email address' : (interactive.type === 'tel' ? 'phone number' : 'information')}.`);
+                            return;
+                        }
+                        
+                        if (interactive.type === 'email' && value) {
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(value)) {
+                                alert('Please enter a valid email address.');
+                                return;
+                            }
+                        }
+                        
+                        if (interactive.type === 'tel' && value) {
+                            const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+                            if (!phoneRegex.test(value) || value.replace(/\D/g, '').length < 10) {
+                                alert('Please enter a valid phone number.');
+                                return;
+                            }
+                        }
+                        
+                        handleStepResponse(interactive.stepId, value);
+                    };
+                }, 0);
             } else if (interactive.type === 'textarea') {
                 interactiveDiv.className = 'mt-3';
                 interactiveDiv.innerHTML = `
@@ -977,6 +1261,51 @@ document.addEventListener('DOMContentLoaded', () => {
                             return;
                         }
                         handleStepResponse(interactive.stepId, value);
+                    };
+                }, 0);
+            } else if (interactive.type === 'file') {
+                interactiveDiv.className = 'mt-3';
+                interactiveDiv.innerHTML = `
+                    <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:bg-brand-light transition cursor-pointer relative" id="chat-file-container">
+                        <input type="file" id="chat-file-input" ${interactive.multiple ? 'multiple' : ''} accept="${interactive.accept || '*'}" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <i class="uil uil-cloud-upload text-3xl text-gray-400" id="chat-file-icon"></i>
+                        <p class="text-xs text-gray-500 mt-1" id="chat-file-text">Select files</p>
+                    </div>
+                    <button id="chat-file-submit" class="mt-2 w-full bg-brand-green text-white py-2 rounded-lg text-sm font-semibold hover:bg-brand-dark transition ${interactive.required ? 'opacity-50 cursor-not-allowed' : ''}" ${interactive.required ? 'disabled' : ''}>
+                        ${interactive.required ? 'Select File' : 'Continue without Files'}
+                    </button>
+                `;
+                setTimeout(() => {
+                    const fileInput = document.getElementById('chat-file-input');
+                    const fileContainer = document.getElementById('chat-file-container');
+                    const fileText = document.getElementById('chat-file-text');
+                    const fileIcon = document.getElementById('chat-file-icon');
+                    const fileSubmit = document.getElementById('chat-file-submit');
+
+                    fileInput.onchange = (e) => {
+                        const files = e.target.files;
+                        if (files.length > 0) {
+                            fileText.textContent = files.length === 1 ? files[0].name : `${files.length} files selected`;
+                            fileText.classList.add('text-brand-green', 'font-bold');
+                            fileIcon.className = 'uil uil-check-circle text-3xl text-brand-green';
+                            fileContainer.classList.add('border-brand-green', 'bg-green-50');
+                            fileSubmit.disabled = false;
+                            fileSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+                            fileSubmit.textContent = 'Continue';
+                        }
+                    };
+
+                    fileSubmit.onclick = () => {
+                        const files = fileInput.files;
+                        if (interactive.required && files.length === 0) return;
+                        
+                        if (files.length > 0) {
+                            addUserMessage(`Attached ${files.length} file(s)`);
+                            handleStepResponse(interactive.stepId, files);
+                        } else {
+                            addUserMessage("No files attached");
+                            handleStepResponse(interactive.stepId, null);
+                        }
                     };
                 }, 0);
             }
