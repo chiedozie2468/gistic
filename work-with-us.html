@@ -490,10 +490,10 @@
 
 
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script src="js/security.js"></script>
     <script src="js/forms.js?v=2"></script>
@@ -1000,46 +1000,73 @@
         function initializeMap() {
             if (map) return; // Already initialized
             
-            // Create map centered on company location
-            map = L.map('interactive-map').setView(companyLocation, 15);
-            
-            // Add tile layer (OpenStreetMap)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19
-            }).addTo(map);
-            
-            // Add custom company marker
-            const companyIcon = L.divIcon({
-                html: '<div style="background-color: #10b981; color: white; padding: 8px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-building" style="font-size: 16px;"></i></div>',
-                iconSize: [40, 40],
-                iconAnchor: [20, 20],
-                popupAnchor: [0, -20],
-                className: 'company-marker'
-            });
-            
-            companyMarker = L.marker(companyLocation, { icon: companyIcon }).addTo(map);
-            companyMarker.bindPopup(`
-                <div style="text-align: center; padding: 10px;">
-                    <h4 style="margin: 0 0 10px 0; color: #10b981; font-weight: bold;">GISTIC Services</h4>
-                    <p style="margin: 5px 0; color: #666;">Professional Home Services</p>
-                    <p style="margin: 5px 0; color: #666; font-size: 12px;">Enugu Metropolis, Nigeria</p>
-                    <p style="margin: 5px 0; color: #666; font-size: 12px;">📞 09020966002</p>
-                </div>
-            `).openPopup();
-            
-            // Add circle to show service area
-            L.circle(companyLocation, {
-                color: '#10b981',
-                fillColor: '#10b981',
-                fillOpacity: 0.1,
-                radius: 5000 // 5km radius
-            }).addTo(map);
+            try {
+                // Create map centered on company location
+                map = L.map('interactive-map').setView(companyLocation, 15);
+                
+                // Add tile layer (OpenStreetMap)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors',
+                    maxZoom: 19
+                }).addTo(map);
+                
+                // Add custom company marker
+                const companyIcon = L.divIcon({
+                    html: '<div style="background-color: #10b981; color: white; padding: 8px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-building" style="font-size: 16px;"></i></div>',
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 20],
+                    popupAnchor: [0, -20],
+                    className: 'company-marker'
+                });
+                
+                companyMarker = L.marker(companyLocation, { icon: companyIcon }).addTo(map);
+                companyMarker.bindPopup(`
+                    <div style="text-align: center; padding: 10px;">
+                        <h4 style="margin: 0 0 10px 0; color: #10b981; font-weight: bold;">GISTIC Services</h4>
+                        <p style="margin: 5px 0; color: #666;">Professional Home Services</p>
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">Enugu Metropolis, Nigeria</p>
+                        <p style="margin: 5px 0; color: #666; font-size: 12px;">📞 09020966002</p>
+                    </div>
+                `).openPopup();
+                
+                // Add circle to show service area
+                L.circle(companyLocation, {
+                    color: '#10b981',
+                    fillColor: '#10b981',
+                    fillOpacity: 0.1,
+                    radius: 5000 // 5km radius
+                }).addTo(map);
+                
+                console.log('Map initialized successfully');
+            } catch (error) {
+                console.error('Error initializing map:', error);
+                // Fallback: show static map
+                const mapContainer = document.getElementById('interactive-map');
+                if (mapContainer) {
+                    mapContainer.innerHTML = `
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f3f4f6;">
+                            <div style="text-align: center; padding: 20px;">
+                                <i class="uil uil-map-marker" style="font-size: 48px; color: #10b981; margin-bottom: 10px;"></i>
+                                <h3 style="color: #374151; margin-bottom: 10px;">GISTIC Services</h3>
+                                <p style="color: #6b7280; margin-bottom: 15px;">Enugu Metropolis, Nigeria</p>
+                                <button onclick="getDirections()" class="bg-brand-green text-white px-6 py-2 rounded-lg hover:bg-brand-dark transition">
+                                    Get Directions
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
         }
 
         function searchLocation() {
             const searchTerm = document.getElementById('map-search').value;
             if (!searchTerm) return;
+            
+            if (!map) {
+                alert('Map is not loaded yet. Please try again.');
+                return;
+            }
             
             // Use Nominatim API for geocoding (free)
             fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchTerm)}&limit=1`)
@@ -1078,43 +1105,56 @@
         function resetMapView() {
             if (map) {
                 map.setView(companyLocation, 15);
-                companyMarker.openPopup();
+                if (companyMarker) {
+                    companyMarker.openPopup();
+                }
+            } else {
+                alert('Map is not loaded yet. Please try again.');
             }
         }
 
         function getCurrentLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        const lat = position.coords.latitude;
-                        const lon = position.coords.longitude;
-                        
-                        // Add user location marker
-                        const userIcon = L.divIcon({
-                            html: '<div style="background-color: #3b82f6; color: white; padding: 6px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-user" style="font-size: 12px;"></i></div>',
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 15],
-                            className: 'user-marker'
-                        });
-                        
-                        L.marker([lat, lon], { icon: userIcon })
-                            .addTo(map)
-                            .bindPopup('Your Location')
-                            .openPopup();
-                        
-                        map.setView([lat, lon], 15);
-                    },
-                    error => {
-                        alert('Unable to get your location. Please check your browser settings.');
-                    }
-                );
-            } else {
+            if (!navigator.geolocation) {
                 alert('Geolocation is not supported by your browser.');
+                return;
             }
+            
+            if (!map) {
+                alert('Map is not loaded yet. Please try again.');
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    // Add user location marker
+                    const userIcon = L.divIcon({
+                        html: '<div style="background-color: #3b82f6; color: white; padding: 6px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-user" style="font-size: 12px;"></i></div>',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15],
+                        className: 'user-marker'
+                    });
+                    
+                    L.marker([lat, lon], { icon: userIcon })
+                        .addTo(map)
+                        .bindPopup('Your Location')
+                        .openPopup();
+                    
+                    map.setView([lat, lon], 15);
+                },
+                error => {
+                    alert('Unable to get your location. Please check your browser settings.');
+                }
+            );
         }
 
         function toggleMapStyle() {
-            if (!map) return;
+            if (!map) {
+                alert('Map is not loaded yet. Please try again.');
+                return;
+            }
             
             // Remove current tile layer
             map.eachLayer(layer => {
