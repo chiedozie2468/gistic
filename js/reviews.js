@@ -324,11 +324,74 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Add review
+            // Add review locally first
             addNewReview(reviewData);
+            
+            // Also send email notification
+            sendReviewEmail(reviewData);
             
             // Reset form
             reviewForm.reset();
         });
     }
 });
+
+// Function to send email notification
+function sendReviewEmail(reviewData) {
+    // Create email content
+    const emailSubject = `New Customer Review - ${reviewData.service}`;
+    const emailBody = `
+You have received a new customer review for GISTIC Services.
+
+\n📝 Review Details:
+==================
+Name: ${reviewData.name}
+Service: ${reviewData.service}
+Rating: ${reviewData.rating} stars
+Message: "${reviewData.message}"
+Date: ${new Date().toLocaleDateString()}
+
+==================
+
+This review is now displayed on the website and saved in the local database.
+
+Best regards,
+GISTIC Services Review System
+    `;
+    
+    // Send email using mailto link (fallback)
+    const mailtoLink = `mailto:gisticservice@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    window.open(mailtoLink, '_blank');
+    
+    // Try to send via FormSubmit.co as backup
+    setTimeout(() => {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://formsubmit.co/gisticservice@gmail.com';
+        form.style.display = 'none';
+        
+        // Add form fields
+        const fields = [
+            { name: '_subject', value: emailSubject },
+            { name: '_template', value: 'table' },
+            { name: '_captcha', value: 'false' },
+            { name: 'name', value: reviewData.name },
+            { name: 'service', value: reviewData.service },
+            { name: 'rating', value: reviewData.rating },
+            { name: 'message', value: reviewData.message },
+            { name: '_next', value: window.location.href }
+        ];
+        
+        fields.forEach(field => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = field.name;
+            input.value = field.value;
+            form.appendChild(input);
+        });
+        
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }, 1000);
+}
