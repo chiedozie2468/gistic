@@ -18,6 +18,55 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     
+    <!-- Custom CSS for Video and Logo Animations -->
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.6); }
+        }
+        
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(34, 197, 94, 0.3); }
+            50% { border-color: rgba(34, 197, 94, 0.8); }
+        }
+        
+        .logo-hover-effect {
+            animation: float 4s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .logo-hover-effect:hover {
+            animation: glow 2s ease-in-out infinite;
+            border: 3px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .logo-hover-effect:hover::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border: 2px solid rgba(34, 197, 94, 0.8);
+            border-radius: 1rem;
+            animation: pulse-border 1.5s ease-in-out infinite;
+        }
+        
+        .video-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+            pointer-events: none;
+        }
+    </style>
+    
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
@@ -221,10 +270,22 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center gap-12">
                 <div class="md:w-1/2 relative">
-                    <div class="w-full h-96 bg-gray-200 rounded-2xl overflow-hidden shadow-2xl relative z-10">
-                         <!-- Placeholder for About Image -->
-                         <!-- About Image (Logo) -->
-                         <img src="./assets/logo/logo-trans.png" alt="About GISTIC" class="w-full h-full object-contain bg-white p-8">
+                    <div class="w-full h-96 bg-gray-200 rounded-2xl overflow-hidden shadow-2xl relative z-10 video-container">
+                         <!-- Video Background -->
+                         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+                            <source src="./assets/video/vi.mp4" type="video/mp4">
+                        </video>
+                         
+                         <!-- Video Overlay for Better Contrast -->
+                         <div class="video-overlay"></div>
+                         
+                         <!-- Logo with Sweet Hover Effects -->
+                         <div class="relative w-full h-full flex items-center justify-center z-10">
+                            <img src="./assets/logo/logo-trans.png" alt="About GISTIC" 
+                                 style="background-color:rgba(76, 175, 80, 0.4);"
+                                 class="logo-hover-effect w-full h-full object-contain rounded-2xl shadow-2xl cursor-pointer"
+                                 title="GISTIC - Professional Home Maintenance">
+                        </div>
                     </div>
                     <!-- Decorative Elements -->
                     <div class="absolute -top-4 -left-4 w-24 h-24 bg-brand-green/10 rounded-full z-0"></div>
@@ -478,45 +539,24 @@
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h3>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">What Our Clients Say</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">Real feedback from real people across Enugu.</p>
             </div>
-            
-            <!-- Reviews Container (Populated via JS) -->
-            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                <!-- Enhanced Loading State -->
-                <div id="reviews-loading" class="col-span-full text-center py-16 hidden">
-                    <div class="inline-flex items-center gap-4 mb-6">
-                        <div class="w-16 h-16 bg-brand-green/20 rounded-full flex items-center justify-center animate-pulse">
-                            <i class="uil uil-star text-3xl text-brand-green"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-bold text-gray-800">Loading Reviews...</h4>
-                            <p class="text-gray-600">Fetching customer feedback</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Fallback Static Content -->
-                <div id="reviews-fallback" class="col-span-full">
-                    <div class="bg-white p-8 rounded-2xl shadow-md">
-                        <div class="text-center mb-6">
-                            <div class="w-20 h-20 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="uil uil-star text-4xl text-brand-green animate-bounce"></i>
-                            </div>
-                            <h4 class="text-2xl font-bold text-gray-800 mb-2">No Reviews Yet</h4>
-                            <p class="text-gray-600 mb-6">Be the first to share your experience!</p>
-                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                                <a href="reviews.html" class="bg-brand-green text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-dark transition transform hover:scale-105 shadow-lg">
-                                    <i class="uil uil-edit-alt mr-2"></i>
-                                    Write First Review
-                                </a>
-                                <a href="services.html" class="border border-brand-green text-brand-green px-8 py-4 rounded-xl font-bold hover:bg-brand-light transition transform hover:scale-105">
-                                    <i class="uil uil-apps mr-2"></i>
-                                    View Our Services
-                                </a>
-                            </div>
-                        </div>
+           
+            <!-- Reviews Section - Always Reflect Current Reviews -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Customer Reviews</h3>
+                    <p class="text-gray-600 mb-6">See what our satisfied customers are saying about our services!</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="reviews.html" class="bg-brand-green text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-dark transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3">
+                            <i class="uil uil-star text-xl"></i>
+                            <span>Read All Reviews</span>
+                        </a>
+                        <button onclick="showTextOverlay()" class="bg-transparent border-2 border-brand-green text-brand-green px-8 py-4 rounded-xl font-bold hover:bg-brand-light hover:text-white transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3">
+                            <i class="uil uil-edit-alt text-xl"></i>
+                            <span>Write Your Review</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -698,5 +738,38 @@
     <script src="js/chatbot.js"></script>
     <script src="js/reviews.js"></script>
     
-</body>
-</html>
+    <!-- Sound Effects for Logo Hover -->
+    <script>
+        // Create audio context for sound effects
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Create hover sound
+        function createHoverSound() {
+            const oscillator = audioContext.createOscillator('sine');
+            const gainNode = audioContext.createGain();
+            
+            oscillator.frequency.setValue(800);
+            oscillator.type.setValue('sine');
+            gainNode.gain.setValue(0.1);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start();
+            setTimeout(() => oscillator.stop(), 100);
+        }
+        
+        // Add hover sound to logo
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.logo-hover-effect');
+            if (logo) {
+                logo.addEventListener('mouseenter', function() {
+                    try {
+                        createHoverSound();
+                    } catch (e) {
+                        console.log('Audio not supported:', e);
+                    }
+                });
+            }
+        });
+    </script>

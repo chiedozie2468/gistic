@@ -93,7 +93,7 @@ function attemptLogin(email, password) {
     const errorMsg = document.getElementById('auth-error');
     
     // Admin Check
-    if (email === 'gisticservice@gmail.com' && password === '070733gistic') {
+    if (email === 'gisticservice@gmail.com' && password === '733gistic') {
         loginUser({ email: 'gisticservice@gmail.com', role: 'admin', name: 'GISTIC Admin' });
         document.getElementById('auth-modal').classList.add('hidden');
         return;
@@ -114,7 +114,6 @@ function attemptLogin(email, password) {
     }
 }
 
-// Function to show role selection modal
 function showRoleSelection() {
     const modal = document.createElement('div');
     modal.id = 'role-selection-modal';
@@ -134,14 +133,43 @@ function showRoleSelection() {
                             <p class="text-gray-600 mb-6">Select your role to continue to the worker portal.</p>
                             
                             <div class="space-y-4">
-                                <button onclick="selectRole('admin')" class="w-full bg-gradient-to-r from-brand-green to-brand-dark text-white px-6 py-4 rounded-lg font-bold hover:bg-brand-light transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-3">
-                                    <i class="uil uil-shield-check mr-2"></i>
-                                    <span>Administrator</span>
+                                <button onclick="selectRole('admin')" class="w-full bg-green-500 p-2 text-white px-8 py-5 rounded-xl hover:green-600 transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center justify-center gap-3 border-2 border-green-400/60 relative overflow-hidden group">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent transform -skew-x-12 -skew-y-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                    <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-white/60 shadow-lg">
+                                        <i class="uil uil-shield-check text-xl"></i>
+                                    </div>
+                                    <div class="text-left relative z-10">
+                                        <div class="text-lg font-bold">Sign in as Admin</div>
+                                        <div class="text-sm opacity-90">Manage reviews & settings</div>
+                                    </div>
                                 </button>
-                                <button onclick="selectRole('worker')" class="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-gray-400 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-3">
-                                    <i class="uil uil-briefcase mr-2"></i>
-                                    <span>Worker/Staff</span>
+                                <button onclick="selectRole('staff')" class="w-full bg-green-500 text-white px-8 py-5 rounded-xl hover:green-600 p-2 transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center justify-center gap-3 border-2 border-purple-400/60 relative overflow-hidden group">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent transform -skew-x-12 -skew-y-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                    <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-white/60 shadow-lg">
+                                        <i class="uil uil-briefcase text-xl"></i>
+                                    </div>
+                                    <div class="text-left relative z-10">
+                                        <div class="text-lg font-bold">Sign in as Staff</div>
+                                        <div class="text-sm opacity-90">Access worker portal</div>
+                                    </div>
                                 </button>
+                            </div>
+                            
+                            <div class="mt-6 pt-6 border-t border-gray-200">
+                                <p class="text-sm text-gray-500 text-center mb-4">
+                                    <i class="uil uil-lock-alt mr-1"></i>
+                                    Secure login required for all access
+                                </p>
+                                <div class="flex justify-center gap-4">
+                                    <button onclick="showLogoutOptions()" class="text-sm text-brand-green hover:text-brand-dark font-medium transition">
+                                        <i class="uil uil-sign-out-alt mr-1"></i>
+                                        Logout Options
+                                    </button>
+                                    <button onclick="showSecurityInfo()" class="text-sm text-gray-500 hover:text-gray-700 font-medium transition">
+                                        <i class="uil uil-shield-question mr-1"></i>
+                                        Security Info
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,6 +179,9 @@ function showRoleSelection() {
 }
 
 // Function to close role selection modal
+
+
+
 function closeRoleSelection() {
     const modal = document.getElementById('role-selection-modal');
     if (modal) {
@@ -176,9 +207,14 @@ function selectRole(role) {
         setTimeout(() => {
             showAdminLogin();
         }, 1500);
-    } else if (role === 'worker') {
-        // Show worker not ready message
-        showWorkerNotReady();
+    } else if (role === 'staff') {
+        // Show loading state
+        showLoadingState();
+        
+        // Simulate API call
+        setTimeout(() => {
+            showStaffComingSoon();
+        }, 1500);
     }
 }
 
@@ -307,9 +343,15 @@ function handleAdminLogin(event) {
     
     const email = event.target.querySelector('input[name="email"]').value;
     const password = event.target.querySelector('input[name="password"]').value;
+    const errorDiv = document.getElementById('admin-login-error');
+    
+    // Remove existing error message
+    if (errorDiv) {
+        errorDiv.remove();
+    }
     
     // Check admin credentials
-    if (email === 'gisticservice@gmail.com' && password === '070733gistic') {
+    if (email === 'gisticservice@gmail.com' && password === '733gistic') {
         // Login successful
         localStorage.setItem('gistic_user', JSON.stringify({
             email: 'gisticservice@gmail.com',
@@ -324,8 +366,31 @@ function handleAdminLogin(event) {
             window.location.href = 'reviews.html';
         }, 2000);
     } else {
-        // Login failed
-        showErrorMessage('Invalid admin credentials. Please try again.');
+        // Login failed - show error message
+        const errorElement = document.createElement('div');
+        errorElement.id = 'admin-login-error';
+        errorElement.className = 'mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-pulse';
+        errorElement.innerHTML = `
+            <div class="flex items-center gap-2">
+                <i class="uil uil-exclamation-triangle"></i>
+                <span class="font-medium">Invalid credentials!</span>
+            </div>
+            <p class="text-xs mt-1">Please check your email and password and try again.</p>
+        `;
+        
+        // Insert error message after the form
+        const form = event.target;
+        form.parentNode.insertBefore(errorElement, form.nextSibling);
+        
+        // Shake the form
+        form.classList.add('animate-pulse', 'border-red-300');
+        setTimeout(() => {
+            form.classList.remove('animate-pulse', 'border-red-300');
+        }, 2000);
+        
+        // Clear password field
+        form.querySelector('input[name="password"]').value = '';
+        form.querySelector('input[name="password"]').focus();
     }
 }
 
@@ -391,18 +456,172 @@ function updateUIForUser(user) {
     const loginBtns = document.querySelectorAll('.login-btn');
     loginBtns.forEach(btn => {
         if (user) {
-            btn.innerHTML = `<i class="uil uil-user-circle"></i> Logged in as ${user.name} (Logout)`;
-            btn.classList.add('bg-brand-green/10', 'text-brand-green');
-            btn.onclick = (e) => {
-                e.preventDefault();
-                logout();
-            };
+            if (user.role === 'admin') {
+                btn.innerHTML = `<i class="uil uil-sign-out-alt"></i> Logout Admin`;
+                btn.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600', 'border-2', 'border-red-300');
+                btn.classList.remove('bg-brand-green/10', 'text-brand-green');
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    showAdminLogoutConfirmation();
+                };
+            } else {
+                btn.innerHTML = `<i class="uil uil-user-circle"></i> Logged in as ${user.name} (Logout)`;
+                btn.classList.add('bg-brand-green/10', 'text-brand-green');
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    logout();
+                };
+            }
         } else {
+            // Not signed in - show original login button
             btn.innerHTML = `Staff Portal`;
+            btn.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600', 'border-2', 'border-red-300', 'bg-brand-green/10', 'text-brand-green');
             btn.onclick = (e) => {
                 e.preventDefault();
                 showLoginModal();
             };
         }
     });
+}
+
+// Function to show staff coming soon message
+function showStaffComingSoon() {
+    const modal = document.createElement('div');
+    modal.id = 'staff-coming-soon-modal';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+            <button onclick="closeStaffComingSoon()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+                <i class="uil uil-multiply text-xl"></i>
+            </button>
+            
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                        <i class="uil uil-briefcase text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Staff Portal Coming Soon!</h3>
+                    <p class="text-gray-600 mb-6">We're working hard to build an amazing staff portal for you. Stay connected for updates!</p>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center animate-pulse">
+                                <i class="uil uil-whatsapp text-2xl text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-green-700 font-bold text-lg mb-2">Join Our WhatsApp Group!</h4>
+                        <p class="text-green-600 text-sm mb-4">Get instant updates about the staff portal launch and connect with the team.</p>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition transform hover:scale-105 shadow-lg">
+                            <i class="uil uil-whatsapp"></i>
+                            Join Group Chat
+                        </a>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6 mb-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center animate-pulse">
+                                <i class="uil uil-facebook text-2xl text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-blue-700 font-bold text-lg mb-2">Follow Us on Facebook!</h4>
+                        <p class="text-blue-600 text-sm mb-4">Stay updated with our latest news and announcements on Facebook.</p>
+                        <a href="https://www.facebook.com/elochukwu.onyekwelu.5" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition transform hover:scale-105 shadow-lg">
+                            <i class="uil uil-facebook"></i>
+                            Follow on Facebook
+                        </a>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                            <h4 class="text-purple-700 font-bold mb-2 flex items-center gap-2">
+                                <i class="uil uil-rocket"></i>
+                                What's Coming
+                            </h4>
+                            <ul class="text-purple-600 text-sm space-y-1">
+                                <li>• Job assignments & scheduling</li>
+                                <li>• Earnings tracking & payments</li>
+                                <li>• Team communication tools</li>
+                                <li>• Performance analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <button onclick="closeStaffComingSoon()" class="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition mt-4">
+                        Got it, Thanks!
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Function to close staff coming soon modal
+function closeStaffComingSoon() {
+    const modal = document.getElementById('staff-coming-soon-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Function to show admin logout confirmation
+function showAdminLogoutConfirmation() {
+    const modal = document.createElement('div');
+    modal.id = 'admin-logout-confirmation-modal';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+            <button onclick="closeAdminLogoutConfirmation()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+                <i class="uil uil-multiply text-xl"></i>
+            </button>
+            
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                        <i class="uil uil-exclamation-triangle text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Admin Logout Confirmation</h3>
+                    <p class="text-gray-600 mb-6">Are you sure you want to logout from the admin account? You will lose access to review management features.</p>
+                    
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="uil uil-shield-check text-red-600"></i>
+                            <span class="text-red-700 font-bold">Security Notice</span>
+                        </div>
+                        <p class="text-red-600 text-sm">Logging out will end your admin session and require re-authentication to access review management.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="confirmAdminLogout()" class="bg-red-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-600 transition shadow-lg flex items-center justify-center gap-2">
+                            <i class="uil uil-sign-out-alt mr-2"></i>
+                            Yes, Logout
+                        </button>
+                        <button onclick="closeAdminLogoutConfirmation()" class="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Function to close admin logout confirmation modal
+function closeAdminLogoutConfirmation() {
+    const modal = document.getElementById('admin-logout-confirmation-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Function to confirm admin logout
+function confirmAdminLogout() {
+    closeAdminLogoutConfirmation();
+    localStorage.removeItem('gistic_user');
+    showSuccessMessage('Admin logged out successfully!');
+    
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 2000);
 }
