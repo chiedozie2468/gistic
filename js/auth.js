@@ -138,9 +138,9 @@ function showRoleSelection() {
                                     <i class="uil uil-shield-check mr-2"></i>
                                     <span>Administrator</span>
                                 </button>
-                                <button onclick="selectRole('staff')" class="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-gray-400 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-3">
+                                <button onclick="selectRole('worker')" class="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-gray-400 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-3">
                                     <i class="uil uil-briefcase mr-2"></i>
-                                    <span>Staff Member</span>
+                                    <span>Worker/Staff</span>
                                 </button>
                             </div>
                         </div>
@@ -168,18 +168,64 @@ function showRoleSelection() {
             // Store selected role
             localStorage.setItem('selectedRole', role);
             
-            // Show loading state
-            showLoadingState();
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Show login form based on selected role
-                if (role === 'admin') {
+            if (role === 'admin') {
+                // Show loading state
+                showLoadingState();
+                
+                // Simulate API call
+                setTimeout(() => {
                     showAdminLogin();
-                } else if (role === 'staff') {
-                    showStaffLogin();
-                }
-            }, 1500);
+                }, 1500);
+            } else if (role === 'worker') {
+                // Show worker not ready message
+                showWorkerNotReady();
+            }
+        }
+        
+        // Function to show worker not ready message
+        function showWorkerNotReady() {
+            const modal = document.createElement('div');
+            modal.id = 'worker-not-ready-modal';
+            modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+                    <button onclick="closeWorkerNotReady()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+                        <i class="uil uil-multiply text-xl"></i>
+                    </button>
+                    
+                    <div class="p-8">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="uil uil-constructor text-3xl text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Coming Soon!</h3>
+                            <p class="text-gray-600 mb-6">The Worker Portal is currently under development and will be available soon.</p>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <p class="text-blue-700 text-sm font-medium mb-2">Stay Connected:</p>
+                                <p class="text-blue-600 text-sm">Join our WhatsApp group to get updates when the portal launches.</p>
+                                <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-600 transition mt-3">
+                                    <i class="uil uil-whatsapp"></i>
+                                    Join Group Chat
+                                </a>
+                            </div>
+                            
+                            <button onclick="closeWorkerNotReady()" class="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">
+                                Got it, Thanks!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        // Function to close worker not ready modal
+        function closeWorkerNotReady() {
+            const modal = document.getElementById('worker-not-ready-modal');
+            if (modal) {
+                modal.remove();
+            }
         }
 
 function loginUser(user) {
