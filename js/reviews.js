@@ -133,19 +133,15 @@ function addNewReview(reviewData) {
         service: reviewData.service,
         rating: parseInt(reviewData.rating),
         message: reviewData.message,
-        date: new Date().toISOString().split('T')[0] // Current date
+        date: new Date().toISOString()
     };
     
-    reviews.unshift(newReview); // Add to beginning
-    
-    // Save to localStorage
+    reviews.push(newReview);
     localStorage.setItem('gisticReviews', JSON.stringify(reviews));
     
-    // Re-render reviews
+    // Refresh both reviews displays
     renderReviews();
-    
-    // Show success message
-    showSuccessMessage();
+    renderHomeReviewsPreview(); // Refresh home page preview
 }
 
 // Function to show delete confirmation modal
@@ -320,6 +316,7 @@ function showDeleteMessage(reviewName) {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     renderReviews();
+    renderHomeReviewsPreview(); // Render home page preview
     
     // Handle form submission
     const reviewForm = document.getElementById('review-form');
@@ -484,6 +481,68 @@ function submitTextReview(event) {
     setTimeout(() => {
         window.location.href = 'reviews.html';
     }, 2000);
+}
+
+// Function to render reviews on home page preview
+function renderHomeReviewsPreview() {
+    const container = document.getElementById('home-reviews-preview');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    // Sort reviews by date (newest first)
+    const sortedReviews = [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    // Show only first 3 reviews
+    const previewReviews = sortedReviews.slice(0, 3);
+    
+    if (previewReviews.length === 0) {
+        container.innerHTML = `
+            <div class="col-span-full text-center py-8">
+                <p class="text-gray-500">No reviews yet. Be the first to share your experience!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    previewReviews.forEach((review) => {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-50 p-4 rounded-xl';
+        
+        let starsHtml = '';
+        for (let i = 0; i < 5; i++) {
+            starsHtml += i < review.rating 
+                ? `<i class="uil uil-star text-yellow-400 text-sm"></i>` 
+                : `<i class="uil uil-star text-gray-300 text-sm"></i>`;
+        }
+        
+        const reviewDate = new Date(review.date);
+        const formattedDate = reviewDate.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+        
+        card.innerHTML = `
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="mb-3">
+                    <h4 class="font-bold text-gray-900 text-lg mb-1">${review.name}</h4>
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="text-sm">${starsHtml}</div>
+                        <div class="text-xs text-gray-500">${formattedDate}</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span class="inline-block bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full uppercase">
+                        ${review.service}
+                    </span>
+                </div>
+                <p class="text-gray-700 text-sm italic line-clamp-3">"${review.message}"</p>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
 }
 
 // Function to send email notification
