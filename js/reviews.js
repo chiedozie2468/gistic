@@ -108,11 +108,16 @@ function renderReviews() {
         // Only show delete button if authenticated
         const deleteButton = canDelete ? `
             <div class="absolute top-4 right-4 z-10">
-                <button onclick="showDeleteModal(${index})" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-110 shadow-lg" title="Delete review">
+                <button onclick="showDeleteModal(${index})" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-110 shadow-lg" title="Delete review (Admin only)">
                     <i class="uil uil-trash-alt"></i>
                 </button>
             </div>
-        ` : '';
+        ` : `
+            <div class="absolute top-4 right-4 z-10">
+                <div class="text-xs text-gray-400 italic text-center p-2 bg-gray-100 rounded" title="Login to delete reviews">
+                    <i class="uil uil-lock text-xs"></i>
+                </div>
+        `;
         
         // Create review content
         const reviewContent = document.createElement('div');
@@ -195,10 +200,11 @@ function showDeleteModal(index) {
                     <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
                         <p class="text-gray-700 mb-4">Are you sure you want to delete this review from <strong class="text-red-600">${review.name}</strong>?</p>
                         <div class="text-left text-sm text-gray-600 space-y-2">
-                            <p><strong class="text-gray-800">Service:</strong> <span class="font-medium">${review.service}</span></p>
+                            <p><strong class="font-medium text-gray-800">Service:</strong> <span class="font-medium">${review.service}</span></p>
                             <p><strong class="text-gray-800">Rating:</strong> <span class="text-lg">${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</span></p>
                             <p><strong class="text-gray-800">Message:</strong></p>
                             <div class="bg-white p-3 rounded border border-gray-200 italic text-gray-700 mt-2">"${review.message}"</div>
+                            <p class="text-xs text-red-500 mt-2 italic">⚠️ Admin-only action: Only administrators can delete reviews</p>
                         </div>
                     </div>
                 </div>

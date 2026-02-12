@@ -475,37 +475,52 @@
             </div>
         </div>
     </section>
-
-    <!-- Reviews Preview -->
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-brand-green font-bold text-lg mb-2 uppercase tracking-wide">Testimonials</h2>
-                <h3 class="text-4xl font-bold text-gray-900">What Our Clients Say</h3>
+                <h3 class="text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Real feedback from real people across Enugu.</p>
             </div>
-
+            
             <!-- Reviews Container (Populated via JS) -->
-            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <!-- Fallback Static Content -->
-                <div class="bg-white p-8 rounded-2xl shadow-md">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-                            <img src="https://ui-avatars.com/api/?name=Chinedu+O&background=00A859&color=fff" alt="User">
+            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Enhanced Loading State -->
+                <div id="reviews-loading" class="col-span-full text-center py-16 hidden">
+                    <div class="inline-flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-brand-green/20 rounded-full flex items-center justify-center animate-pulse">
+                            <i class="uil uil-star text-3xl text-brand-green"></i>
                         </div>
                         <div>
-                            <h5 class="font-bold text-gray-800">Chinedu O.</h5>
-                            <div class="text-yellow-400 text-sm">
-                                <i class="uil uil-star"></i><i class="uil uil-star"></i><i class="uil uil-star"></i><i class="uil uil-star"></i><i class="uil uil-star"></i>
+                            <h4 class="text-2xl font-bold text-gray-800">Loading Reviews...</h4>
+                            <p class="text-gray-600">Fetching customer feedback</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fallback Static Content -->
+                <div id="reviews-fallback" class="col-span-full">
+                    <div class="bg-white p-8 rounded-2xl shadow-md">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="uil uil-star text-4xl text-brand-green animate-bounce"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-gray-800 mb-2">No Reviews Yet</h4>
+                            <p class="text-gray-600 mb-6">Be the first to share your experience!</p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href="reviews.html" class="bg-brand-green text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-dark transition transform hover:scale-105 shadow-lg">
+                                    <i class="uil uil-edit-alt mr-2"></i>
+                                    Write First Review
+                                </a>
+                                <a href="services.html" class="border border-brand-green text-brand-green px-8 py-4 rounded-xl font-bold hover:bg-brand-light transition transform hover:scale-105">
+                                    <i class="uil uil-apps mr-2"></i>
+                                    View Our Services
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-600 italic">"The electrical team was fantastic. Fixed my wiring issues in no time. Highly recommended!"</p>
                 </div>
             </div>
-
-            <div class="text-center">
-                <a href="reviews.html" class="text-brand-green font-bold hover:underline">Read All Reviews</a>
-            </div>
+        </section>
         </div>
     </section>
 
