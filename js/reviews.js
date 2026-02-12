@@ -36,7 +36,13 @@ function loadReviews() {
 
 let reviews = loadReviews();
 
-// Check if user is authenticated (admin or staff)
+// Check if user is admin (only admins can delete)
+function isAdmin() {
+    const user = JSON.parse(localStorage.getItem('gistic_user'));
+    return user && user.role === 'admin';
+}
+
+// Check if user is authenticated (can view and write reviews)
 function isAuthenticated() {
     const user = JSON.parse(localStorage.getItem('gistic_user'));
     return user && (user.role === 'admin' || user.role === 'staff');
@@ -55,7 +61,7 @@ function renderReviews() {
     // Sort reviews by date (newest first)
     const sortedReviews = [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    const canDelete = isAuthenticated();
+    const canDelete = isAdmin();
     
     if (sortedReviews.length === 0) {
         container.innerHTML = `<div class="text-center py-16 px-6"><div class="max-w-md mx-auto"><div class="bg-white rounded-2xl shadow-xl p-8 mb-6"><div class="w-20 h-20 bg-gradient-to-br from-brand-green to-brand-dark rounded-full flex items-center justify-center mx-auto mb-6"><i class="uil uil-star text-4xl text-white animate-bounce"></i></div><h3 class="text-2xl font-bold text-gray-800 mb-2">No Reviews Yet</h3><p class="text-gray-600 mb-6">Be the first to share your experience with GISTIC Services!</p><div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="document.getElementById('review-form').scrollIntoView({behavior: 'smooth'})" class="bg-brand-green text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-dark transition transform hover:scale-105 shadow-lg flex items-center justify-center"><i class="uil uil-edit-alt mr-2"></i> Write First Review</button><a href="services.html" class="border border-brand-green text-brand-green px-6 py-3 rounded-lg font-bold hover:bg-brand-green hover:text-white transition flex items-center justify-center"><i class="uil uil-apps mr-2"></i> View Our Services</a></div></div></div></div>`;
@@ -257,8 +263,7 @@ function closeDeleteModal() {
 // Function to confirm delete
 function confirmDelete(index) {
     // Check if user is admin
-    const user = JSON.parse(localStorage.getItem('gistic_user'));
-    if (!user || user.role !== 'admin') {
+    if (!isAdmin()) {
         alert('Only administrators can delete reviews. Please login as admin to access this feature.');
         closeDeleteModal();
         return;
