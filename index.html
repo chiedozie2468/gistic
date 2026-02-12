@@ -17,6 +17,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden">
 
@@ -121,7 +124,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative bg-green-100/20 pt-32 pb-20 lg:pt-48 lg:pb-40 overflow-hidden min-h-[90vh] flex items-center">
+    <header class="relative bg-green-50 pt-32 pb-20 lg:pt-48 lg:pb-40 overflow-hidden min-h-[90vh] flex items-center">
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-0">
                 
@@ -194,19 +197,19 @@
                 <div class="grid grid-cols-4 md:grid-cols-4 gap-2 md:gap-8">
                     <div class="text-center px-1 border-r border-gray-100">
                         <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Projects</p>
-                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="13750">0</h3>
+                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="750">0</h3>
                     </div>
                     <div class="text-center px-1 border-r border-gray-100">
                         <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Workers</p>
-                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="26750">0</h3>
+                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="150">0</h3>
                     </div>
                     <div class="text-center px-1 border-r border-gray-100">
                         <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Clients</p>
-                        <h3 class="text-lg md:text-4xl font-bold text-brand-green counter" data-target="36950">0</h3>
+                        <h3 class="text-lg md:text-4xl font-bold text-brand-green counter" data-target="350">0</h3>
                     </div>
                     <div class="text-center px-1">
                          <p class="text-gray-400 text-[8px] md:text-xs font-bold uppercase tracking-wider mb-1">Categories</p>
-                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="29810">0</h3>
+                        <h3 class="text-lg md:text-4xl font-bold text-gray-800 counter" data-target="210">0</h3>
                     </div>
                 </div>
             </div>
@@ -214,7 +217,7 @@
     </section>
 
     <!-- About Section (Transition Fixed) -->
-    <section id="about" class="py-20 bg-gray-50">
+    <section id="about" class="py-20 bg-green-50">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center gap-12">
                 <div class="md:w-1/2 relative">
@@ -523,10 +526,9 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-brand-dark text-white pt-20 pb-10">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
                 <div>
                     <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-16 h-16 object-contain mb-6 rounded-lg bg-brand-light">
                     <p class="text-gray-300 mb-6">
@@ -548,6 +550,7 @@
                         <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
                         <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
                         <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition login-btn">Staff Portal</a></li>
                     </ul>
                 </div>
 
@@ -593,10 +596,83 @@
         </div>
     </footer>
 
+    <!-- Map Modal -->
+    <div id="map-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            <div class="bg-brand-green text-white p-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold">GISTIC Services Location</h3>
+                <button onclick="closeMapModal()" class="text-white hover:bg-white/20 rounded-lg p-2 transition">
+                    <i class="uil uil-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-4">
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="map-search" 
+                            placeholder="Search for locations..." 
+                            class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green"
+                        >
+                        <button 
+                            onclick="searchLocation()" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-green text-white p-2 rounded-lg hover:bg-brand-dark transition"
+                        >
+                            <i class="uil uil-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Interactive Map -->
+                <div id="interactive-map" class="w-full h-96 bg-gray-100 rounded-lg overflow-hidden"></div>
+                
+                <!-- Map Controls -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <button onclick="resetMapView()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center gap-2">
+                        <i class="uil uil-home"></i>
+                        Reset View
+                    </button>
+                    <button onclick="getCurrentLocation()" class="px-4 py-2 bg-brand-green text-white rounded-lg hover:bg-brand-dark transition flex items-center gap-2">
+                        <i class="uil uil-location-point"></i>
+                        My Location
+                    </button>
+                    <button onclick="toggleMapStyle()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center gap-2">
+                        <i class="uil uil-layer-group"></i>
+                        Change Style
+                    </button>
+                </div>
+                
+                <!-- Location Details -->
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="uil uil-map-marker text-brand-green"></i>
+                            Address
+                        </h4>
+                        <p class="text-gray-600 text-sm">GISTIC Services, Enugu Metropolis, Nigeria</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="uil uil-phone text-brand-green"></i>
+                            Contact
+                        </h4>
+                        <p class="text-gray-600 text-sm">09020966002</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Chatbot Button -->
     <button id="chatbot-trigger" class="fixed bottom-6 right-6 z-40 bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
         <i class="uil uil-comment-dots"></i>
     </button>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Scripts -->
     <script src="js/security.js"></script>

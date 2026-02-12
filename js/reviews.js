@@ -1,10 +1,10 @@
 /**
- * GISTIC Services - Reviews Data
- * This file contains approved reviews.
- * To add a new review, manually append to the 'reviews' array.
+ * GISTIC Services - Reviews Logic
+ * Handles rendering and administrative management of customer feedback.
  */
 
-const reviews = [
+// Initial data if storage is empty
+const INITIAL_REVIEWS = [
     {
         name: "Chinedu Okeke",
         service: "Electrical Works",
@@ -21,12 +21,19 @@ const reviews = [
     },
     {
         name: "Tunde Bakare",
-        service: "Plumbing",
+        service: "Painting",
         rating: 5,
         message: "Emergency response was quick. Saved my kitchen from flooding.",
         date: "2024-02-10"
     }
 ];
+
+// Load reviews from localStorage or use initial set
+let reviews = JSON.parse(localStorage.getItem('gistic_reviews')) || INITIAL_REVIEWS;
+
+function saveReviews() {
+    localStorage.setItem('gistic_reviews', JSON.stringify(reviews));
+}
 
 function renderReviews() {
     const container = document.getElementById('reviews-container');
@@ -34,29 +41,37 @@ function renderReviews() {
 
     container.innerHTML = ''; // Clear loading state
 
+    // Check if current user is the specific authorized admin
+    const currentUser = JSON.parse(localStorage.getItem('gistic_user'));
+    const isSuperAdmin = currentUser && currentUser.email === 'gisticservice@gmail.com';
+
     if (reviews.length === 0) {
-        container.innerHTML = '<p class="text-center text-gray-500">No reviews yet. Be the first!</p>';
+        container.innerHTML = '<p class="text-center text-gray-500 w-full py-10">No reviews yet. Be the first to share your experience!</p>';
         return;
     }
 
-    reviews.forEach(review => {
+    reviews.forEach((review, index) => {
         const card = document.createElement('div');
-        card.className = "bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition flex flex-col gap-4";
+        card.className = "bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col gap-4 relative group";
         
         // Stars
         let starsHtml = '';
         for (let i = 0; i < 5; i++) {
-            if (i < review.rating) {
-                starsHtml += '<i class="uil uil-star text-yellow-400"></i>';
-            } else {
-                starsHtml += '<i class="uil uil-star text-gray-300"></i>';
-            }
+            starsHtml += `<i class="uil uil-star ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}"></i>`;
         }
 
+        // Admin Delete Button (Only for specific email)
+        const deleteBtnHtml = isSuperAdmin ? `
+            <button onclick="deleteReview(${index})" class="absolute top-4 right-4 text-gray-300 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100" title="Delete Review">
+                <i class="uil uil-trash-alt text-xl"></i>
+            </button>
+        ` : '';
+
         card.innerHTML = `
-            <div class="flex justify-between items-start">
+            ${deleteBtnHtml}
+            <div class="flex justify-between items-start pr-8">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-brand-light rounded-full flex items-center justify-center text-brand-green font-bold">
+                    <div class="w-12 h-12 bg-brand-light rounded-full flex items-center justify-center text-brand-green font-bold text-lg">
                         ${review.name.charAt(0)}
                     </div>
                     <div>
@@ -64,12 +79,33 @@ function renderReviews() {
                         <p class="text-xs text-gray-500">${review.service} • ${review.date}</p>
                     </div>
                 </div>
-                <div class="text-sm">${starsHtml}</div>
             </div>
-            <p class="text-gray-600 italic">"${review.message}"</p>
+            <div class="flex gap-1">${starsHtml}</div>
+            <p class="text-gray-600 italic leading-relaxed">"${review.message}"</p>
         `;
         container.appendChild(card);
     });
+}
+
+/**
+ * Admin Only: Delete a review
+ */
+window.deleteReview = function(index) {
+    if (!confirm('Are you sure you want to delete this review? This action cannot be undone.')) return;
+    
+    // Check auth again for safety
+    const currentUser = JSON.parse(localStorage.getItem('gistic_user'));
+    if (!currentUser || currentUser.email !== 'gisticservice@gmail.com') {
+        alert('Unauthorized action.');
+        return;
+    }
+
+    reviews.splice(index, 1);
+    saveReviews();
+    renderReviews();
+    
+    // Show toast or alert
+    console.log('Review deleted successfully');
 }
 
 // Render on load

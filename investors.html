@@ -166,7 +166,7 @@
     <!-- Footer -->
     <footer class="bg-brand-dark text-white pt-20 pb-10">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
                 <div>
                     <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-16 h-16 object-contain mb-6 rounded-lg bg-brand-light">
                     <p class="text-gray-300 mb-6">
@@ -188,6 +188,7 @@
                         <li><a href="work-with-us.html" class="hover:text-brand-green transition">Careers</a></li>
                         <li><a href="partnerships.html" class="hover:text-brand-green transition">Partnerships</a></li>
                         <li><a href="investors.html" class="hover:text-brand-green transition">Investors</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition login-btn">Staff Portal</a></li>
                     </ul>
                 </div>
 
@@ -239,10 +240,66 @@
     <script src="js/main.js"></script>
     <script src="js/chatbot.js"></script>
     
+    <!-- Map Modal -->
+    <div id="map-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            <div class="bg-brand-green text-white p-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold">GISTIC Services Location</h3>
+                <button onclick="closeMapModal()" class="text-white hover:bg-white/20 rounded-lg p-2 transition">
+                    <i class="uil uil-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-4">
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="map-search" 
+                            placeholder="Search for locations..." 
+                            class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green"
+                        >
+                        <button 
+                            onclick="searchLocation()" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-green text-white p-2 rounded-lg hover:bg-brand-dark transition"
+                        >
+                            <i class="uil uil-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Interactive Map -->
+                <div id="interactive-map" class="w-full h-96 bg-gray-100 rounded-lg overflow-hidden"></div>
+                
+                <!-- Map Controls -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <button onclick="resetMapView()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center gap-2">
+                        <i class="uil uil-home"></i>
+                        Reset View
+                    </button>
+                    <button onclick="getCurrentLocation()" class="px-4 py-2 bg-brand-green text-white rounded-lg hover:bg-brand-dark transition flex items-center gap-2">
+                        <i class="uil uil-location-point"></i>
+                        My Location
+                    </button>
+                    <button onclick="toggleMapStyle()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center gap-2">
+                        <i class="uil uil-layer-group"></i>
+                        Change Style
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Chatbot Button -->
     <button id="chatbot-trigger" class="fixed bottom-6 right-6 z-40 bg-brand-green text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-green-600 transition transform hover:scale-110 animate-bounce">
         <i class="uil uil-comment-dots"></i>
     </button>
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 </html>

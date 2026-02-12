@@ -82,70 +82,210 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Global Map Modal Functions
+ * Global Map Modal Functions (Leaflet Version)
  */
-const defaultMapUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126839.0682057774!2d7.4970425!3d6.448574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1044a3d4632d4339%3A0x6b864d306544490f!2sEnugu!5e0!3m2!1sen!2sng!4v1717171717171!5m2!1sen!2sng";
+let map;
+let companyMarker;
+let currentMapStyle = 'street';
+
+// GISTIC Services Company Coordinates (Enugu, Nigeria)
+const companyLocation = [6.448574, 7.4970425];
 
 window.toggleMapModal = function(show) {
     const modal = document.getElementById('map-modal');
     if (!modal) return;
     if (show) {
         modal.classList.remove('hidden');
+        modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
+        
+        // Initialize map when modal opens
+        setTimeout(() => {
+            window.initializeMap();
+        }, 100);
     } else {
         modal.classList.add('hidden');
+        modal.classList.remove('flex');
         document.body.style.overflow = '';
+        
+        // Clean up map
+        if (map) {
+            map.remove();
+            map = null;
+        }
     }
 }
 
-// Search Map Functionality
-window.searchMap = function() {
-    const input = document.getElementById('map-search-input');
-    if (!input) return;
-    const query = input.value.trim();
-    if (!query) return;
-    
-    const iframe = document.getElementById('main-map-iframe');
-    const status = document.getElementById('map-status');
-    
-    if (iframe) iframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
-    if (status) status.innerHTML = `<i class="uil uil-search text-brand-green mr-2"></i> Result for: ${query}`;
-}
+// Support older function name
+window.openMapModal = () => window.toggleMapModal(true);
+window.closeMapModal = () => window.toggleMapModal(false);
 
-window.locateMe = function() {
-    const status = document.getElementById('map-status');
-    if (status) status.innerHTML = `<i class="uil uil-spinner-alt animate-spin text-brand-green mr-2"></i> Finding your location...`;
+window.initializeMap = function() {
+    const mapContainer = document.getElementById('interactive-map');
+    if (!mapContainer || map) return; // No container or already initialized
     
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            const iframe = document.getElementById('main-map-iframe');
-            
-            if (iframe) iframe.src = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-            if (status) status.innerHTML = `<i class="uil uil-location-point text-brand-green mr-2"></i> Showing your current location`;
-        }, (error) => {
-            if (status) status.innerHTML = `<i class="uil uil-exclamation-triangle text-red-500 mr-2"></i> Permission denied or error`;
+    try {
+        // Create map centered on company location
+        map = L.map('interactive-map').setView(companyLocation, 15);
+        
+        // Add tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Add custom company marker
+        const companyIcon = L.divIcon({
+            html: '<div style="background-color: #10b981; color: white; padding: 8px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-building" style="font-size: 16px;"></i></div>',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20],
+            popupAnchor: [0, -20],
+            className: 'company-marker'
         });
-    } else {
-        if (status) status.innerHTML = "Geolocation not supported";
+        
+        companyMarker = L.marker(companyLocation, { icon: companyIcon }).addTo(map);
+        companyMarker.bindPopup(`
+            <div style="text-align: center; padding: 10px;">
+                <h4 style="margin: 0 0 10px 0; color: #10b981; font-weight: bold;">GISTIC Services</h4>
+                <p style="margin: 5px 0; color: #666;">Professional Home Services</p>
+                <p style="margin: 5px 0; color: #666; font-size: 12px;">Enugu Metropolis, Nigeria</p>
+                <p style="margin: 5px 0; color: #666; font-size: 12px;">📞 09020966002</p>
+            </div>
+        `).openPopup();
+        
+        // Add circle to show service area
+        L.circle(companyLocation, {
+            color: '#10b981',
+            fillColor: '#10b981',
+            fillOpacity: 0.1,
+            radius: 5000 // 5km radius
+        }).addTo(map);
+        
+    } catch (error) {
+        console.error('Error initializing map:', error);
+        mapContainer.innerHTML = `
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f3f4f6;">
+                <div style="text-align: center; padding: 20px;">
+                    <i class="uil uil-map-marker" style="font-size: 48px; color: #10b981; margin-bottom: 10px;"></i>
+                    <h3 style="color: #374151; margin-bottom: 10px;">GISTIC Services</h3>
+                    <p style="color: #6b7280; margin-bottom: 15px;">Enugu Metropolis, Nigeria</p>
+                    <button onclick="window.getDirections()" class="bg-brand-green text-white px-6 py-2 rounded-lg hover:bg-brand-dark transition">
+                        Get Directions
+                    </button>
+                </div>
+            </div>
+        `;
     }
 }
 
-window.resetMap = function() {
-    const iframe = document.getElementById('main-map-iframe');
-    const status = document.getElementById('map-status');
-    const input = document.getElementById('map-search-input');
+window.searchLocation = function() {
+    const input = document.getElementById('map-search');
+    const searchTerm = input ? input.value : "";
+    if (!searchTerm) return;
     
-    if (iframe) iframe.src = defaultMapUrl;
-    if (status) status.innerHTML = "GISTIC HQ - Enugu, Nigeria";
-    if (input) input.value = "";
+    if (!map) {
+        alert('Map is not loaded yet. Please try again.');
+        return;
+    }
+    
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchTerm)}&limit=1`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                const result = data[0];
+                const lat = parseFloat(result.lat);
+                const lon = parseFloat(result.lon);
+                
+                map.setView([lat, lon], 16);
+                
+                const searchIcon = L.divIcon({
+                    html: '<div style="background-color: #ef4444; color: white; padding: 6px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-map-marker" style="font-size: 12px;"></i></div>',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15],
+                    className: 'search-marker'
+                });
+                
+                L.marker([lat, lon], { icon: searchIcon })
+                    .addTo(map)
+                    .bindPopup(`<strong>${result.display_name}</strong>`)
+                    .openPopup();
+            } else {
+                alert('Location not found. Please try a different search term.');
+            }
+        })
+        .catch(error => {
+            console.error('Search error:', error);
+            alert('Search failed. Please try again.');
+        });
 }
 
-// Global Enter key listener for map search
+window.resetMapView = function() {
+    if (map) {
+        map.setView(companyLocation, 15);
+        if (companyMarker) companyMarker.openPopup();
+    }
+}
+
+window.getCurrentLocation = function() {
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser.');
+        return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        
+        if (map) {
+            const userIcon = L.divIcon({
+                html: '<div style="background-color: #3b82f6; color: white; padding: 6px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><i class="uil uil-user" style="font-size: 12px;"></i></div>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+                className: 'user-marker'
+            });
+            
+            L.marker([lat, lon], { icon: userIcon })
+                .addTo(map)
+                .bindPopup('Your Location')
+                .openPopup();
+            
+            map.setView([lat, lon], 15);
+        }
+    });
+}
+
+window.toggleMapStyle = function() {
+    if (!map) return;
+    
+    map.eachLayer(layer => {
+        if (layer instanceof L.TileLayer) map.removeLayer(layer);
+    });
+    
+    if (currentMapStyle === 'street') {
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '© Esri',
+            maxZoom: 19
+        }).addTo(map);
+        currentMapStyle = 'satellite';
+    } else {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+        currentMapStyle = 'street';
+    }
+}
+
+window.getDirections = function() {
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${companyLocation[0]},${companyLocation[1]}`, '_blank');
+}
+
+// Support for older enter key listener
 document.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && e.target.id === 'map-search-input') {
-        window.searchMap();
+    if (e.key === 'Enter') {
+        if (e.target.id === 'map-search' || e.target.id === 'map-search-input') {
+            window.searchLocation();
+        }
     }
 });
 

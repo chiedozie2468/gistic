@@ -4,7 +4,7 @@
  */
 
 const APPROVED_USERS = [
-    { email: 'admin@gistic.com', role: 'admin', name: 'System Administrator' },
+    { email: 'gisticservice@gmail.com', role: 'admin', name: 'GISTIC Admin' },
     { email: 'worker@gistic.com', role: 'worker', name: 'John Doe (Electrician)' }
 ];
 
@@ -118,19 +118,39 @@ function attemptLogin(email, password) {
 
 function loginUser(user) {
     localStorage.setItem('gistic_user', JSON.stringify(user));
-    alert(`Welcome back, ${user.name}! Redirecting to dashboard...`);
-    // Ideally redirect to dashboard.html, but since not requested, reload page with state
+    alert(`Welcome back, ${user.name}! Administrative features enabled.`);
     updateUIForUser(user);
-    window.location.reload();
+    // Reload if on reviews page to show delete buttons
+    if (window.location.pathname.includes('reviews.html')) {
+        window.location.reload();
+    }
 }
 
 function logout() {
-    localStorage.removeItem('gistic_user');
-    window.location.reload();
+    if (confirm('Are you sure you want to log out?')) {
+        localStorage.removeItem('gistic_user');
+        window.location.reload();
+    }
 }
 
 function updateUIForUser(user) {
-    // Replace "Worker Portal" button with "Dashboard / Logout"
-    const loginBtns = document.querySelectorAll('.login-btn, [href="login.html"]'); // Handle diverse selectors
-    // ... logic to swap button text
+    const loginBtns = document.querySelectorAll('.login-btn');
+    loginBtns.forEach(btn => {
+        if (user) {
+            btn.innerHTML = `<i class="uil uil-sign-out-alt"></i> Logout (${user.role})`;
+            btn.classList.add('bg-red-50', 'text-red-600');
+            btn.classList.remove('text-gray-300');
+            btn.onclick = (e) => {
+                e.preventDefault();
+                logout();
+            };
+        } else {
+            // Reset to default if needed (though reload handles this mostly)
+            btn.innerHTML = `Staff Portal`;
+            btn.onclick = (e) => {
+                e.preventDefault();
+                showLoginModal();
+            };
+        }
+    });
 }
