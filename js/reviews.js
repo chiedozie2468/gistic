@@ -36,10 +36,10 @@ function loadReviews() {
 
 let reviews = loadReviews();
 
-// Check if user is admin (only admins can delete)
+// Check if user is admin (only gisticservice@gmail.com can delete)
 function isAdmin() {
     const user = JSON.parse(localStorage.getItem('gistic_user'));
-    return user && user.role === 'admin';
+    return user && user.email === 'gisticservice@gmail.com';
 }
 
 // Check if user is authenticated (can view and write reviews)
@@ -88,20 +88,14 @@ function renderReviews() {
             day: 'numeric' 
         });
         
-        // Only show delete button if authenticated
+        // Only show delete button if admin
         const deleteButton = canDelete ? `
             <div class="absolute top-4 right-4 z-10">
                 <button onclick="showDeleteModal(${index})" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-110 shadow-lg" title="Delete review (Admin only)">
                     <i class="uil uil-trash-alt"></i>
                 </button>
             </div>
-        ` : `
-            <div class="absolute top-4 right-4 z-10">
-                <div class="text-xs text-gray-400 italic text-center p-2 bg-gray-100 rounded" title="Login to delete reviews">
-                    <i class="uil uil-lock text-xs"></i>
-                </div>
-            </div>
-        `;
+        ` : '';
         
         // Create review content
         const reviewContent = document.createElement('div');
