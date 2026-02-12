@@ -147,86 +147,223 @@ function showRoleSelection() {
                     </div>
                 </div>
             `;
-            document.body.appendChild(modal);
-        }
+    document.body.appendChild(modal);
+}
+
+// Function to close role selection modal
+function closeRoleSelection() {
+    const modal = document.getElementById('role-selection-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Function to select role
+function selectRole(role) {
+    const modal = document.getElementById('role-selection-modal');
+    if (modal) {
+        modal.remove();
+    }
+    
+    // Store selected role
+    localStorage.setItem('selectedRole', role);
+    
+    if (role === 'admin') {
+        // Show loading state
+        showLoadingState();
         
-        // Function to close role selection modal
-        function closeRoleSelection() {
-            const modal = document.getElementById('role-selection-modal');
-            if (modal) {
-                modal.remove();
-            }
+        // Simulate API call
+        setTimeout(() => {
+            showAdminLogin();
+        }, 1500);
+    } else if (role === 'worker') {
+        // Show worker not ready message
+        showWorkerNotReady();
+    }
+}
+
+// Function to show loading state
+function showLoadingState() {
+    const modal = document.createElement('div');
+    modal.id = 'loading-modal';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-2xl p-8 text-center">
+            <div class="w-16 h-16 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-spin">
+                <i class="uil uil-spinner text-2xl text-brand-green"></i>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800">Loading...</h4>
+            <p class="text-gray-600">Please wait while we prepare your login.</p>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Auto-remove after 2 seconds
+    setTimeout(() => {
+        const loadingModal = document.getElementById('loading-modal');
+        if (loadingModal) {
+            loadingModal.remove();
         }
-        
-        // Function to select role
-        function selectRole(role) {
-            const modal = document.getElementById('role-selection-modal');
-            if (modal) {
-                modal.remove();
-            }
+    }, 2000);
+}
+
+// Function to show worker not ready message
+function showWorkerNotReady() {
+    const modal = document.createElement('div');
+    modal.id = 'worker-not-ready-modal';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+            <button onclick="closeWorkerNotReady()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+                <i class="uil uil-multiply text-xl"></i>
+            </button>
             
-            // Store selected role
-            localStorage.setItem('selectedRole', role);
-            
-            if (role === 'admin') {
-                // Show loading state
-                showLoadingState();
-                
-                // Simulate API call
-                setTimeout(() => {
-                    showAdminLogin();
-                }, 1500);
-            } else if (role === 'worker') {
-                // Show worker not ready message
-                showWorkerNotReady();
-            }
-        }
-        
-        // Function to show worker not ready message
-        function showWorkerNotReady() {
-            const modal = document.createElement('div');
-            modal.id = 'worker-not-ready-modal';
-            modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
-                    <button onclick="closeWorkerNotReady()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
-                        <i class="uil uil-multiply text-xl"></i>
-                    </button>
-                    
-                    <div class="p-8">
-                        <div class="text-center mb-6">
-                            <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="uil uil-constructor text-3xl text-white"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Coming Soon!</h3>
-                            <p class="text-gray-600 mb-6">The Worker Portal is currently under development and will be available soon.</p>
-                            
-                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                                <p class="text-blue-700 text-sm font-medium mb-2">Stay Connected:</p>
-                                <p class="text-blue-600 text-sm">Join our WhatsApp group to get updates when the portal launches.</p>
-                                <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-600 transition mt-3">
-                                    <i class="uil uil-whatsapp"></i>
-                                    Join Group Chat
-                                </a>
-                            </div>
-                            
-                            <button onclick="closeWorkerNotReady()" class="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">
-                                Got it, Thanks!
-                            </button>
-                        </div>
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="uil uil-constructor text-3xl text-white"></i>
                     </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Coming Soon!</h3>
+                    <p class="text-gray-600 mb-6">The Worker Portal is currently under development and will be available soon.</p>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                        <p class="text-blue-700 text-sm font-medium mb-2">Stay Connected:</p>
+                        <p class="text-blue-600 text-sm">Join our WhatsApp group to get updates when the portal launches.</p>
+                        <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-600 transition mt-3">
+                            <i class="uil uil-whatsapp"></i>
+                            Join Group Chat
+                        </a>
+                    </div>
+                    
+                    <button onclick="closeWorkerNotReady()" class="w-full bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">
+                        Got it, Thanks!
+                    </button>
                 </div>
-            `;
-            document.body.appendChild(modal);
-        }
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Function to close worker not ready modal
+function closeWorkerNotReady() {
+    const modal = document.getElementById('worker-not-ready-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Function to show admin login
+function showAdminLogin() {
+    const modal = document.createElement('div');
+    modal.id = 'admin-login-modal';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+            <button onclick="closeAdminLogin()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+                <i class="uil uil-multiply text-xl"></i>
+            </button>
+            
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-brand-green to-brand-dark rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="uil uil-shield-check text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Admin Login</h3>
+                    <p class="text-gray-600 mb-6">Sign in with your GISTIC admin credentials to manage reviews.</p>
+                    
+                    <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Admin Email</label>
+                            <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-brand-green focus:border-brand-green outline-none" placeholder="gisticservice@gmail.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" name="password" required class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-brand-green focus:border-brand-green outline-none" placeholder="Enter admin password">
+                        </div>
+                        <button type="submit" class="w-full bg-brand-green text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-dark transition shadow-lg flex items-center justify-center gap-2">
+                            <i class="uil uil-sign-in-alt mr-2"></i>
+                            Sign In as Admin
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Function to close admin login modal
+function closeAdminLogin() {
+    const modal = document.getElementById('admin-login-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Function to handle admin login
+function handleAdminLogin(event) {
+    event.preventDefault();
+    
+    const email = event.target.querySelector('input[name="email"]').value;
+    const password = event.target.querySelector('input[name="password"]').value;
+    
+    // Check admin credentials
+    if (email === 'gisticservice@gmail.com' && password === '070733gistic') {
+        // Login successful
+        localStorage.setItem('gistic_user', JSON.stringify({
+            email: 'gisticservice@gmail.com',
+            role: 'admin',
+            name: 'GISTIC Admin'
+        }));
+        closeAdminLogin();
+        showSuccessMessage('Admin login successful! Redirecting to reviews...');
         
-        // Function to close worker not ready modal
-        function closeWorkerNotReady() {
-            const modal = document.getElementById('worker-not-ready-modal');
-            if (modal) {
-                modal.remove();
-            }
-        }
+        // Redirect to reviews page
+        setTimeout(() => {
+            window.location.href = 'reviews.html';
+        }, 2000);
+    } else {
+        // Login failed
+        showErrorMessage('Invalid admin credentials. Please try again.');
+    }
+}
+
+// Function to show success message
+function showSuccessMessage(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse';
+    successDiv.innerHTML = `
+        <div class="flex items-center gap-2">
+            <i class="uil uil-check-circle"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    document.body.appendChild(successDiv);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        successDiv.remove();
+    }, 3000);
+}
+
+// Function to show error message
+function showErrorMessage(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse';
+    errorDiv.innerHTML = `
+        <div class="flex items-center gap-2">
+            <i class="uil uil-exclamation-triangle"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    document.body.appendChild(errorDiv);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 3000);
+}
 
 function loginUser(user) {
     localStorage.setItem('gistic_user', JSON.stringify(user));
