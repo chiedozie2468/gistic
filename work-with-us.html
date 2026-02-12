@@ -114,8 +114,14 @@
             </div>
             
             <div class="p-8 md:p-12">
+                <!-- Go Back Button -->
+                <button onclick="window.history.back()" class="mb-6 inline-flex items-center gap-2 text-brand-green hover:text-brand-dark transition font-medium">
+                    <i class="uil uil-arrow-left text-xl"></i>
+                    <span>Go Back</span>
+                </button>
+                
                 <!-- Application Form Section -->
-                <div id="application-section">
+                <div id="application-section" class="max-h-[80vh] overflow-y-auto pr-4">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">Apply Now</h2>
                     
                     <!-- FIXED: Using FormSubmit.co for FREE File Uploads & Reliability -->
@@ -235,7 +241,13 @@
                 </div>
 
                 <!-- Worker Portal Login Section (Hidden by default) -->
-                <div id="portal-section" class="hidden">
+                <div id="portal-section" class="hidden max-h-[80vh] overflow-y-auto pr-4">
+                    <!-- Go Back Button -->
+                    <button onclick="showApplicationForm()" class="mb-6 inline-flex items-center gap-2 text-brand-green hover:text-brand-dark transition font-medium">
+                        <i class="uil uil-arrow-left text-xl"></i>
+                        <span>Back to Application</span>
+                    </button>
+                    
                     <div class="max-w-md mx-auto">
                         <div class="text-center mb-8">
                             <div class="w-20 h-20 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4">
