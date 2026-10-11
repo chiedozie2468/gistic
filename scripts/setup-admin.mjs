@@ -53,16 +53,14 @@ db.exec(`
   );
 `);
 
-function validatePassword(pwd) {
-  if (!pwd || pwd.length < 10) return 'Password must be at least 10 characters.';
-  if (!/[A-Z]/.test(pwd)) return 'Password must contain at least one uppercase letter (A-Z).';
-  if (!/[a-z]/.test(pwd)) return 'Password must contain at least one lowercase letter (a-z).';
-  if (!/[0-9]/.test(pwd)) return 'Password must contain at least one number (0-9).';
-  if (!/[^A-Za-z0-9]/.test(pwd)) return 'Password must contain at least one special character (!@#$%^&*).';
+function validatePassword(pwd, force = false) {
+  if (force) return null;
+  if (!pwd || pwd.length < 6) return 'Password must be at least 6 characters.';
   return null;
 }
 
 const args = process.argv.slice(2);
+const forceArg = args.includes('--force');
 const emailArg = args.find(a => a.startsWith('--email='))?.split('=')[1]?.trim()?.toLowerCase();
 const pwdArg = args.find(a => a.startsWith('--password='))?.split('=')[1]?.trim();
 
@@ -110,7 +108,7 @@ async function main() {
     }
   }
 
-  const error = validatePassword(password);
+  const error = validatePassword(password, forceArg);
   if (error) {
     console.error(`\n❌ Error: ${error}`);
     rl.close();
