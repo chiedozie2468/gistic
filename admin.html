@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Operations Desk | GISTIC Services</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/logo/logo-trans.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/logo/logo-trans.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo/logo-trans.png">
+    <link rel="shortcut icon" href="./assets/logo/logo-trans.png">
+    
+    <!-- Tailwind CSS -->
+    <link href="./css/tailwind.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Top Admin Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-xs">
+        <div class="container mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <img src="./assets/logo/logo-trans.png" alt="GISTIC Logo" class="w-10 h-10 object-contain">
+                    <span class="font-black text-brand-dark tracking-tight text-lg">
+                        GISTIC <span class="text-gray-400 font-normal text-xs">/ Admin Desk</span>
+                    </span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full border border-green-200 text-xs">
+                    <i class="uil uil-shield-check text-brand-green text-lg"></i>
+                    <span class="text-gray-600">Logged in:</span>
+                    <span id="header-admin-email" class="font-bold text-brand-dark">Authenticating...</span>
+                </div>
+                
+                <a href="index.html" class="text-xs text-gray-600 hover:text-brand-green font-medium flex items-center gap-1">
+                    <i class="uil uil-globe"></i> View Site
+                </a>
+
+                <button onclick="handleAdminLogout()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-xs font-bold transition">
+                    <i class="uil uil-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Module Navigation Tabs -->
+        <div class="container mx-auto px-6 overflow-x-auto border-t border-gray-100">
+            <div class="flex space-x-2 py-2 text-xs font-bold" id="admin-tabs">
+                <button onclick="switchTab('overview')" class="tab-btn px-4 py-2 rounded-lg bg-brand-dark text-white flex items-center gap-1.5 transition" data-tab="overview">
+                    <i class="uil uil-dashboard"></i> Overview
+                </button>
+                <button onclick="switchTab('bookings')" class="tab-btn px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 flex items-center gap-1.5 transition" data-tab="bookings">
+                    <i class="uil uil-calendar-alt"></i> Bookings & Callbacks <span id="badge-bookings" class="hidden bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded-full"></span>
+                </button>
+                <button onclick="switchTab('applications')" class="tab-btn px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 flex items-center gap-1.5 transition" data-tab="applications">
+                    <i class="uil uil-users-alt"></i> Worker Applications <span id="badge-applications" class="hidden bg-emerald-500 text-white text-[10px] px-1.5 py-0.5 rounded-full"></span>
+                </button>
+                <button onclick="switchTab('reviews')" class="tab-btn px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 flex items-center gap-1.5 transition" data-tab="reviews">
+                    <i class="uil uil-star"></i> Reviews Moderation
+                </button>
+                <button onclick="switchTab('gallery')" class="tab-btn px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 flex items-center gap-1.5 transition" data-tab="gallery">
+                    <i class="uil uil-image"></i> Portfolio Gallery
+                </button>
+                <button onclick="switchTab('logs')" class="tab-btn px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 flex items-center gap-1.5 transition" data-tab="logs">
+                    <i class="uil uil-shield"></i> Security Audit Logs
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 container mx-auto px-6 py-8 max-w-7xl">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="bg-gradient-to-r from-brand-green to-brand-dark text-white p-6 sm:p-8 rounded-2xl mb-8 shadow-lg">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-black mb-1">Welcome, <span id="banner-admin-name">Administrator</span>!</h1>
+                    <p class="text-green-100 text-xs sm:text-sm">GISTIC Operations Desk • Real-time service leads, recruitment, and customer feedback</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 text-white rounded-lg text-xs font-bold backdrop-blur-xs">
+                        <i class="uil uil-lock-alt"></i> Email Allowlist Enforced
+                    </span>
+                    <button onclick="refreshDashboardData()" class="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition" title="Refresh metrics">
+                        <i class="uil uil-sync text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: OVERVIEW -->
+        <section id="tab-overview" class="tab-content space-y-8">
+            <!-- Metric Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Bookings Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Bookings & Inquiries</span>
+                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-calendar-alt text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="metric-bookings-count" class="text-3xl font-black text-gray-900">0</span>
+                        <span id="metric-bookings-new" class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">0 new</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-100">Service requests, quick calls, chatbot leads</p>
+                </div>
+
+                <!-- Applications Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Worker Applications</span>
+                        <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-users-alt text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="metric-applications-count" class="text-3xl font-black text-gray-900">0</span>
+                        <span id="metric-applications-new" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">0 new</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-100">Electricians, plumbers, solar installers</p>
+                </div>
+
+                <!-- Reviews Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Approved Reviews</span>
+                        <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-star text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="metric-reviews-count" class="text-3xl font-black text-gray-900">0</span>
+                        <span class="text-xs text-gray-500">publicly visible</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-100">Shared verified customer testimonials</p>
+                </div>
+
+                <!-- Portfolio Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Portfolio Projects</span>
+                        <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+                            <i class="uil uil-image text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span id="metric-gallery-count" class="text-3xl font-black text-gray-900">0</span>
+                        <span class="text-xs text-gray-500">active items</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-100">Showcased installations & work</p>
+                </div>
+            </div>
+
+            <!-- Recent Split Tables -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Recent Inquiries -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+                    <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="font-bold text-gray-900 text-sm">Recent Customer Requests</h2>
+                        <button onclick="switchTab('bookings')" class="text-xs font-bold text-brand-green hover:underline">View All →</button>
+                    </div>
+                    <div id="overview-recent-bookings" class="divide-y divide-gray-100 text-xs">
+                        <div class="p-6 text-center text-gray-400">Loading requests...</div>
+                    </div>
+                </div>
+
+                <!-- Recent Applications -->
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+                    <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="font-bold text-gray-900 text-sm">Recent Artisan Applications</h2>
+                        <button onclick="switchTab('applications')" class="text-xs font-bold text-brand-green hover:underline">View All →</button>
+                    </div>
+                    <div id="overview-recent-applications" class="divide-y divide-gray-100 text-xs">
+                        <div class="p-6 text-center text-gray-400">Loading applications...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: BOOKINGS & INQUIRIES -->
+        <section id="tab-bookings" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-black text-gray-900">Service Bookings & Callbacks</h2>
+                    <p class="text-xs text-gray-500">Direct inquiries from the booking modal, callback form, and chatbot</p>
+                </div>
+            </div>
+            <div id="bookings-list" class="space-y-4">
+                <div class="bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">Loading inquiries...</div>
+            </div>
+        </section>
+
+        <!-- TAB 3: WORKER APPLICATIONS -->
+        <section id="tab-applications" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-black text-gray-900">Artisan Recruitment & Applications</h2>
+                    <p class="text-xs text-gray-500">Review skilled workers applying on the Work With Us page</p>
+                </div>
+            </div>
+            <div id="applications-list" class="space-y-4">
+                <div class="bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">Loading applications...</div>
+            </div>
+        </section>
+
+        <!-- TAB 4: REVIEWS MODERATION -->
+        <section id="tab-reviews" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-black text-gray-900">Customer Reviews Moderation</h2>
+                    <p class="text-xs text-gray-500">Approve, reject, or permanently delete customer reviews</p>
+                </div>
+            </div>
+            <div id="reviews-list" class="space-y-4">
+                <div class="bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">Loading reviews...</div>
+            </div>
+        </section>
+
+        <!-- TAB 5: PORTFOLIO GALLERY -->
+        <section id="tab-gallery" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-black text-gray-900">Portfolio & Gallery Management</h2>
+                    <p class="text-xs text-gray-500">Add or remove installations showcased on the home page</p>
+                </div>
+                <button onclick="toggleAddProjectForm()" class="px-4 py-2 bg-brand-green text-white font-bold text-xs rounded-lg hover:bg-brand-dark transition">
+                    <i class="uil uil-plus mr-1"></i> Add New Project
+                </button>
+            </div>
+
+            <!-- Add Project Form Modal / Drawer -->
+            <form id="add-project-form" onsubmit="handleAddProject(event)" class="hidden bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-4">
+                <h3 class="font-bold text-gray-900 text-sm">Add Portfolio Project</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Project Title</label>
+                        <input type="text" id="project-title" required class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-brand-green" placeholder="e.g. 5KVA Solar Installation in Independence Layout">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Media Type</label>
+                        <select id="project-type" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-brand-green">
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-bold text-gray-700 mb-1">Media URL or Local Path</label>
+                        <input type="text" id="project-url" required class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-brand-green" placeholder="e.g. /assets/video/vi.mp4 or https://images.unsplash.com/...">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-bold text-gray-700 mb-1">Description</label>
+                        <textarea id="project-desc" rows="3" required class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-brand-green" placeholder="Brief project summary, artisans involved, location..."></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="toggleAddProjectForm()" class="px-4 py-2 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-brand-green text-white rounded-lg text-xs font-bold hover:bg-brand-dark">Save Project</button>
+                </div>
+            </form>
+
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">Loading portfolio...</div>
+            </div>
+        </section>
+
+        <!-- TAB 6: SECURITY AUDIT LOGS -->
+        <section id="tab-logs" class="tab-content hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-black text-gray-900">Administrative Security Audit Trail</h2>
+                    <p class="text-xs text-gray-500">Immutable server log of logins, deletions, and administrative actions</p>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 border border-green-200 rounded-lg text-xs font-bold">
+                    <i class="uil uil-shield-check text-green-600"></i> Active Log Stream
+                </span>
+            </div>
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200 text-gray-500 uppercase text-[10px] font-bold">
+                            <th class="py-3 px-4">Timestamp</th>
+                            <th class="py-3 px-4">Admin</th>
+                            <th class="py-3 px-4">Action</th>
+                            <th class="py-3 px-4">Details</th>
+                            <th class="py-3 px-4">IP / Origin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="audit-logs-table" class="divide-y divide-gray-100 font-mono">
+                        <tr><td colspan="5" class="py-8 text-center text-gray-400 font-sans">Loading audit logs...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Admin JS Logic -->
+    <script>
+        // Check session on load
+        let currentAdmin = null;
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/me');
+                const data = await res.json();
+                if (res.ok && data.authenticated) {
+                    currentAdmin = data.admin;
+                    document.getElementById('header-admin-email').textContent = currentAdmin.email;
+                    document.getElementById('banner-admin-name').textContent = currentAdmin.email.split('@')[0];
+                    loadAllData();
+                } else {
+                    // Not authenticated -> redirect to portal login
+                    window.location.href = 'work-with-us.html';
+                }
+            } catch (err) {
+                // If offline / direct file
+                const localUser = JSON.parse(localStorage.getItem('gistic_user') || 'null');
+                if (localUser && (localUser.email === 'gisticservice@gmail.com' || localUser.email === 'chiedozieonyekwelu989@gmail.com')) {
+                    currentAdmin = localUser;
+                    document.getElementById('header-admin-email').textContent = localUser.email;
+                    document.getElementById('banner-admin-name').textContent = localUser.email.split('@')[0];
+                    loadAllData();
+                } else {
+                    window.location.href = 'work-with-us.html';
+                }
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-dark', 'text-white');
+                btn.classList.add('text-gray-600');
+            });
+
+            const activeContent = document.getElementById('tab-' + tabId);
+            const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (activeContent) activeContent.classList.remove('hidden');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-brand-dark', 'text-white');
+                activeBtn.classList.remove('text-gray-600');
+            }
+        }
+
+        async function handleAdminLogout() {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+            } catch (e) {}
+            localStorage.removeItem('gistic_user');
+            window.location.href = 'index.html';
+        }
+
+        async function loadAllData() {
+            refreshDashboardData();
+        }
+
+        async function refreshDashboardData() {
+            try {
+                const [metricsRes, enquiriesRes, applicationsRes, reviewsRes, galleryRes, logsRes] = await Promise.all([
+                    fetch('/api/admin/metrics').then(r => r.json()).catch(() => ({})),
+                    fetch('/api/admin/enquiries').then(r => r.json()).catch(() => []),
+                    fetch('/api/admin/applications').then(r => r.json()).catch(() => []),
+                    fetch('/api/admin/reviews').then(r => r.json()).catch(() => []),
+                    fetch('/api/admin/gallery').then(r => r.json()).catch(() => []),
+                    fetch('/api/admin/audit-logs').then(r => r.json()).catch(() => [])
+                ]);
+
+                // Update Metrics
+                document.getElementById('metric-bookings-count').textContent = metricsRes.totalEnquiries || enquiriesRes.length || 0;
+                document.getElementById('metric-bookings-new').textContent = (metricsRes.newEnquiries || 0) + ' new';
+                document.getElementById('metric-applications-count').textContent = metricsRes.totalApplications || applicationsRes.length || 0;
+                document.getElementById('metric-applications-new').textContent = (metricsRes.newApplications || 0) + ' new';
+                document.getElementById('metric-reviews-count').textContent = metricsRes.approvedReviews || reviewsRes.filter(r => r.status === 'approved').length || 0;
+                document.getElementById('metric-gallery-count').textContent = metricsRes.totalGallery || galleryRes.length || 0;
+
+                // Render Overview Lists
+                renderOverviewRecent(enquiriesRes, applicationsRes);
+
+                // Render Tabs
+                renderBookings(enquiriesRes);
+                renderApplications(applicationsRes);
+                renderReviewsList(reviewsRes);
+                renderGalleryGrid(galleryRes);
+                renderAuditLogs(logsRes);
+            } catch (err) {
+                console.error('Error loading dashboard data:', err);
+            }
+        }
+
+        function renderOverviewRecent(enquiries, applications) {
+            const bookingsContainer = document.getElementById('overview-recent-bookings');
+            if (enquiries && enquiries.length > 0) {
+                bookingsContainer.innerHTML = enquiries.slice(0, 5).map(e => `
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-gray-900">${escapeHtml(e.name)}</span>
+                            <span class="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full ml-1">${escapeHtml(e.service || e.type)}</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${e.status === 'new' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'}">${escapeHtml(e.status)}</span>
+                    </div>
+                `).join('');
+            } else {
+                bookingsContainer.innerHTML = '<div class="p-6 text-center text-gray-400">No requests recorded yet.</div>';
+            }
+
+            const appContainer = document.getElementById('overview-recent-applications');
+            if (applications && applications.length > 0) {
+                appContainer.innerHTML = applications.slice(0, 5).map(a => `
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-gray-900">${escapeHtml(a.full_name)}</span>
+                            <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full ml-1">${escapeHtml(a.role)}</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${a.status === 'new' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'}">${escapeHtml(a.status)}</span>
+                    </div>
+                `).join('');
+            } else {
+                appContainer.innerHTML = '<div class="p-6 text-center text-gray-400">No applications received yet.</div>';
+            }
+        }
+
+        function renderBookings(enquiries) {
+            const list = document.getElementById('bookings-list');
+            if (!enquiries || enquiries.length === 0) {
+                list.innerHTML = '<div class="bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">No inquiries found.</div>';
+                return;
+            }
+            list.innerHTML = enquiries.map(item => `
+                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-sm text-gray-900">${escapeHtml(item.name)}</span>
+                            <span class="text-[10px] bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full uppercase font-bold">${escapeHtml(item.type.replace('_', ' '))}</span>
+                            <span class="text-xs text-gray-400">• ${new Date(item.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">Status:</span>
+                            <select onchange="updateBookingStatus('${item.id}', this.value)" class="text-xs font-bold border rounded-lg px-2 py-1 bg-gray-50">
+                                <option value="new" ${item.status === 'new' ? 'selected' : ''}>New / Pending</option>
+                                <option value="in_progress" ${item.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="completed" ${item.status === 'completed' ? 'selected' : ''}>Completed</option>
+                                <option value="cancelled" ${item.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Service:</strong> ${escapeHtml(item.service || 'General')}</div>
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Phone:</strong> <a href="tel:${escapeHtml(item.phone)}" class="text-brand-green font-bold">${escapeHtml(item.phone || 'N/A')}</a></div>
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Email:</strong> ${escapeHtml(item.email || 'N/A')}</div>
+                    </div>
+                    ${item.message ? `<div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-700"><strong class="text-gray-500 block mb-1">Message:</strong>${escapeHtml(item.message)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function updateBookingStatus(id, newStatus) {
+            await fetch(`/api/admin/enquiries/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            refreshDashboardData();
+        }
+
+        function renderApplications(applications) {
+            const list = document.getElementById('applications-list');
+            if (!applications || applications.length === 0) {
+                list.innerHTML = '<div class="bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">No applications received yet.</div>';
+                return;
+            }
+            list.innerHTML = applications.map(app => `
+                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-sm text-gray-900">${escapeHtml(app.full_name)}</span>
+                            <span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">${escapeHtml(app.role)}</span>
+                            <span class="text-xs text-gray-400">• ${new Date(app.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">Status:</span>
+                            <select onchange="updateApplicationStatus('${app.id}', this.value)" class="text-xs font-bold border rounded-lg px-2 py-1 bg-gray-50">
+                                <option value="new" ${app.status === 'new' ? 'selected' : ''}>New Application</option>
+                                <option value="reviewed" ${app.status === 'reviewed' ? 'selected' : ''}>Under Review</option>
+                                <option value="accepted" ${app.status === 'accepted' ? 'selected' : ''}>Accepted / Onboarded</option>
+                                <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Experience:</strong> ${escapeHtml(app.experience || 'N/A')}</div>
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Phone:</strong> <a href="tel:${escapeHtml(app.phone)}" class="text-brand-green font-bold">${escapeHtml(app.phone)}</a></div>
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Email:</strong> ${escapeHtml(app.email)}</div>
+                        <div><strong class="text-gray-400 block text-[10px] uppercase">Address:</strong> ${escapeHtml(app.address || 'Enugu')}</div>
+                    </div>
+                    ${app.notes ? `<div class="bg-gray-50 p-3 rounded-lg text-xs text-gray-700"><strong class="text-gray-500 block mb-1">Background / Notes:</strong>${escapeHtml(app.notes)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function updateApplicationStatus(id, newStatus) {
+            await fetch(`/api/admin/applications/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            refreshDashboardData();
+        }
+
+        function renderReviewsList(reviews) {
+            const list = document.getElementById('reviews-list');
+            if (!reviews || reviews.length === 0) {
+                list.innerHTML = '<div class="bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">No reviews found.</div>';
+                return;
+            }
+            list.innerHTML = reviews.map(rev => `
+                <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs space-y-3">
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-sm text-gray-900">${escapeHtml(rev.name)}</span>
+                                <span class="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold">${escapeHtml(rev.service)}</span>
+                                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${rev.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}">${escapeHtml(rev.status)}</span>
+                            </div>
+                            <div class="text-yellow-400 text-sm mt-1">${'★'.repeat(rev.rating)}${'☆'.repeat(5 - rev.rating)}</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            ${rev.status !== 'approved' ? `<button onclick="setReviewStatus('${rev.id}', 'approved')" class="px-3 py-1 bg-green-500 text-white rounded-lg text-xs font-bold hover:bg-green-600">Approve</button>` : ''}
+                            ${rev.status !== 'rejected' ? `<button onclick="setReviewStatus('${rev.id}', 'rejected')" class="px-3 py-1 bg-amber-500 text-white rounded-lg text-xs font-bold hover:bg-amber-600">Hide</button>` : ''}
+                            <button onclick="deleteReview('${rev.id}')" class="px-3 py-1 bg-red-500 text-white rounded-lg text-xs font-bold hover:bg-red-600"><i class="uil uil-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-700 italic bg-gray-50 p-3 rounded-lg">"${escapeHtml(rev.message)}"</p>
+                </div>
+            `).join('');
+        }
+
+        async function setReviewStatus(id, status) {
+            await fetch(`/api/admin/reviews/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            refreshDashboardData();
+        }
+
+        async function deleteReview(id) {
+            if (confirm('Permanently delete this review from the database?')) {
+                await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+                refreshDashboardData();
+            }
+        }
+
+        function toggleAddProjectForm() {
+            document.getElementById('add-project-form').classList.toggle('hidden');
+        }
+
+        async function handleAddProject(e) {
+            e.preventDefault();
+            const title = document.getElementById('project-title').value.trim();
+            const type = document.getElementById('project-type').value;
+            const url = document.getElementById('project-url').value.trim();
+            const description = document.getElementById('project-desc').value.trim();
+
+            await fetch('/api/admin/gallery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, type, url, description })
+            });
+
+            document.getElementById('add-project-form').reset();
+            toggleAddProjectForm();
+            refreshDashboardData();
+        }
+
+        function renderGalleryGrid(items) {
+            const grid = document.getElementById('gallery-grid');
+            if (!items || items.length === 0) {
+                grid.innerHTML = '<div class="col-span-full bg-white p-8 text-center text-gray-400 rounded-2xl border border-gray-200">No portfolio projects yet.</div>';
+                return;
+            }
+            grid.innerHTML = items.map(item => `
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-xs flex flex-col">
+                    <div class="aspect-video bg-gray-100 flex items-center justify-center overflow-hidden relative">
+                        <img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover" onerror="this.src='./assets/logo/logo.jpeg'">
+                        <span class="absolute top-2 left-2 px-2 py-0.5 bg-black/60 text-white rounded text-[10px] font-bold uppercase">${escapeHtml(item.type)}</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900">${escapeHtml(item.title)}</h4>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${escapeHtml(item.description)}</p>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100 mt-3 flex items-center justify-between">
+                            <span class="text-[10px] text-gray-400">${new Date(item.created_at).toLocaleDateString()}</span>
+                            <button onclick="deleteGalleryItem('${item.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold"><i class="uil uil-trash-alt mr-1"></i>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteGalleryItem(id) {
+            if (confirm('Delete this portfolio project?')) {
+                await fetch(`/api/admin/gallery/${id}`, { method: 'DELETE' });
+                refreshDashboardData();
+            }
+        }
+
+        function renderAuditLogs(logs) {
+            const table = document.getElementById('audit-logs-table');
+            if (!logs || logs.length === 0) {
+                table.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-gray-400 font-sans">No audit events recorded yet.</td></tr>';
+                return;
+            }
+            table.innerHTML = logs.map(log => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="py-3 px-4 text-gray-500 whitespace-nowrap text-[11px]">${new Date(log.created_at).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-gray-900 font-bold whitespace-nowrap">${escapeHtml(log.admin_email)}</td>
+                    <td class="py-3 px-4 whitespace-nowrap">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${log.action.includes('DELETE') ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}">${escapeHtml(log.action)}</span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-700 text-xs font-sans">${escapeHtml(log.details)}</td>
+                    <td class="py-3 px-4 text-gray-400 text-[11px] whitespace-nowrap">${escapeHtml(log.ip_address || 'local')}</td>
+                </tr>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Initialize
+        checkAuth();
+    </script>
+</body>
+</html>

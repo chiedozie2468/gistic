@@ -89,27 +89,39 @@ function showLoginModal() {
     modal.classList.add('flex');
 }
 
-function attemptLogin(email, password) {
+async function attemptLogin(email, password) {
     const errorMsg = document.getElementById('auth-error');
+    if (errorMsg) errorMsg.classList.add('hidden');
     
-    // Admin Check
-    if (email === 'gisticservice@gmail.com' && password === '733gistic') {
-        loginUser({ email: 'gisticservice@gmail.com', role: 'admin', name: 'GISTIC Admin' });
-        document.getElementById('auth-modal').classList.add('hidden');
-        return;
+    // Server-authenticated Allowlist Login
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email.trim(), password })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            loginUser({ email: data.admin.email, role: 'admin', name: 'GISTIC Admin' });
+            document.getElementById('auth-modal').classList.add('hidden');
+            showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+            setTimeout(() => {
+                window.location.href = 'admin.html';
+            }, 1000);
+            return;
+        } else if (res.status === 429) {
+            if (errorMsg) {
+                errorMsg.innerText = data.error || "Too many failed attempts. Please try again later.";
+                errorMsg.classList.remove('hidden');
+            }
+            return;
+        }
+    } catch (e) {
+        // Fallback for static file preview without server
     }
 
-    // Worker Notification
-    if (email.includes('@')) {
-         errorMsg.innerHTML = `
-            <div class="bg-blue-50 text-blue-700 p-3 rounded-lg text-left">
-                <strong>Portal Not Ready:</strong> This feature is launching before the end of the year. 
-                <a href="https://wa.me/message/MFXCC37BZHUDF1" target="_blank" class="underline font-bold block mt-1">Join the Group Chat instead</a>
-            </div>
-         `;
-         errorMsg.classList.remove('hidden');
-    } else {
-        errorMsg.innerText = "Invalid credentials.";
+    if (errorMsg) {
+        errorMsg.innerText = "Invalid administrative credentials or unauthorized account.";
         errorMsg.classList.remove('hidden');
     }
 }
@@ -338,10 +350,10 @@ function closeAdminLogin() {
 }
 
 // Function to handle admin login
-function handleAdminLogin(event) {
+async function handleAdminLogin(event) {
     event.preventDefault();
     
-    const email = event.target.querySelector('input[name="email"]').value;
+    const email = event.target.querySelector('input[name="email"]').value.trim();
     const password = event.target.querySelector('input[name="password"]').value;
     const errorDiv = document.getElementById('admin-login-error');
     
@@ -350,48 +362,46 @@ function handleAdminLogin(event) {
         errorDiv.remove();
     }
     
-    // Check admin credentials
-    if (email === 'gisticservice@gmail.com' && password === '733gistic') {
-        // Login successful
-        localStorage.setItem('gistic_user', JSON.stringify({
-            email: 'gisticservice@gmail.com',
-            role: 'admin',
-            name: 'GISTIC Admin'
-        }));
-        closeAdminLogin();
-        showSuccessMessage('Admin login successful! Redirecting to reviews...');
-        
-        // Redirect to reviews page
-        setTimeout(() => {
-            window.location.href = 'reviews.html';
-        }, 2000);
-    } else {
-        // Login failed - show error message
-        const errorElement = document.createElement('div');
-        errorElement.id = 'admin-login-error';
-        errorElement.className = 'mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-pulse';
-        errorElement.innerHTML = `
-            <div class="flex items-center gap-2">
-                <i class="uil uil-exclamation-triangle"></i>
-                <span class="font-medium">Invalid credentials!</span>
-            </div>
-            <p class="text-xs mt-1">Please check your email and password and try again.</p>
-        `;
-        
-        // Insert error message after the form
-        const form = event.target;
-        form.parentNode.insertBefore(errorElement, form.nextSibling);
-        
-        // Shake the form
-        form.classList.add('animate-pulse', 'border-red-300');
-        setTimeout(() => {
-            form.classList.remove('animate-pulse', 'border-red-300');
-        }, 2000);
-        
-        // Clear password field
-        form.querySelector('input[name="password"]').value = '';
-        form.querySelector('input[name="password"]').focus();
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            localStorage.setItem('gistic_user', JSON.stringify({
+                email: data.admin.email,
+                role: 'admin',
+                name: 'GISTIC Admin'
+            }));
+            closeAdminLogin();
+            showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+            
+            setTimeout(() => {
+                window.location.href = 'admin.html';
+            }, 1000);
+            return;
+        } else {
+            showAdminError(data.error || 'Invalid credentials. Please try again.');
+        }
+    } catch (err) {
+        showAdminError('Authentication server unavailable.');
     }
+}
+
+function showAdminError(msg) {
+    const errorElement = document.createElement('div');
+    errorElement.id = 'admin-login-error';
+    errorElement.className = 'mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-pulse';
+    errorElement.innerHTML = `
+        <div class="flex items-center gap-2">
+            <i class="uil uil-exclamation-triangle"></i>
+            <span class="font-medium">${msg}</span>
+        </div>
+    `;
+    const form = document.querySelector('#admin-login-modal form');
+    if (form) form.appendChild(errorElement);
 }
 
 // Function to show success message

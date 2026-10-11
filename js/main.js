@@ -205,9 +205,12 @@ window.searchLocation = function() {
                     className: 'search-marker'
                 });
                 
+                const popupEl = document.createElement('strong');
+                popupEl.textContent = result.display_name;
+                
                 L.marker([lat, lon], { icon: searchIcon })
                     .addTo(map)
-                    .bindPopup(`<strong>${result.display_name}</strong>`)
+                    .bindPopup(popupEl)
                     .openPopup();
             } else {
                 alert('Location not found. Please try a different search term.');

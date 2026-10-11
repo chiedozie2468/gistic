@@ -36,10 +36,11 @@ function loadReviews() {
 
 let reviews = loadReviews();
 
-// Check if user is admin (only gisticservice@gmail.com can delete)
+// Check if user is admin (allowlisted administrators)
 function isAdmin() {
-    const user = JSON.parse(localStorage.getItem('gistic_user'));
-    return user && user.email === 'gisticservice@gmail.com';
+    const user = JSON.parse(localStorage.getItem('gistic_user') || 'null');
+    const allowed = ['chiedozieonyekwelu989@gmail.com', 'gisticservice@gmail.com'];
+    return user && (user.role === 'admin' || (user.email && allowed.includes(user.email.toLowerCase())));
 }
 
 // Check if user is authenticated (can view and write reviews)
@@ -126,9 +127,36 @@ function renderReviews() {
     });
 }
 
+// Sync with server database if online
+async function syncServerReviews() {
+    try {
+        const res = await fetch('/api/reviews');
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+                reviews = data;
+                localStorage.setItem('gisticReviews', JSON.stringify(reviews));
+                renderReviews();
+                renderHomeReviewsPreview();
+            }
+        }
+    } catch (e) {
+        // Offline / file protocol fallback
+    }
+}
+
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncServerReviews);
+    } else {
+        syncServerReviews();
+    }
+}
+
 // Function to add new review
 function addNewReview(reviewData) {
     const newReview = {
+        id: 'rev-' + Date.now(),
         name: reviewData.name,
         service: reviewData.service,
         rating: parseInt(reviewData.rating),
@@ -139,6 +167,13 @@ function addNewReview(reviewData) {
     reviews.push(newReview);
     localStorage.setItem('gisticReviews', JSON.stringify(reviews));
     
+    // Sync new review to shared server database
+    fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newReview)
+    }).catch(() => {});
+
     // Refresh both reviews displays
     renderReviews();
     renderHomeReviewsPreview(); // Refresh home page preview
@@ -147,13 +182,15 @@ function addNewReview(reviewData) {
 // Function to show delete confirmation modal
 function showDeleteModal(index) {
     const review = reviews[index];
-    view = reviews[index];
+    if (!review) return;
     
-    // Remove review from array
-    reviews.splice(index, 1);
-    
-    // Save to localStorage
-    localStorage.setItem('gisticReviews', JSON.stringify(reviews));
+    // Format review date safely
+    const reviewDate = review.date ? new Date(review.date) : new Date();
+    const formattedDate = reviewDate.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+    });
     
     // Create modal overlay
     const modal = document.createElement('div');
@@ -266,6 +303,11 @@ function confirmDelete(index) {
     
     // Save to localStorage
     localStorage.setItem('gisticReviews', JSON.stringify(reviews));
+
+    // Sync deletion with server database if online
+    if (review && review.id) {
+        fetch('/api/reviews/' + encodeURIComponent(review.id), { method: 'DELETE' }).catch(() => {});
+    }
     
     // Close modal
     closeDeleteModal();
