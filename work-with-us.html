@@ -1453,26 +1453,49 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
-                const data = await res.json();
-                if (res.ok && data.success) {
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success) {
+                        localStorage.setItem('gistic_user', JSON.stringify({
+                            email: data.admin.email,
+                            role: 'admin',
+                            name: 'GISTIC Admin'
+                        }));
+                        closeAdminLogin();
+                        showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'admin.html';
+                        }, 1000);
+                        return;
+                    }
+                } else if (res.status === 401 || res.status === 403 || res.status === 429) {
+                    const data = await res.json().catch(() => ({}));
+                    showErrorMessage(data.error || 'Invalid administrative credentials. Please try again.');
+                    return;
+                }
+            } catch (err) {
+                // Fallback for static GitHub Pages hosting
+            }
+
+            if (typeof checkStaticAdminCredentials === 'function') {
+                const staticValid = await checkStaticAdminCredentials(email, password);
+                if (staticValid) {
                     localStorage.setItem('gistic_user', JSON.stringify({
-                        email: data.admin.email,
+                        email: email.toLowerCase(),
                         role: 'admin',
                         name: 'GISTIC Admin'
                     }));
-                    
                     closeAdminLogin();
                     showSuccessMessage('Admin login successful! Redirecting to dashboard...');
-                    
                     setTimeout(() => {
                         window.location.href = 'admin.html';
                     }, 1000);
-                } else {
-                    showErrorMessage(data.error || 'Invalid administrative credentials. Please try again.');
+                    return;
                 }
-            } catch (err) {
-                showErrorMessage('Authentication server unavailable.');
             }
+
+            showErrorMessage('Invalid administrative credentials. Please try again.');
         }
         
         // Function to show error message

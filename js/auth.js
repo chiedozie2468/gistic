@@ -4,8 +4,33 @@
  */
 
 const APPROVED_USERS = [
-    { email: 'gisticservice@gmail.com', role: 'admin', name: 'GISTIC Admin' }
+    { email: 'gisticservice@gmail.com', role: 'admin', name: 'GISTIC Admin' },
+    { email: 'chiedozieonyekwelu989@gmail.com', role: 'admin', name: 'GISTIC Admin' }
 ];
+
+const ALLOWED_ADMIN_EMAILS = [
+    'gisticservice@gmail.com',
+    'chiedozieonyekwelu989@gmail.com'
+];
+
+// Cryptographic SHA-256 hash for static/GitHub Pages authentication fallback
+const STATIC_ADMIN_HASH = 'd5ef4b3736ebc1a703dbf11cc0971da1bdf46b6e9712bed353e5d30c8e644431';
+
+async function checkStaticAdminCredentials(email, password) {
+    const normalized = (email || '').trim().toLowerCase();
+    if (!ALLOWED_ADMIN_EMAILS.includes(normalized)) return false;
+    
+    try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex === STATIC_ADMIN_HASH;
+    } catch (e) {
+        return false;
+    }
+}
 
 const PENDING_USERS = []; // Removed legacy mock users
 
@@ -100,24 +125,46 @@ async function attemptLogin(email, password) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email.trim(), password })
         });
-        const data = await res.json();
-        if (res.ok && data.success) {
-            loginUser({ email: data.admin.email, role: 'admin', name: 'GISTIC Admin' });
-            document.getElementById('auth-modal').classList.add('hidden');
-            showSuccessMessage('Admin login successful! Redirecting to dashboard...');
-            setTimeout(() => {
-                window.location.href = 'admin.html';
-            }, 1000);
-            return;
+        if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+                loginUser({ email: data.admin.email, role: 'admin', name: 'GISTIC Admin' });
+                document.getElementById('auth-modal').classList.add('hidden');
+                showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+                return;
+            }
         } else if (res.status === 429) {
+            const data = await res.json().catch(() => ({}));
             if (errorMsg) {
                 errorMsg.innerText = data.error || "Too many failed attempts. Please try again later.";
                 errorMsg.classList.remove('hidden');
             }
             return;
+        } else if (res.status === 401 || res.status === 403) {
+            const data = await res.json().catch(() => ({}));
+            if (errorMsg) {
+                errorMsg.innerText = data.error || "Invalid administrative credentials or unauthorized account.";
+                errorMsg.classList.remove('hidden');
+            }
+            return;
         }
     } catch (e) {
-        // Fallback for static file preview without server
+        // Fallback for static GitHub Pages / offline environment
+    }
+
+    // Static cryptographic fallback for GitHub Pages
+    const staticValid = await checkStaticAdminCredentials(email, password);
+    if (staticValid) {
+        loginUser({ email: email.trim().toLowerCase(), role: 'admin', name: 'GISTIC Admin' });
+        document.getElementById('auth-modal').classList.add('hidden');
+        showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+        setTimeout(() => {
+            window.location.href = 'admin.html';
+        }, 1000);
+        return;
     }
 
     if (errorMsg) {
@@ -374,26 +421,49 @@ async function handleAdminLogin(event) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-        const data = await res.json();
-        if (res.ok && data.success) {
-            localStorage.setItem('gistic_user', JSON.stringify({
-                email: data.admin.email,
-                role: 'admin',
-                name: 'GISTIC Admin'
-            }));
-            closeAdminLogin();
-            showSuccessMessage('Admin login successful! Redirecting to dashboard...');
-            
-            setTimeout(() => {
-                window.location.href = 'admin.html';
-            }, 1000);
-            return;
-        } else {
+        if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+                localStorage.setItem('gistic_user', JSON.stringify({
+                    email: data.admin.email,
+                    role: 'admin',
+                    name: 'GISTIC Admin'
+                }));
+                closeAdminLogin();
+                showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+                
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+                return;
+            }
+        } else if (res.status === 401 || res.status === 403 || res.status === 429) {
+            const data = await res.json().catch(() => ({}));
             showAdminError(data.error || 'Invalid credentials. Please try again.');
+            return;
         }
     } catch (err) {
-        showAdminError('Authentication server unavailable.');
+        // Fallback for static GitHub Pages hosting
     }
+
+    // Static cryptographic fallback for GitHub Pages
+    const staticValid = await checkStaticAdminCredentials(email, password);
+    if (staticValid) {
+        localStorage.setItem('gistic_user', JSON.stringify({
+            email: email.trim().toLowerCase(),
+            role: 'admin',
+            name: 'GISTIC Admin'
+        }));
+        closeAdminLogin();
+        showSuccessMessage('Admin login successful! Redirecting to dashboard...');
+        
+        setTimeout(() => {
+            window.location.href = 'admin.html';
+        }, 1000);
+        return;
+    }
+
+    showAdminError('Invalid credentials. Please try again.');
 }
 
 function showAdminError(msg) {
