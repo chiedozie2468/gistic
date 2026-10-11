@@ -1395,9 +1395,9 @@
         function showAdminLogin() {
             const modal = document.createElement('div');
             modal.id = 'admin-login-modal';
-            modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+            modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 overflow-y-auto';
             modal.innerHTML = `
-                <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+                <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in max-h-[90vh] overflow-y-auto my-auto">
                     <button onclick="closeAdminLogin()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
                         <i class="uil uil-multiply text-xl"></i>
                     </button>
@@ -1426,6 +1426,9 @@
                     </div>
                 </div>
             `;
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeAdminLogin();
+            });
             document.body.appendChild(modal);
         }
         

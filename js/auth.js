@@ -129,14 +129,14 @@ async function attemptLogin(email, password) {
 function showRoleSelection() {
     const modal = document.createElement('div');
     modal.id = 'role-selection-modal';
-    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 overflow-y-auto';
     modal.innerHTML = `
-            <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
-                <button onclick="closeRoleSelection()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+            <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in max-h-[90vh] overflow-y-auto my-auto">
+                <button onclick="closeRoleSelection()" class="sticky top-4 float-right mr-4 mt-2 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg">
                         <i class="uil uil-multiply text-xl"></i>
                     </button>
                     
-                    <div class="p-8">
+                    <div class="p-8 pt-2">
                         <div class="text-center mb-6">
                             <div class="w-20 h-20 bg-gradient-to-br from-brand-green to-brand-dark rounded-full flex items-center justify-center mx-auto mb-6">
                                 <i class="uil uil-users-alt text-3xl text-white"></i>
@@ -187,6 +187,9 @@ function showRoleSelection() {
                     </div>
                 </div>
             `;
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeRoleSelection();
+    });
     document.body.appendChild(modal);
 }
 
@@ -305,9 +308,9 @@ function closeWorkerNotReady() {
 function showAdminLogin() {
     const modal = document.createElement('div');
     modal.id = 'admin-login-modal';
-    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 overflow-y-auto';
     modal.innerHTML = `
-        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in max-h-[90vh] overflow-y-auto my-auto">
             <button onclick="closeAdminLogin()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
                 <i class="uil uil-multiply text-xl"></i>
             </button>
@@ -338,6 +341,9 @@ function showAdminLogin() {
             </div>
         </div>
     `;
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeAdminLogin();
+    });
     document.body.appendChild(modal);
 }
 
@@ -498,14 +504,14 @@ function updateUIForUser(user) {
 function showStaffComingSoon() {
     const modal = document.createElement('div');
     modal.id = 'staff-coming-soon-modal';
-    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4';
+    modal.className = 'fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 overflow-y-auto';
     modal.innerHTML = `
-        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in">
-            <button onclick="closeStaffComingSoon()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white rounded-full p-2 shadow-lg">
+        <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl relative animate-fade-in max-h-[90vh] overflow-y-auto my-auto">
+            <button onclick="closeStaffComingSoon()" class="sticky top-4 float-right mr-4 mt-2 text-gray-400 hover:text-red-500 transition-all duration-300 z-20 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg">
                 <i class="uil uil-multiply text-xl"></i>
             </button>
             
-            <div class="p-8">
+            <div class="p-8 pt-2">
                 <div class="text-center mb-6">
                     <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
                         <i class="uil uil-briefcase text-3xl text-white"></i>
@@ -563,6 +569,9 @@ function showStaffComingSoon() {
             </div>
         </div>
     `;
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeStaffComingSoon();
+    });
     document.body.appendChild(modal);
 }
 
